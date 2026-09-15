@@ -718,21 +718,43 @@ Height of CBT & $\lfloor \log_2 n \rfloor$\\
 
 \newpage
  
+
+
+% ******************************************************************
+%  PASTE INSTRUCTIONS:
+%
+%  1. In your master document, DELETE these 3 lines near the end:
+%       \begin{center}\textcolor{greyline}{\rule{0.5\linewidth}{0.6pt}}\end{center}
+%       \begin{center}\small\textcolor{greyline}{End of Lectures 1 \& 2 notes.}\end{center}
+%       \end{document}
+%
+%  2. Paste EVERYTHING below this comment block in their place.
+%
+%  3. On the cover page, change:
+%       {\large\textcolor{violetT}{Lectures 1 \& 2}}
+%     to:
+%       {\large\textcolor{violetT}{Lectures 1, 2 \& 3}}
+%
+%  That's it. No preamble changes needed.
+% ******************************************************************
+
+\newpage
+
 % ******************************************************************
 %  PART III: LECTURE 3 — MIN BINOMIAL HEAPS
 % ******************************************************************
- 
+
 \part*{\textcolor{utnavy}{Lecture 3: Min Binomial Heaps}}
 \addcontentsline{toc}{part}{Lecture 3: Min Binomial Heaps}
- 
+
 % ==================================================================
 \section{Mergeable Priority Queue ADT}
- 
+
 Last lecture: Priority Queue ADT (Insert, Max, Extract\_Max). Now we flip to \textbf{min} (smallest key = highest priority) and add one more operation:
- 
+
 \begin{defbox}[Mergeable Priority Queue ADT]
 \textbf{Object:} a set $S$ of elements, each with a comparable \textcolor{rustW}{key}.
- 
+
 \textbf{Operations:}
 \begin{itemize}[leftmargin=1.4em,itemsep=1pt]
   \item \textbf{Insert}$(S, x)$: add element $x$ to $S$.
@@ -741,7 +763,7 @@ Last lecture: Priority Queue ADT (Insert, Max, Extract\_Max). Now we flip to \te
   \item \textbf{Union}$(S_1, S_2)$: merge two priority queues into a single one.
 \end{itemize}
 \end{defbox}
- 
+
 \begin{center}
 \renewcommand{\arraystretch}{1.5}
 \begin{tabular}{l c c}
@@ -755,37 +777,37 @@ Last lecture: Priority Queue ADT (Insert, Max, Extract\_Max). Now we flip to \te
 \hline
 \end{tabular}
 \end{center}
- 
+
 \begin{warnbox}[Why regular min heaps fail at Union]
 A binary min heap stores elements in an array. To merge two heaps you basically dump them together and rebuild. That costs $O(n)$. Binomial heaps are specifically \textbf{designed} so Union runs in $\textcolor{greenO}{O(\log n)}$.
 \end{warnbox}
- 
+
 % ==================================================================
 \section{Binomial Trees}
- 
+
 \subsection{Recursive Definition of $B_k$}
- 
+
 \begin{defbox}[Binomial Tree $B_k$]
 \textbf{Base case:} $B_0$ = a single node.\\[4pt]
 \textbf{Recursive case:} $B_k$ = take two copies of $B_{k-1}$. Make one root the \textbf{leftmost child} of the other root.\\[6pt]
 Equivalently: the root of $B_k$ has children $B_{k-1},\, B_{k-2},\, \ldots,\, B_1,\, B_0$ (left to right).
 \end{defbox}
- 
+
 \begin{keybox}[Breaking Down the Recursive Definition]
 This is a common confusion point, so let's be explicit.
- 
+
 To build $B_k$:
 \begin{enumerate}[leftmargin=1.4em,itemsep=2pt]
   \item Start with one copy of $B_{k-1}$. Call its root $r$.
   \item Take a \textbf{second} copy of $B_{k-1}$.
   \item Make the root of copy 2 the \textbf{new overall root}, and attach $r$'s entire tree as a subtree under it.
 \end{enumerate}
- 
+
 So $B_k$ = \textbf{two $B_{k-1}$'s glued together}, one becoming a child of the other.
 \end{keybox}
- 
+
 \subsubsection*{Building Up From $B_0$}
- 
+
 \begin{center}
 \begin{tikzpicture}[
   bnode/.style={circle, draw=heapblue, line width=0.7pt, minimum size=5.5mm, inner sep=0pt, fill=skyfill},
@@ -794,14 +816,14 @@ So $B_k$ = \textbf{two $B_{k-1}$'s glued together}, one becoming a child of the 
 \node[bnode] (a0) at (0,0) {};
 \node[font=\bfseries\color{violetT}] at (0,-0.7) {$B_0$};
 \node[font=\scriptsize\color{greyline}] at (0,-1.1) {1 node};
- 
+
 % B_1
 \node[bnode] (b0) at (2.5,0) {};
 \node[bnode] (b1) at (2.5,-1.2) {};
 \draw[heapblue, line width=0.7pt] (b0) -- (b1);
 \node[font=\bfseries\color{violetT}] at (2.5,-1.9) {$B_1$};
 \node[font=\scriptsize\color{greyline}] at (2.5,-2.3) {2 nodes};
- 
+
 % B_2
 \node[bnode] (c0) at (5.5,0) {};
 \node[bnode] (c1) at (4.8,-1.2) {};
@@ -812,7 +834,7 @@ So $B_k$ = \textbf{two $B_{k-1}$'s glued together}, one becoming a child of the 
 \draw[heapblue, line width=0.7pt] (c1) -- (c3);
 \node[font=\bfseries\color{violetT}] at (5.5,-3.1) {$B_2$};
 \node[font=\scriptsize\color{greyline}] at (5.5,-3.5) {4 nodes};
- 
+
 % B_3
 \node[bnode] (d0) at (10,0) {};
 \node[bnode] (d1) at (8.5,-1.2) {};
@@ -833,20 +855,77 @@ So $B_k$ = \textbf{two $B_{k-1}$'s glued together}, one becoming a child of the 
 \node[font=\scriptsize\color{greyline}] at (10,-4.7) {8 nodes};
 \end{tikzpicture}
 \end{center}
- 
+
 \subsection{Children Sequence of $B_k$}
- 
+
 \begin{keybox}[Children of the Root of $B_k$]
 The root of $B_k$ has exactly $k$ children. Reading \textbf{left to right}:
 $$\underbrace{B_{k-1}}_{\text{leftmost (biggest)}},\; B_{k-2},\; \ldots,\; B_1,\; \underbrace{B_0}_{\text{rightmost (single node)}}$$
- 
+
 The \textcolor{rustW}{leftmost} child is the \textcolor{rustW}{largest} subtree ($B_{k-1}$), and the \textcolor{greenO}{rightmost} child is the \textcolor{greenO}{smallest} ($B_0$).
- 
+
 This ordering matters a lot for the memory representation later.
 \end{keybox}
- 
+
+\begin{examplebox}[Visualizing $B_4$: Children of the Root]
+The \textcolor{rustW}{root} of $B_4$ has children $B_3, B_2, B_1, B_0$ (left to right, largest subtree to smallest). Total: $2^4 = 16$ nodes, height 4.
+
+\begin{center}
+\begin{tikzpicture}[
+  bnode/.style={circle, draw=heapblue, line width=0.7pt, minimum size=4.5mm, inner sep=0pt, fill=skyfill},
+  rnode/.style={circle, draw=rustW, line width=1.2pt, minimum size=5.5mm, inner sep=0pt, fill=rustW!20},
+  scale=0.82, transform shape
+]
+% Level 0 (root)
+\node[rnode] (r) at (5.5,0) {};
+\node[font=\small\bfseries\color{rustW}] at (7,0.1) {$B_4$};
+
+% Level 1: 4 children
+\node[bnode] (a) at (1.2,-1.3) {};
+\node[bnode] (b) at (4,-1.3) {};
+\node[bnode] (c) at (6,-1.3) {};
+\node[bnode] (d) at (7.5,-1.3) {};
+\draw[rustW, line width=1pt] (r)--(a); \draw[rustW, line width=1pt] (r)--(b);
+\draw[rustW, line width=1pt] (r)--(c); \draw[rustW, line width=1pt] (r)--(d);
+
+% B_3 subtree (under a): 3 children
+\node[bnode] (a1) at (-0.2,-2.6) {};
+\node[bnode] (a2) at (1.2,-2.6) {};
+\node[bnode] (a3) at (2.2,-2.6) {};
+\draw[heapblue,line width=0.6pt] (a)--(a1); \draw[heapblue,line width=0.6pt] (a)--(a2);
+\draw[heapblue,line width=0.6pt] (a)--(a3);
+% Level 3 of B_3
+\node[bnode] (a11) at (-0.9,-3.9) {};
+\node[bnode] (a12) at (0.3,-3.9) {};
+\node[bnode] (a21) at (1.2,-3.9) {};
+\draw[heapblue,line width=0.6pt] (a1)--(a11); \draw[heapblue,line width=0.6pt] (a1)--(a12);
+\draw[heapblue,line width=0.6pt] (a2)--(a21);
+% Level 4 of B_3
+\node[bnode] (a111) at (-0.9,-5.2) {};
+\draw[heapblue,line width=0.6pt] (a11)--(a111);
+
+% B_2 subtree (under b): 2 children
+\node[bnode] (b1) at (3.3,-2.6) {};
+\node[bnode] (b2) at (4.5,-2.6) {};
+\draw[heapblue,line width=0.6pt] (b)--(b1); \draw[heapblue,line width=0.6pt] (b)--(b2);
+\node[bnode] (b11) at (3.3,-3.9) {};
+\draw[heapblue,line width=0.6pt] (b1)--(b11);
+
+% B_1 subtree (under c): 1 child
+\node[bnode] (c1) at (6,-2.6) {};
+\draw[heapblue,line width=0.6pt] (c)--(c1);
+
+% Subtree labels
+\node[font=\scriptsize\bfseries\color{violetT}] at (1.2,-0.75) {$B_3$};
+\node[font=\scriptsize\bfseries\color{violetT}] at (4,-0.75) {$B_2$};
+\node[font=\scriptsize\bfseries\color{violetT}] at (6,-0.75) {$B_1$};
+\node[font=\scriptsize\bfseries\color{violetT}] at (7.5,-0.75) {$B_0$};
+\end{tikzpicture}
+\end{center}
+\end{examplebox}
+
 \subsection{Properties of $B_k$}
- 
+
 \begin{keybox}[Key Properties of $B_k$]
 \renewcommand{\arraystretch}{1.5}
 \begin{tabular}{l l}
@@ -856,14 +935,14 @@ This ordering matters a lot for the memory representation later.
 \textbf{\textcolor{violetT}{Degree}} of root of $B_k$ & $= k$ \\
 \end{tabular}
 \end{keybox}
- 
+
 \subsection{Why ``Binomial''?}
- 
+
 \begin{examplebox}[Why the Name ``Binomial'']
 The number of nodes at depth $d$ in $B_k$ is $\binom{k}{d}$, the \textbf{binomial coefficient} (same ``$n$ choose $k$'' from combinatorics).
- 
+
 Quick check for $B_3$ (8 nodes total):
- 
+
 \begin{center}
 \renewcommand{\arraystretch}{1.3}
 \begin{tabular}{l c l}
@@ -875,10 +954,10 @@ Depth 3: & $\binom{3}{3} = 1$ & \\
 \end{center}
 Total: $1 + 3 + 3 + 1 = 8$ \checkmark
 \end{examplebox}
- 
+
 % ==================================================================
 \section{Binomial Forest $F_n$}
- 
+
 \begin{defbox}[Binomial Forest $F_n$]
 A \textbf{Binomial Forest} $F_n$ is a sequence of binomial trees $\langle B_{k_1}, B_{k_2}, \ldots, B_{k_m} \rangle$ where:
 \begin{itemize}[leftmargin=1.4em,itemsep=1pt]
@@ -886,37 +965,37 @@ A \textbf{Binomial Forest} $F_n$ is a sequence of binomial trees $\langle B_{k_1
   \item The total number of nodes across all trees $= n$
 \end{itemize}
 \end{defbox}
- 
+
 \subsection{Connection to Binary Representation}
- 
+
 \begin{keybox}[Binary Representation $\Leftrightarrow$ Which Trees Are Present]
 Write $n$ in binary. $B_i$ is present in $F_n$ \textbf{if and only if} bit $i$ (counting from the right, starting at 0) is \textbf{1}.
- 
+
 This is one of the most important ideas in this lecture. The entire structure of a binomial heap is dictated by the binary representation of $n$.
 \end{keybox}
- 
+
 \begin{examplebox}[Example: $F_7$ and $F_9$]
 \textbf{$F_7$:} \quad $7 = \langle 111 \rangle_2$
- 
+
 All three bits are 1, so $F_7 = \langle B_2, B_1, B_0 \rangle$.
- 
+
 Sizes: $4 + 2 + 1 = 7$ \checkmark \\[6pt]
- 
+
 \textbf{$F_9$:} \quad $9 = \langle 1001 \rangle_2$
- 
+
 Bits 0 and 3 are 1, so $F_9 = \langle B_3, B_0 \rangle$.
- 
+
 Sizes: $8 + 1 = 9$ \checkmark
 \end{examplebox}
- 
+
 \subsection{What is $\alpha(n)$?}
- 
+
 \begin{defbox}[$\alpha(n)$ (popcount)]
 $\alpha(n)$ = the number of \textbf{1's} in the binary representation of $n$.
- 
+
 Other names: \textbf{popcount}, \textbf{Hamming weight}, \textbf{bit population count}.
 \end{defbox}
- 
+
 \begin{examplebox}[Computing $\alpha(n)$]
 \begin{center}
 \renewcommand{\arraystretch}{1.3}
@@ -928,9 +1007,9 @@ $\alpha(15)$ & $= \alpha(\langle 1111 \rangle_2)$ & $= 4$ \\
 \end{tabular}
 \end{center}
 \end{examplebox}
- 
+
 \subsection{Properties of $F_n$}
- 
+
 \begin{keybox}[Properties of $F_n$]
 \renewcommand{\arraystretch}{1.5}
 \begin{tabular}{l l}
@@ -939,18 +1018,18 @@ Max number of trees & $\le \lfloor \log_2 n \rfloor + 1$ \\
 Number of edges in $F_n$ & $= \textcolor{violetT}{n - \alpha(n)}$ \\
 \end{tabular}
 \end{keybox}
- 
+
 \begin{examplebox}[Verifying Edge Count for $F_7$]
 $F_7 = \langle B_2, B_1, B_0 \rangle$.
- 
+
 Edges in $B_2$: 3, \quad edges in $B_1$: 1, \quad edges in $B_0$: 0. \quad Total = 4.
- 
+
 Formula: $n - \alpha(n) = 7 - 3 = 4$ \checkmark
 \end{examplebox}
- 
+
 % ==================================================================
 \section{Min Binomial Heap: The Full Definition}
- 
+
 \begin{defbox}[Min Binomial Heap]
 A \textbf{Min Binomial Heap} of $n$ elements is a Binomial Forest $F_n$ such that:
 \begin{enumerate}[leftmargin=1.4em,itemsep=3pt]
@@ -958,52 +1037,79 @@ A \textbf{Min Binomial Heap} of $n$ elements is a Binomial Forest $F_n$ such tha
   \item \textcolor{defblue}{\textbf{Min heap ordering:}} in each tree, every node's key $\le$ all keys in its subtree. (Root of each tree = smallest key in that tree.)
 \end{enumerate}
 \end{defbox}
- 
+
 \begin{warnbox}[It's a forest, not a single tree!]
 A Min Binomial Heap is a \textbf{collection of trees} (a forest). Each individual tree is a binomial tree satisfying the min heap property. Do not confuse this with a single binary heap.
 \end{warnbox}
- 
+
 % ==================================================================
 \section{Building a Binomial Heap: Worked Example}
- 
+
 \begin{examplebox}[Build a Min Binomial Heap from $S = \{10, 13, 1, 3, 8, 18, 7\}$]
 $n = 7$, and $7 = \langle 111 \rangle_2$, so the final forest = $\langle B_2, B_1, B_0 \rangle$.
- 
+
 \textbf{Insert 10:} $n=1 = \langle 1 \rangle_2 \Rightarrow \langle B_0 \rangle$
 \begin{center} $B_0$: \fbox{10} \end{center}
- 
+
 \textbf{Insert 13:} $n=2 = \langle 10 \rangle_2 \Rightarrow \langle B_1 \rangle$
- 
+
 Two $B_0$'s $\to$ merge. Compare 10 vs 13: $10 \le 13$, so 10 is root.
 \begin{center} $B_1$: 10 $\to$ 13 \end{center}
- 
+
 \textbf{Insert 1:} $n=3 = \langle 11 \rangle_2 \Rightarrow \langle B_1, B_0 \rangle$
- 
+
 1 sits as the new $B_0$, $B_1$ stays.
 \begin{center} $B_1$: 10 $\to$ 13 \qquad $B_0$: \fbox{1} \end{center}
- 
+
 \textbf{Insert 3:} $n=4 = \langle 100 \rangle_2 \Rightarrow \langle B_2 \rangle$
- 
+
 3 forms $B_0$. Two $B_0$'s (1 and 3): $1 \le 3 \Rightarrow B_1$(root 1, child 3). Two $B_1$'s (root 1 vs root 10): $1 \le 10 \Rightarrow B_2$(root 1). \quad \textcolor{rustW}{2 comparisons.}
 \begin{center} $B_2$: root 1, children: $B_1$(10$\to$13) and $B_0$(3) \end{center}
- 
+
 \textbf{Insert 8:} $n=5 = \langle 101 \rangle_2 \Rightarrow \langle B_2, B_0 \rangle$
 \begin{center} $B_2$(root 1) \qquad $B_0$: \fbox{8} \qquad \textcolor{greenO}{0 comparisons.} \end{center}
- 
+
 \textbf{Insert 18:} $n=6 = \langle 110 \rangle_2 \Rightarrow \langle B_2, B_1 \rangle$
- 
+
 Two $B_0$'s (8 and 18): $8 \le 18 \Rightarrow B_1$(root 8, child 18). \quad \textcolor{rustW}{1 comparison.}
 \begin{center} $B_2$(root 1) \qquad $B_1$: 8$\to$18 \end{center}
- 
+
 \textbf{Insert 7:} $n=7 = \langle 111 \rangle_2 \Rightarrow \langle B_2, B_1, B_0 \rangle$
- 
+
 7 is the new $B_0$. No merges needed. \quad \textcolor{greenO}{0 comparisons.}
- 
+
 \textbf{\textcolor{violetT}{Final heap:}} $\langle B_2(\text{root } 1),\; B_1(\text{root } 8),\; B_0(\text{root } 7) \rangle$
- 
+
+\begin{center}
+\begin{tikzpicture}[
+  nd/.style={circle, draw=heapblue, line width=0.7pt, minimum size=6.5mm, inner sep=0pt, fill=skyfill, font=\scriptsize\bfseries},
+  scale=0.85, transform shape
+]
+% B_2 (root 1)
+\node[nd, draw=greenO, line width=1pt] (r1) at (0,0) {1};
+\node[nd] (n10) at (-0.8,-1.2) {10};
+\node[nd] (n3) at (0.8,-1.2) {3};
+\node[nd] (n13) at (-0.8,-2.4) {13};
+\draw[heapblue, line width=0.6pt] (r1)--(n10);
+\draw[heapblue, line width=0.6pt] (r1)--(n3);
+\draw[heapblue, line width=0.6pt] (n10)--(n13);
+\node[font=\scriptsize\bfseries\color{violetT}] at (0,0.55) {$B_2$};
+
+% B_1 (root 8)
+\node[nd, draw=greenO, line width=1pt] (r8) at (3.5,0) {8};
+\node[nd] (n18) at (3.5,-1.2) {18};
+\draw[heapblue, line width=0.6pt] (r8)--(n18);
+\node[font=\scriptsize\bfseries\color{violetT}] at (3.5,0.55) {$B_1$};
+
+% B_0 (root 7)
+\node[nd, draw=greenO, line width=1pt] (r7) at (5.5,0) {7};
+\node[font=\scriptsize\bfseries\color{violetT}] at (5.5,0.55) {$B_0$};
+\end{tikzpicture}
+\end{center}
+
 \textcolor{heapblue}{\textbf{Total key comparisons:}} $0+1+0+2+0+1+0 = 4 = n - \alpha(n) = 7 - 3$
 \end{examplebox}
- 
+
 \begin{keybox}[Important Facts]
 \renewcommand{\arraystretch}{1.4}
 \begin{tabular}{l l}
@@ -1011,15 +1117,15 @@ Each edge & corresponds to exactly \textbf{one key comparison} \\
 Building from $n$ elements & takes $\textcolor{violetT}{O(n)}$ key comparisons total \\
 \end{tabular}
 \end{keybox}
- 
+
 % ==================================================================
 \section{Memory Representation}
- 
+
 \subsection{Three Pointers Per Node}
- 
+
 \begin{keybox}[Pointer Structure]
 Each node stores \textbf{three pointers} plus two data fields:
- 
+
 \begin{center}
 \renewcommand{\arraystretch}{1.4}
 \begin{tabular}{l l l}
@@ -1034,15 +1140,15 @@ Each node stores \textbf{three pointers} plus two data fields:
 \hline
 \end{tabular}
 \end{center}
- 
+
 We need the \textcolor{rustW}{PARENT} pointer for Decrease Key (covered later).
 \end{keybox}
- 
+
 \subsection{Visual vs.\ Memory Representation}
- 
+
 \begin{warnbox}[Visual diagram $\ne$ memory pointers]
 When we draw a binomial heap, the lines are \textbf{edges} (parent to child).
- 
+
 In memory, the actual \textbf{pointers} are:
 \begin{itemize}[leftmargin=1.4em,itemsep=2pt]
   \item \textcolor{rustW}{\textbf{PARENT}}: child $\to$ its parent (upward)
@@ -1051,66 +1157,161 @@ In memory, the actual \textbf{pointers} are:
 \end{itemize}
 The visual edges are NOT pointers. Each visual edge is implemented through a combination of LEFT CHILD and RIGHT SIBLING pointers.
 \end{warnbox}
- 
+
 \subsection{HEAD Pointer and Root List}
- 
+
 The roots of the $B_k$ trees are connected via \textcolor{heapblue}{\textbf{RIGHT SIBLING}} pointers, forming a \textbf{linked list of roots}. A \textbf{HEAD} pointer points to the root of the \textbf{smallest} tree (smallest $k$).
- 
+
 \begin{examplebox}[Memory Layout Example]
 Heap: $\langle B_3(\text{root } 8),\; B_2(\text{root } 1),\; B_0(\text{root } 7) \rangle$
- 
+
 Root linked list:
- 
+
 \begin{center}
 \texttt{HEAD} $\;\to\;$ \fbox{7} $\;\xrightarrow{\textcolor{heapblue}{\text{sib}}}\;$ \fbox{1} $\;\xrightarrow{\textcolor{heapblue}{\text{sib}}}\;$ \fbox{8} $\;\to\;$ \texttt{NIL}
 \end{center}
- 
+
 HEAD points to 7 ($B_0$, smallest tree). Then 7's sibling pointer goes to 1 ($B_2$), then to 8 ($B_3$).
+
+Here is a full pointer diagram for a smaller heap $\langle B_2(\text{root } 3),\; B_1(\text{root } 5),\; B_0(\text{root } 9) \rangle$:
+
+\begin{center}
+\begin{tikzpicture}[
+  nd/.style={circle, draw=heapblue, line width=0.8pt, minimum size=8mm, inner sep=0pt, fill=skyfill, font=\small\bfseries},
+]
+% Root list (top row)
+\node[nd] (n9) at (8,0) {9};
+\node[nd] (n5) at (5,0) {5};
+\node[nd] (n3) at (1.5,0) {3};
+
+% HEAD
+\node[font=\bfseries] at (10.2,0) {\textsf{HEAD}};
+\draw[->, line width=1.2pt] (9.5,0) -- (n9);
+
+% Root sibling pointers (blue, right to left)
+\draw[->, heapblue, line width=0.7pt] (n9.west) -- (n5.east);
+\draw[->, heapblue, line width=0.7pt] (n5.west) -- (n3.east);
+
+% Tree labels above
+\node[font=\scriptsize\color{greyline}] at (8,0.7) {$B_0$};
+\node[font=\scriptsize\color{greyline}] at (5,0.7) {$B_1$};
+\node[font=\scriptsize\color{greyline}] at (1.5,0.7) {$B_2$};
+
+% Under 5 (B_1): left child = 7
+\node[nd] (n7) at (5,-2) {7};
+\draw[->, greenO, line width=0.7pt] (n5.south) -- (n7.north);
+\draw[->, rustW, line width=0.7pt] ([xshift=2pt]n7.north east) to[bend left=25] ([xshift=2pt]n5.south east);
+
+% Under 3 (B_2): left child = 6, sibling = 8
+\node[nd] (n6) at (0.3,-2) {6};
+\node[nd] (n8) at (2.7,-2) {8};
+\draw[->, greenO, line width=0.7pt] (n3.south) -- (n6.north);
+\draw[->, heapblue, line width=0.7pt] (n6.east) -- (n8.west);
+\draw[->, rustW, line width=0.7pt] ([xshift=-2pt]n6.north west) to[bend right=25] ([xshift=-2pt]n3.south west);
+\draw[->, rustW, line width=0.7pt] ([xshift=2pt]n8.north east) to[bend left=25] ([xshift=2pt]n3.south east);
+
+% Under 6: left child = 12
+\node[nd] (n12) at (0.3,-4) {12};
+\draw[->, greenO, line width=0.7pt] (n6.south) -- (n12.north);
+\draw[->, rustW, line width=0.7pt] ([xshift=2pt]n12.north east) to[bend left=25] ([xshift=2pt]n6.south east);
+
+% Legend
+\draw[->, rustW, line width=1pt] (6.8,-2.7) -- (7.8,-2.7);
+\node[font=\small\bfseries, anchor=west, text=rustW] at (7.9,-2.7) {PARENT};
+\draw[->, greenO, line width=1pt] (6.8,-3.3) -- (7.8,-3.3);
+\node[font=\small\bfseries, anchor=west, text=greenO] at (7.9,-3.3) {LEFT CHILD};
+\draw[->, heapblue, line width=1pt] (6.8,-3.9) -- (7.8,-3.9);
+\node[font=\small\bfseries, anchor=west, text=heapblue] at (7.9,-3.9) {RIGHT SIBLING};
+\draw[rounded corners, greyline, line width=0.5pt] (6.5,-2.3) rectangle (10.8,-4.3);
+\end{tikzpicture}
+\end{center}
 \end{examplebox}
- 
+
 % ==================================================================
 \section{Two Key Lemmas}
- 
+
 Before the operations, we need two building blocks. These lemmas are \textbf{the reason} all operations work efficiently.
- 
+
 \subsection{Lemma 1: Merging Two $B_k$ Trees}
- 
+
 \begin{keybox}[Lemma 1]
 We can merge \textcolor{rustW}{two} min heap ordered $B_k$ trees into a \textcolor{greenO}{single} min heap ordered $B_{k+1}$ tree using just \textcolor{violetT}{\textbf{one}} key comparison.
 \end{keybox}
- 
+
 \begin{keybox}[Why Lemma 1 Matters]
 This is the \textbf{carry operation}. Just like adding two 1 bits produces a carry in binary addition, merging two $B_k$'s produces one $B_{k+1}$. This is the core mechanism behind Union, Insert, and Extract\_Min.
 \end{keybox}
- 
+
 \textbf{Proof.} Given two $B_k$ trees with roots $x$ and $y$:
- 
+
 \begin{enumerate}[leftmargin=1.4em,itemsep=3pt]
   \item Compare $x.\text{key}$ and $y.\text{key}$ \quad (one comparison).
   \item Smaller root stays on top. Make the other tree the new leftmost subtree.
 \end{enumerate}
- 
+
 If $x \le y$: $x$ is root of $B_{k+1}$, with children $B_k(y),\, B_{k-1},\, \ldots,\, B_0$.
- 
+
 Min heap ordering preserved (smaller root on top). Structure is $B_{k+1}$ by definition. \hfill $\square$
- 
+
+\begin{examplebox}[Lemma 1 in Action: Merging Two $B_1$'s into $B_2$]
+Two min heap ordered $B_1$ trees. One comparison decides the root.
+
+\begin{center}
+\begin{tikzpicture}[
+  nd/.style={circle, draw=heapblue, line width=0.7pt, minimum size=6.5mm, inner sep=0pt, fill=skyfill, font=\scriptsize\bfseries},
+  scale=0.85, transform shape
+]
+% Left B_1
+\node[nd] (a) at (0,0) {3};
+\node[nd] (a1) at (0,-1.1) {7};
+\draw[heapblue, line width=0.6pt] (a)--(a1);
+\node[font=\scriptsize\bfseries\color{violetT}] at (0,0.5) {$B_1$};
+
+% Plus
+\node[font=\Large\bfseries\color{greyline}] at (1.5,-0.3) {$+$};
+
+% Right B_1
+\node[nd] (b) at (3,0) {5};
+\node[nd] (b1) at (3,-1.1) {9};
+\draw[heapblue, line width=0.6pt] (b)--(b1);
+\node[font=\scriptsize\bfseries\color{violetT}] at (3,0.5) {$B_1$};
+
+% Arrow
+\draw[->, line width=1.2pt, rustW] (4.3,-0.3) -- (5.7,-0.3);
+\node[font=\scriptsize\bfseries\color{rustW}] at (5,0.15) {$3 \le 5$};
+
+% Result B_2
+\node[nd, draw=greenO, line width=1pt] (r) at (7.8,0) {3};
+\node[nd] (r1) at (7,-1.1) {5};
+\node[nd] (r2) at (8.6,-1.1) {7};
+\node[nd] (r3) at (7,-2.2) {9};
+\draw[heapblue, line width=0.6pt] (r)--(r1);
+\draw[heapblue, line width=0.6pt] (r)--(r2);
+\draw[heapblue, line width=0.6pt] (r1)--(r3);
+\node[font=\scriptsize\bfseries\color{violetT}] at (7.8,0.55) {$B_2$};
+\end{tikzpicture}
+\end{center}
+
+$3 \le 5$, so 3 stays as root. The other tree (root 5) becomes the \textbf{new leftmost child}. One comparison, one new edge.
+\end{examplebox}
+
 \subsection{Lemma 2: Deleting the Root of $B_k$}
- 
+
 \begin{keybox}[Lemma 2]
 Deleting \textcolor{rustW}{the root} of a min heap ordered $B_k$ gives a valid \textcolor{greenO}{min binomial heap} of $2^k - 1$ elements.
 \end{keybox}
- 
+
 \begin{keybox}[Why Lemma 2 Matters]
 This is the key insight behind Extract\_Min. When we extract the minimum (a root of some $B_k$ tree), the remaining children form their own binomial heap. We then Union that new heap back with the rest.
 \end{keybox}
- 
+
 \textbf{Proof.} Root of $B_k$ has children $B_{k-1}, B_{k-2}, \ldots, B_1, B_0$.
- 
+
 Delete the root $\Rightarrow$ left with these $k$ subtrees. Each is already min heap ordered (removing the root does not affect subtrees). The sequence $\langle B_{k-1}, \ldots, B_1, B_0 \rangle$ is a valid binomial forest (strictly decreasing $k$ values), so it is a binomial heap of size $2^{k-1} + \cdots + 1 = 2^k - 1$. \hfill $\square$
- 
+
 % ==================================================================
 \section{Operations}
- 
+
 \begin{keybox}[The Big Picture]
 \textbf{Everything reduces to Union.}
 \begin{itemize}[leftmargin=1.4em,itemsep=2pt]
@@ -1120,15 +1321,15 @@ Delete the root $\Rightarrow$ left with these $k$ subtrees. Each is already min 
 \end{itemize}
 Lemma 1 ($O(1)$ merge) and Lemma 2 (delete root $\Rightarrow$ valid heap) are the two pillars.
 \end{keybox}
- 
+
 \subsection{Union($T$, $Q$): Merging Two Binomial Heaps}
- 
+
 \begin{defbox}[Union($T$, $Q$)]
 \textbf{Input:} two min binomial heaps $T$ and $Q$.\\
 \textbf{Output:} a single min binomial heap $S$ containing all elements.
- 
+
 \textbf{Algorithm:} Binary addition!
- 
+
 Each column (bit position $i$) can have 0, 1, 2, or 3 copies of $B_i$ (from $T$, from $Q$, plus possibly a carry from position $i-1$). Process right to left:
 \begin{itemize}[leftmargin=1.4em,itemsep=2pt]
   \item \textbf{0 trees}: nothing in $S$, no carry
@@ -1137,99 +1338,173 @@ Each column (bit position $i$) can have 0, 1, 2, or 3 copies of $B_i$ (from $T$,
   \item \textbf{3 trees}: put one in $S$, merge the other two into a carry
 \end{itemize}
 \end{defbox}
- 
+
 \begin{examplebox}[Full Worked Example: Union($T$, $Q$)]
 $T$ has size $3 = \langle 11 \rangle_2$, so $T = \langle B_1, B_0 \rangle$.\\
 $Q$ has size $7 = \langle 111 \rangle_2$, so $Q = \langle B_2, B_1, B_0 \rangle$.
- 
+
 Result: $3 + 7 = 10 = \langle 1010 \rangle_2$, so $S = \langle B_3, B_1 \rangle$.
- 
+
 \textbf{Concrete values:}
 \begin{itemize}[leftmargin=1.4em,itemsep=1pt]
   \item $T$: $B_1$(root 2, child 4). $B_0$(root 3).
   \item $Q$: $B_2$(root 5, children: 7$\to$9 and 10). $B_1$(root 1, child 8). $B_0$(root 6).
 \end{itemize}
- 
+
+\begin{center}
+\begin{tikzpicture}[
+  nd/.style={circle, draw=heapblue, line width=0.7pt, minimum size=6.5mm, inner sep=0pt, fill=skyfill, font=\scriptsize\bfseries},
+  scale=0.85, transform shape
+]
+% T
+\node[font=\bfseries\color{rustW}] at (-0.5,0.8) {$T$:};
+\node[nd] (t2) at (0.5,0) {2};
+\node[nd] (t4) at (0.5,-1.1) {4};
+\draw[heapblue, line width=0.6pt] (t2)--(t4);
+\node[font=\scriptsize\color{violetT}] at (0.5,0.5) {$B_1$};
+\node[nd] (t3) at (2,0) {3};
+\node[font=\scriptsize\color{violetT}] at (2,0.5) {$B_0$};
+% divider
+\draw[greyline, dashed, line width=0.5pt] (3.3,1) -- (3.3,-2.8);
+% Q
+\node[font=\bfseries\color{greenO}] at (4,0.8) {$Q$:};
+\node[nd] (q5) at (5.2,0) {5};
+\node[nd] (q7) at (4.5,-1.1) {7};
+\node[nd] (q10) at (5.9,-1.1) {10};
+\node[nd] (q9) at (4.5,-2.2) {9};
+\draw[heapblue, line width=0.6pt] (q5)--(q7); \draw[heapblue, line width=0.6pt] (q5)--(q10);
+\draw[heapblue, line width=0.6pt] (q7)--(q9);
+\node[font=\scriptsize\color{violetT}] at (5.2,0.5) {$B_2$};
+\node[nd] (q1) at (7.5,0) {1};
+\node[nd] (q8) at (7.5,-1.1) {8};
+\draw[heapblue, line width=0.6pt] (q1)--(q8);
+\node[font=\scriptsize\color{violetT}] at (7.5,0.5) {$B_1$};
+\node[nd] (q6) at (9,0) {6};
+\node[font=\scriptsize\color{violetT}] at (9,0.5) {$B_0$};
+\end{tikzpicture}
+\end{center}
+
 \textbf{\textcolor{violetT}{Position 0} ($B_0$ column):}
- 
+
 $T$ has $B_0$(3), $Q$ has $B_0$(6). Two trees $\Rightarrow$ merge.
- 
+
 Compare 3 vs 6: $3 \le 6 \Rightarrow B_1$(root 3, child 6). This is the \textbf{carry}.
- 
+
 $S$ at position 0: empty.\\[6pt]
- 
+
 \textbf{\textcolor{violetT}{Position 1} ($B_1$ column):}
- 
+
 $T$ has $B_1$(root 2), $Q$ has $B_1$(root 1), plus carry $B_1$(root 3). \textcolor{rustW}{Three trees!}
- 
+
 Keep one in $S$: the carry $B_1$(3$\to$6).
- 
+
 Merge the other two: compare 1 vs 2: $1 \le 2 \Rightarrow B_2$(root 1, with subtrees from both). New carry.
- 
+
 $S$ at position 1: $B_1$(root 3, child 6).\\[6pt]
- 
+
 \textbf{\textcolor{violetT}{Position 2} ($B_2$ column):}
- 
+
 $Q$ has $B_2$(root 5), plus carry $B_2$(root 1). Two trees $\Rightarrow$ merge.
- 
+
 Compare 1 vs 5: $1 \le 5 \Rightarrow B_3$(root 1). Carry to position 3.
- 
+
 $S$ at position 2: empty.\\[6pt]
- 
+
 \textbf{\textcolor{violetT}{Position 3} ($B_3$ column):}
- 
+
 Just the carry $B_3$(root 1). One tree $\Rightarrow$ done.
- 
+
 $S$ at position 3: $B_3$(root 1).\\[6pt]
- 
+
 \textbf{\textcolor{violetT}{Result:}} $S = \langle B_3(\text{root } 1),\; B_1(\text{root } 3) \rangle$ \qquad $10 = \langle 1010 \rangle_2$ \checkmark
- 
+
+\begin{center}
+\begin{tikzpicture}[
+  nd/.style={circle, draw=heapblue, line width=0.7pt, minimum size=6.5mm, inner sep=0pt, fill=skyfill, font=\scriptsize\bfseries},
+  scale=0.85, transform shape
+]
+% B_3 (root 1)
+\node[nd, draw=greenO, line width=1pt] (r1) at (2,0) {1};
+\node[font=\scriptsize\bfseries\color{violetT}] at (2,0.55) {$B_3$};
+% Children: B_2(5), B_1(2), B_0(8)
+\node[nd] (n5) at (0,-1.2) {5};
+\node[nd] (n2) at (2,-1.2) {2};
+\node[nd] (n8) at (3.5,-1.2) {8};
+\draw[heapblue, line width=0.6pt] (r1)--(n5);
+\draw[heapblue, line width=0.6pt] (r1)--(n2);
+\draw[heapblue, line width=0.6pt] (r1)--(n8);
+% Children of 5: B_1(7), B_0(10)
+\node[nd] (n7) at (-0.8,-2.4) {7};
+\node[nd] (n10) at (0.8,-2.4) {10};
+\draw[heapblue, line width=0.6pt] (n5)--(n7);
+\draw[heapblue, line width=0.6pt] (n5)--(n10);
+% Child of 7: B_0(9)
+\node[nd] (n9) at (-0.8,-3.6) {9};
+\draw[heapblue, line width=0.6pt] (n7)--(n9);
+% Child of 2: B_0(4)
+\node[nd] (n4) at (2,-2.4) {4};
+\draw[heapblue, line width=0.6pt] (n2)--(n4);
+
+% Separator
+\draw[greyline, dashed, line width=0.5pt] (4.8,0.7) -- (4.8,-4);
+
+% B_1 (root 3)
+\node[nd, draw=greenO, line width=1pt] (r3) at (6.2,0) {3};
+\node[font=\scriptsize\bfseries\color{violetT}] at (6.2,0.55) {$B_1$};
+\node[nd] (n6) at (6.2,-1.2) {6};
+\draw[heapblue, line width=0.6pt] (r3)--(n6);
+
+% Label
+\node[font=\small\bfseries\color{violetT}] at (3.5,-4.5) {$S = \langle B_3,\; B_1 \rangle$};
+\end{tikzpicture}
+\end{center}
+
 \textbf{\textcolor{heapblue}{New edges:}} 3 \qquad \textbf{\textcolor{heapblue}{Key comparisons:}} 3
 \end{examplebox}
- 
+
 \begin{keybox}[Union Complexity]
 If $|T| \le n$ and $|Q| \le n$, each heap has $\le \lfloor \log_2 n \rfloor + 1$ trees.
- 
+
 $\Rightarrow$ Union takes $\textcolor{violetT}{O(\log n)}$ comparisons (one per column of the binary addition).
 \end{keybox}
- 
+
 \subsection{Insert($T$, $x$): Adding a Single Element}
- 
+
 \begin{defbox}[Insert($T$, $x$)]
 \begin{enumerate}[leftmargin=1.4em,itemsep=2pt]
   \item Create a new heap $Q$ containing just $x$ (a single $B_0$).
   \item Return Union($T$, $Q$).
 \end{enumerate}
 \end{defbox}
- 
+
 \begin{keybox}[Insert = Adding 1 in Binary]
 If the last bit is 0 (no $B_0$ exists): place the new $B_0$. Done in $O(1)$.
- 
+
 If the last bit is 1: merge into $B_1$ (carry). If $B_1$ already exists, merge again into $B_2$. This cascading carry can go up to $O(\log n)$ positions, but on average much less.
 \end{keybox}
- 
+
 \begin{examplebox}[Insert Example]
 Heap $T = \langle B_2, B_0 \rangle$ (5 elements, binary $101$). Insert element $x$.
- 
+
 \begin{enumerate}[leftmargin=1.4em,itemsep=2pt]
   \item $x$ becomes $B_0$. Now two $B_0$'s.
   \item Merge them $\Rightarrow$ one $B_1$ (carry). No $B_1$ exists, so $B_1$ stays.
   \item Result: $\langle B_2, B_1 \rangle$ (6 elements, binary $110$). \checkmark
 \end{enumerate}
 \end{examplebox}
- 
+
 \subsection{Min($T$): Finding the Minimum}
- 
+
 \begin{defbox}[Min($T$)]
 The minimum element is the root of one of the trees (by min heap property).
- 
+
 Walk through the root list (linked list via HEAD pointer). Compare each root's key. Return the smallest.
- 
+
 At most $\lfloor \log_2 n \rfloor + 1$ roots $\Rightarrow$ $\textcolor{violetT}{O(\log n)}$.
 \end{defbox}
- 
+
 \subsection{Extract\_Min($T$): Remove the Minimum}
- 
+
 \begin{defbox}[Extract\_Min($T$)]
 \begin{enumerate}[leftmargin=1.4em,itemsep=3pt]
   \item \textbf{Find the min:} walk the root list to find the tree $B_k$ whose root has the smallest key. \hfill $O(\log n)$
@@ -1239,33 +1514,33 @@ At most $\lfloor \log_2 n \rfloor + 1$ roots $\Rightarrow$ $\textcolor{violetT}{
 \end{enumerate}
 Total: $\textcolor{violetT}{O(\log n)}$.
 \end{defbox}
- 
+
 \begin{examplebox}[Extract\_Min Example]
 Heap: $\langle B_3(\text{root } 1),\; B_1(\text{root } 3) \rangle$ (10 elements)
- 
+
 \begin{enumerate}[leftmargin=1.4em,itemsep=2pt]
   \item Min = 1 (root of $B_3$).
   \item Remove $B_3$ from heap. Remaining: $\langle B_1(\text{root } 3) \rangle$.
   \item Delete root 1 from $B_3$. Children: $B_2, B_1, B_0$. New heap $Q = \langle B_2, B_1, B_0 \rangle$ (7 elements).
   \item Union($\langle B_1 \rangle$, $\langle B_2, B_1, B_0 \rangle$):
- 
+
   Position 0: one $B_0$ $\Rightarrow$ stays.
- 
+
   Position 1: two $B_1$'s $\Rightarrow$ merge into $B_2$ (carry).
- 
+
   Position 2: two $B_2$'s $\Rightarrow$ merge into $B_3$ (carry).
- 
+
   Position 3: one $B_3$ $\Rightarrow$ stays.
- 
+
   Result: $\langle B_3, B_0 \rangle$ (9 elements, $9 = \langle 1001 \rangle_2$) \checkmark
 \end{enumerate}
- 
+
 Return 1.
 \end{examplebox}
- 
+
 % ==================================================================
 \section{Complexity Summary}
- 
+
 \begin{keybox}[Binomial Heap Operations]
 \renewcommand{\arraystretch}{1.5}
 \begin{tabular}{l c l}
@@ -1277,20 +1552,20 @@ Return 1.
 \texttt{Extract\_Min($T$)} & $\textcolor{violetT}{O(\log n)}$ & Lemma 2 + Union \\
 \end{tabular}
 \end{keybox}
- 
+
 % ==================================================================
 \section{Practice Problems}
- 
+
 \begin{examplebox}[Problem 1: Build a Binomial Heap]
 Build a min binomial heap by inserting: $5, 12, 3, 9, 2, 15, 6, 1$.
- 
+
 (a) How many trees does the final heap have?\\
 (b) What is the root of each tree?\\
 (c) How many total key comparisons?
- 
+
 \begin{answerband}
 $n = 8 = \langle 1000 \rangle_2 \Rightarrow F_8 = \langle B_3 \rangle$ (one tree).
- 
+
 Step by step:
 \begin{itemize}[leftmargin=1.4em,itemsep=1pt]
   \item Insert 5: $\langle B_0(5) \rangle$. \hfill 0 comps
@@ -1302,37 +1577,37 @@ Step by step:
   \item Insert 6: $\langle B_2(3), B_1(2), B_0(6) \rangle$. \hfill 0 comps
   \item Insert 1: merge $B_0$'s: $1 \le 6$. Two $B_1$'s: $1 \le 2$. Two $B_2$'s: $1 \le 3$. $\langle B_3(\text{root } 1) \rangle$. \hfill 3 comps
 \end{itemize}
- 
+
 (a) \textcolor{violetT}{1 tree.} \quad (b) \textcolor{violetT}{Root is 1.} \quad (c) \textcolor{violetT}{$1+0+2+0+1+0+3 = 7 = n - \alpha(n) = 8 - 1$}
 \end{answerband}
 \end{examplebox}
- 
+
 \begin{examplebox}[Problem 2: Extract\_Min]
 Given: $\langle B_2(\text{root } 3, \text{children: } 7 \to 9 \text{ and } 5),\; B_0(\text{root } 10) \rangle$. Perform Extract\_Min.
- 
+
 \begin{answerband}
 \begin{enumerate}[leftmargin=1.4em,itemsep=2pt]
   \item Min = 3 (root of $B_2$). Extract it.
   \item Remove $B_2$. Remaining: $\langle B_0(10) \rangle$.
   \item Root 3 had children: $B_1$(root 7, child 9) and $B_0$(root 5). New heap $Q = \langle B_1(7 \to 9), B_0(5) \rangle$.
   \item Union($\langle B_0(10) \rangle$, $\langle B_1(7), B_0(5) \rangle$):
- 
+
   Position 0: two $B_0$'s (10, 5). $5 \le 10 \Rightarrow B_1$(root 5, child 10). Carry.
- 
+
   Position 1: $B_1$(root 7) + carry $B_1$(root 5). $5 \le 7 \Rightarrow B_2$(root 5). Carry.
- 
+
   Position 2: just carry. Done.
- 
+
   Result: $\langle B_2(\text{root } 5) \rangle$ (4 elements, $4 = \langle 100 \rangle_2$) \checkmark
 \end{enumerate}
- 
+
 Return 3.
 \end{answerband}
 \end{examplebox}
- 
+
 \begin{examplebox}[Problem 3: Properties Quick Check]
 For $B_5$:
- 
+
 \begin{center}
 \renewcommand{\arraystretch}{1.3}
 \begin{tabular}{l l}
@@ -1343,9 +1618,9 @@ Nodes at depth 2? & \textcolor{violetT}{$\binom{5}{2} = 10$} \\
 Nodes at depth 5? & \textcolor{violetT}{$\binom{5}{5} = 1$} \\
 \end{tabular}
 \end{center}
- 
+
 For $F_{13}$ ($13 = \langle 1101 \rangle_2$):
- 
+
 \begin{center}
 \renewcommand{\arraystretch}{1.3}
 \begin{tabular}{l l}
@@ -1355,12 +1630,12 @@ How many edges? & \textcolor{violetT}{$13 - 3 = 10$} \\
 \end{tabular}
 \end{center}
 \end{examplebox}
- 
+
 % ==================================================================
 \section{Exam Relevance}
- 
+
 Based on past CSC263 exams (2012 through 2015), no specific binomial heap questions appeared. However, heap questions show up frequently. The $k$Set ADT problem from Fall 2014 (see Lecture 2 notes) used max heaps and min heaps together.
- 
+
 \begin{warnbox}[What to watch for on binomial heap questions]
 \begin{itemize}[leftmargin=1.4em,itemsep=2pt]
   \item ``Draw the binomial heap after inserting $x_1, x_2, \ldots$'' $\Rightarrow$ binary addition method
@@ -1369,7 +1644,7 @@ Based on past CSC263 exams (2012 through 2015), no specific binomial heap questi
   \item ``Why $O(\log n)$?'' $\Rightarrow$ at most $\lfloor \log_2 n \rfloor + 1$ trees, binary addition has that many columns
 \end{itemize}
 \end{warnbox}
- 
+
 % ==================================================================
 \section*{\textcolor{violetT}{Quick Reference: Lecture 3}}
 \addcontentsline{toc}{section}{Quick Reference: Lecture 3}
@@ -1388,6 +1663,7 @@ Lemma 2 & delete root of $B_k \to$ valid heap of $2^k{-}1$ elements\\
 \textbf{Extract\_Min} & Lemma 2 + Union $\to$ $O(\log n)$\\
 \end{tabular}
 \end{keybox}
+
 
 
 \end{document}
