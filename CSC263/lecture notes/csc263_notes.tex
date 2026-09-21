@@ -1,5 +1,5 @@
 % !TEX program = pdflatex
-% CSC263 - Combined Lecture Notes (Lectures 1 & 2)
+% CSC263 - Combined Lecture Notes (Lectures 1, 2, 3 & 4)
 % Organized notes for TeXShop
 \documentclass[11pt]{article}
 
@@ -12,7 +12,7 @@
 \usepackage{tikz}
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.17}
-\usetikzlibrary{arrows.meta,calc,backgrounds,decorations.pathmorphing}
+\usetikzlibrary{arrows.meta,calc,backgrounds,decorations.pathmorphing,shapes.geometric}
 \usepackage{enumitem}
 \usepackage[protrusion=true,expansion=false]{microtype}
 \usepackage[colorlinks=true,linkcolor=violetT,urlcolor=violetT]{hyperref}
@@ -121,7 +121,7 @@
 
 \vspace{0.5cm}
 {\large\itshape\textcolor{greyline}{Lecture Notes}}\\[4pt]
-{\large\textcolor{violetT}{Lectures 1 \& 2}}
+{\large\textcolor{violetT}{Lectures 1, 2, 3 \& 4}}
 
 \vspace{0.5cm}
 \textcolor{violetT}{\rule{0.72\linewidth}{1.4pt}}
@@ -713,7 +713,7 @@ Height of CBT & $\lfloor \log_2 n \rfloor$\\
 
 \vspace{4pt}
 \begin{center}\textcolor{greyline}{\rule{0.5\linewidth}{0.6pt}}\end{center}
-\begin{center}\small\textcolor{greyline}{End of Lectures 1 \& 2 notes.}\end{center}
+
 
 
 \newpage
@@ -725,13 +725,13 @@ Height of CBT & $\lfloor \log_2 n \rfloor$\\
 %
 %  1. In your master document, DELETE these 3 lines near the end:
 %       \begin{center}\textcolor{greyline}{\rule{0.5\linewidth}{0.6pt}}\end{center}
-%       \begin{center}\small\textcolor{greyline}{End of Lectures 1 \& 2 notes.}\end{center}
+%       
 %       \end{document}
 %
 %  2. Paste EVERYTHING below this comment block in their place.
 %
 %  3. On the cover page, change:
-%       {\large\textcolor{violetT}{Lectures 1 \& 2}}
+%       {\large\textcolor{violetT}{Lectures 1, 2, 3 \& 4}}
 %     to:
 %       {\large\textcolor{violetT}{Lectures 1, 2 \& 3}}
 %
@@ -1665,5 +1665,1395 @@ Lemma 2 & delete root of $B_k \to$ valid heap of $2^k{-}1$ elements\\
 \end{keybox}
 
 
+% ******************************************************************
+%  LECTURE 4 — IMPROVED VERSION
+%
+%  PASTE INSTRUCTIONS:
+%  1. In your master document, find the line:
+%       \part*{\textcolor{utnavy}{Lecture 4: Binomial Heaps (Part 2) + Binary Search Trees}}
+%  2. DELETE everything from that line down to (and including):
+%       \end{document}
+%  3. Paste EVERYTHING below in its place.
+% ******************************************************************
+
+\part*{\textcolor{utnavy}{Lecture 4: Binomial Heaps (Part 2) + Binary Search Trees}}
+\addcontentsline{toc}{part}{Lecture 4: Binomial Heaps (Part 2) + BST}
+
+% ==================================================================
+\section{Remaining Binomial Heap Operations}
+
+Recall from Lecture 3: a \textcolor{rustW}{Min Binomial Heap} $T$ is a forest of binomial trees $B_{k_1}, B_{k_2}, \ldots$, each satisfying the \textcolor{rustW}{min-heap property} (parent key $\leq$ children keys). Every node stores three pointers: \textcolor{rustW}{PARENT}, \textcolor{greenO}{LEFT CHILD}, \textcolor{heapblue}{RIGHT SIBLING}.
+
+We already have Union, Insert, Min, Extract\_Min — all $O(\log n)$. Now we add three more operations that \textbf{modify a specific node} we already have a pointer to.
+
+\subsection{Decrease\_Key$(T, x, k)$: Make a Key Smaller}
+
+\textcolor{heapblue}{\textbf{Goal:}} change the key of node $x$ to a \textbf{smaller} value $k$ (where $k < x.\text{key}$).
+
+\textbf{Why would we want this?} Shortest-path algorithms (Dijkstra's) update distances as they find shorter paths. A priority queue needs to let you say ``this element is now more urgent.''
+
+\begin{defbox}[Decrease\_Key$(T, x, k)$]
+\textbf{Precondition:} we have a \textbf{direct pointer} to node $x$. No searching needed.
+
+\textbf{Algorithm:}
+\begin{enumerate}[leftmargin=1.4em,itemsep=2pt]
+    \item Set $x.\text{key} \leftarrow k$
+    \item \textcolor{rustW}{Bubble up}: while $x$ is not a root \textbf{and} $x.\text{key} < x.\text{parent}.\text{key}$:
+    \begin{itemize}[leftmargin=1.2em]
+        \item swap $x.\text{key}$ with $x.\text{parent}.\text{key}$
+        \item move $x$ pointer up to the parent
+    \end{itemize}
+    \item Stop when min-heap property is restored (parent's key $\leq x.\text{key}$) or $x$ is a root
+\end{enumerate}
+\end{defbox}
+
+\begin{keybox}[Why ``Bubble Up'' Works]
+We decreased $x$'s key, so the only possible violation is $x.\text{key} < x.\text{parent}.\text{key}$ (child smaller than parent). Swapping with parent fixes this violation but might create a new one further up. We keep going until we reach a parent whose key is $\leq$ ours, or we hit the root.
+
+The \textcolor{rustW}{PARENT pointer} (from Lecture 3's memory representation) is what makes this efficient — we can walk straight up without searching.
+\end{keybox}
+
+\textbf{Complexity:} \textcolor{greenO}{$O(\log n)$}
+
+At most we bubble up from the deepest node to the root. In a binomial tree $B_k$, the height is $k$. The largest tree in a heap of $n$ elements is at most $B_{\lfloor \log_2 n \rfloor}$, so we do at most $\lfloor \log_2 n \rfloor$ swaps.
+
+\begin{examplebox}[Worked Example: Decrease\_Key]
+Suppose we have $B_3$ (8 nodes, height 3) with keys arranged as:
+
+\begin{center}
+\begin{tikzpicture}[
+    level distance=1cm, sibling distance=1.6cm,
+    every node/.style={circle, draw=heapblue, line width=0.7pt, minimum size=7mm, inner sep=1pt, font=\small, fill=white}
+]
+\node {1}
+    child {node {3}
+        child {node {7}
+            child {node[fill=red!20] (target) {12}}
+        }
+        child {node {5}}
+    }
+    child {node {4}}
+    child {node {8}};
+\node[draw=none, fill=none, font=\scriptsize\itshape, text=rustW] at (2.8, -0.3) {$B_2$};
+\node[draw=none, fill=none, font=\scriptsize\itshape, text=rustW] at (3.3, -1.2) {$B_0$};
+\node[draw=none, fill=none, font=\scriptsize\itshape, text=rustW] at (3.7, -2.5) {$B_0$};
+\end{tikzpicture}
+\end{center}
+
+\texttt{Decrease\_Key$(T, x, 2)$} where $x$ is the node with key 12:
+
+\begin{enumerate}[leftmargin=1.4em,itemsep=2pt]
+    \item Set $x.\text{key} = 2$
+    \item Compare with parent (key 7): $2 < 7$ $\Rightarrow$ swap. Now 2 is at depth 2, 7 is at depth 3.
+    \item Compare with parent (key 3): $2 < 3$ $\Rightarrow$ swap. Now 2 is at depth 1, 3 is at depth 2.
+    \item Compare with parent (key 1): $2 > 1$ $\Rightarrow$ \textcolor{greenO}{STOP}. Min-heap property restored.
+\end{enumerate}
+
+Total swaps: 2 (out of max 3 = height of $B_3$). The tree is still a valid $B_3$ with min-heap ordering.
+\end{examplebox}
+
+\subsection{Delete$(T, x)$: Remove a Specific Node}
+
+\textcolor{heapblue}{\textbf{Goal:}} remove node $x$ from $T$. Again, we have a direct pointer to $x$.
+
+\textbf{The trick:} we already know how to remove a \textit{root} (Extract\_Min). So force $x$ to become a root first!
+
+\begin{defbox}[Delete$(T, x)$]
+\begin{enumerate}[leftmargin=1.4em,itemsep=3pt]
+    \item \texttt{Decrease\_Key$(T, x, -\infty)$}: set $x$'s key to $-\infty$. Since $-\infty$ is smaller than every other key, $x$ bubbles \textbf{all the way up} to become the root of its binomial tree.
+    \item \texttt{Extract\_Min$(T)$}: the minimum element is now $x$ (with key $-\infty$), so Extract\_Min removes it. Internally this uses Lemma 2 (children of $x$'s tree form a new heap) + Union.
+\end{enumerate}
+\end{defbox}
+
+\textbf{Complexity:} \textcolor{greenO}{$O(\log n)$} \quad (Decrease\_Key $O(\log n)$ + Extract\_Min $O(\log n)$)
+
+\subsection{Increase\_Key$(T, x, k)$: Make a Key Larger}
+
+\textcolor{heapblue}{\textbf{Goal:}} change the key of node $x$ to a \textbf{larger} value $k$ (where $k > x.\text{key}$).
+
+\begin{warnbox}[Why can't we just ``bubble down''?]
+When we \textit{decrease} a key, the only violation is with the parent (one node above), and we bubble up along a single path.
+
+When we \textit{increase} a key, the violation is with the \textbf{children}. In a binomial tree, a node in $B_k$ can have up to $k$ children. To bubble down:
+\begin{enumerate}[leftmargin=1.4em,itemsep=1pt]
+    \item We need to find the \textbf{minimum-key child} among all children (to maintain min-heap property after swap).
+    \item A node in $B_k$ can have up to $k$ children $\Rightarrow$ scanning children costs $O(k)$ per level.
+    \item There are up to $k$ levels to descend.
+    \item Total: $O(k^2) = O(\log^2 n)$. That is \textbf{worse} than $O(\log n)$!
+\end{enumerate}
+\end{warnbox}
+
+\textbf{Better approach — Delete + re-Insert:}
+
+\begin{defbox}[Increase\_Key$(T, x, k)$]
+\begin{enumerate}[leftmargin=1.4em,itemsep=2pt]
+    \item \texttt{Delete$(T, x)$}: remove $x$ entirely. \hfill $O(\log n)$
+    \item Create a new node $x'$ with key $k$.
+    \item \texttt{Insert$(T, x')$}: add $x'$ back via Union. \hfill $O(\log n)$
+\end{enumerate}
+\end{defbox}
+
+\textbf{Complexity:} \textcolor{greenO}{$O(\log n)$} — beats the naive bubble-down approach of $O(\log^2 n)$.
+
+\begin{examplebox}[Worked Example: Increase\_Key]
+Suppose $T$ contains node $x$ with key 3. We want \texttt{Increase\_Key$(T, x, 15)$}.
+
+\textbf{Step 1: Delete$(T, x)$}
+\begin{itemize}[leftmargin=1.4em,itemsep=1pt]
+    \item \texttt{Decrease\_Key$(T, x, -\infty)$}: bubble $x$ (now key $-\infty$) to root of its binomial tree
+    \item \texttt{Extract\_Min$(T)$}: removes $x$. Children form a new heap (Lemma 2), Union it back.
+\end{itemize}
+
+\textbf{Step 2:} Create node $x'$ with key 15.
+
+\textbf{Step 3:} \texttt{Insert$(T, x')$} = \texttt{Union$(T, \{x'\})$}. The new node 15 enters as a $B_0$.
+
+Total: $O(\log n) + O(\log n) = $ \textcolor{greenO}{$O(\log n)$}.
+\end{examplebox}
+
+\subsection{Complete Binomial Heap Operations Summary}
+
+\begin{keybox}[All Binomial Heap Operations — Final Table]
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{l l l}
+\textbf{\textcolor{heapblue}{Operation}} & \textbf{Method} & \textbf{Cost} \\
+\hline
+\textcolor{heapblue}{Union$(T, Q)$} & binary addition (Lemma 1 = carry) & \textcolor{greenO}{$O(\log n)$} \\
+\textcolor{heapblue}{Insert$(T, x)$} & Union$(T, \{x\})$ & \textcolor{greenO}{$O(\log n)$} \\
+\textcolor{heapblue}{Min$(T)$} & scan root list & \textcolor{greenO}{$O(\log n)$} \\
+\textcolor{heapblue}{Extract\_Min$(T)$} & remove min root, Lemma 2 + Union & \textcolor{greenO}{$O(\log n)$} \\
+\textcolor{heapblue}{Decrease\_Key$(T,x,k)$} & set key, bubble up via PARENT & \textcolor{greenO}{$O(\log n)$} \\
+\textcolor{heapblue}{Delete$(T,x)$} & Decrease\_Key($-\infty$) + Extract\_Min & \textcolor{greenO}{$O(\log n)$} \\
+\textcolor{heapblue}{Increase\_Key$(T,x,k)$} & Delete + Insert (not bubble-down!) & \textcolor{greenO}{$O(\log n)$} \\
+\end{tabular}
+\end{center}
+\end{keybox}
+
+% ==================================================================
+\section{Cost of $k$ Successive Inserts}
+
+We now ask a more refined question: if we insert $k$ elements into a heap $T$ one by one, how many \textbf{total} key comparisons does it take?
+
+\textbf{Setup:} Start with binomial heap $T$ where $|T| = n$. Insert $k$ elements one by one.
+
+\textbf{Naive analysis:} Each insert costs at most $O(\log(n+k))$. So $k$ inserts $\leq$ \textcolor{amber}{$O(k \log(n+k))$}. But this is a loose overestimate — most inserts are cheap!
+
+\subsection{Key Insight: Each Insert = Adding 1 in Binary}
+
+Recall from Lecture 3: \texttt{Insert$(T, x)$} = \texttt{Union$(T, \{x\})$}, which works exactly like \textcolor{rustW}{adding 1 in binary}. The ``carries'' in binary addition correspond to tree merges (Lemma 1):
+
+\begin{itemize}[leftmargin=1.4em,itemsep=2pt]
+    \item No $B_0$ in $T$? (rightmost bit is 0) Just place $x$ as $B_0$. \textcolor{greenO}{0 carries.}
+    \item $B_0$ exists? (rightmost bit is 1) Merge two $B_0$'s $\to$ $B_1$. That's \textcolor{rustW}{1 carry}.
+    \item $B_1$ already exists? Merge two $B_1$'s $\to$ $B_2$. \textcolor{rustW}{Another carry.}
+    \item Keep carrying until we hit a 0-bit (an empty slot for that tree size).
+\end{itemize}
+
+\begin{defbox}[Carries = Cost]
+\textcolor{rustW}{\textbf{Each carry = one key comparison}} (to decide which root goes on top when merging via Lemma 1). So the total cost of an insert = the number of carries it produces.
+\end{defbox}
+
+\subsection{Worked Example: 5 Successive Inserts into $|T|=27$}
+
+\begin{examplebox}[5 Successive Inserts into $|T|=27$]
+$27 = \langle 11011 \rangle_2$ means $T$ currently has trees $B_4, B_3, B_1, B_0$.
+
+Watch what happens to the binary representation as we add 1 repeatedly:
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{c|c|c|c|l}
+\textbf{Insert \#} & \textbf{Binary before} & \textbf{Binary after} & \textbf{Carries} & \textbf{What happens} \\
+\hline
+1 & $\mathbf{11011}$ & $\mathbf{11100}$ & \textcolor{rustW}{2} & bit 0: $1+1 \to$ carry; bit 1: $1+\text{carry} \to$ carry; bit 2: $0+\text{carry} \to 1$ \\
+2 & $11100$ & $11101$ & \textcolor{greenO}{0} & bit 0 was 0, just place $B_0$ \\
+3 & $11101$ & $11110$ & \textcolor{rustW}{1} & bit 0: $1+1 \to$ carry; bit 1: $0+\text{carry} \to 1$ \\
+4 & $11110$ & $11111$ & \textcolor{greenO}{0} & bit 0 was 0, just place $B_0$ \\
+5 & $11111$ & $100000$ & \textcolor{rustW}{5} & all 1's $\to$ carry ripples through all 5 positions \\
+\hline
+& & \textbf{Total:} & \textcolor{rustW}{\textbf{8}} & \\
+\end{tabular}
+\end{center}
+
+Naive bound: $5 \times \lfloor \log_2 32 \rfloor = 5 \times 5 = 25$. Actual: only \textbf{8}!
+
+\textbf{Notice:} Insert \#5 is expensive (5 carries) but inserts \#2 and \#4 are free. The expensive ones ``pay'' for all the 0-bits they create, making future inserts cheap.
+\end{examplebox}
+
+\subsection{Exact Formula via Edge Counting}
+
+We can derive an \textbf{exact} formula for the total cost using a clever counting argument.
+
+\begin{keybox}[Edge Counting Argument]
+\textbf{Fact (from Lecture 3):} a binomial heap with $m$ elements has exactly $m - \alpha(m)$ edges, where $\alpha(m)$ = number of 1-bits in binary representation of $m$.
+
+\textbf{Setup:}
+\begin{itemize}[leftmargin=1.4em,itemsep=2pt]
+    \item Before $k$ inserts: $n$ elements $\Rightarrow$ $n - \alpha(n)$ edges
+    \item After $k$ inserts: $n + k$ elements $\Rightarrow$ $(n+k) - \alpha(n+k)$ edges
+    \item \textbf{New edges created} $= \bigl[(n+k) - \alpha(n+k)\bigr] - \bigl[n - \alpha(n)\bigr] = k + \alpha(n) - \alpha(n+k)$
+\end{itemize}
+
+\textbf{Where do new edges come from?} Each of the $k$ inserted nodes gets connected to the tree (contributes 1 edge just by being placed). Each \textbf{carry} (Lemma 1 merge) creates exactly 1 additional edge (the new link between two merged roots). So:
+
+$$\text{new edges} = \underbrace{k}_{\text{placed nodes}} + \underbrace{\text{total carries}}_{\text{merges}}$$
+
+Wait — that gives: total carries $= k + \alpha(n) - \alpha(n+k) - k = \alpha(n) - \alpha(n+k)$.
+
+But the \textbf{total cost} includes both the ``place the node'' step and the carries:
+
+$$\boxed{\text{Total cost} = k + \alpha(n) - \alpha(n+k)}$$
+\end{keybox}
+
+\textbf{Verify with the example:} $n=27$, $k=5$. $\alpha(27) = \alpha(\langle 11011 \rangle_2) = 4$. $\alpha(32) = \alpha(\langle 100000 \rangle_2) = 1$. Total cost $= 5 + 4 - 1 = 8$. $\checkmark$ (matches our count above!)
+
+\begin{defbox}[Tight Bound: Total cost $\leq 2k$ when $k > \log_2 n$]
+Since $\alpha(n) \leq \lfloor \log_2 n \rfloor + 1$ (at most $\lfloor \log_2 n \rfloor + 1$ bits) and $\alpha(n+k) \geq 1$ (at least one 1-bit):
+
+$$\text{Total cost} = k + \alpha(n) - \alpha(n+k) \leq k + \lfloor \log_2 n \rfloor + 1 - 1 = k + \lfloor \log_2 n \rfloor$$
+
+When $k > \log_2 n$: total cost $< k + k = 2k$.
+
+\medskip
+\textcolor{greenO}{\textbf{Average cost per insert}} $= \dfrac{\text{total cost}}{k} < \dfrac{2k}{k} = $ \textcolor{greenO}{\textbf{2 key comparisons}}
+
+Even though a single insert can cost up to $O(\log n)$, on average each insert costs less than 2!
+\end{defbox}
+
+\begin{examplebox}[Practice Problem: Cost of Successive Inserts]
+\textbf{Q:} Start with $|T| = 13 = \langle 1101 \rangle_2$. Perform 3 successive inserts. What is the total cost?
+
+\begin{answerband}
+\textbf{Solution using binary addition:}
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{c|c|c|c}
+Insert \# & Before & After & Carries \\
+\hline
+1 & $1101$ & $1110$ & 1 \\
+2 & $1110$ & $1111$ & 0 \\
+3 & $1111$ & $10000$ & 4 \\
+\hline
+& & Total: & \textbf{5} \\
+\end{tabular}
+\end{center}
+
+\textbf{Verify with formula:} cost $= k + \alpha(n) - \alpha(n+k) = 3 + \alpha(13) - \alpha(16) = 3 + 3 - 1 = 5$. $\checkmark$
+
+\textbf{Verify with edge counting:} $13 - 3 = 10$ edges before. $16 - 1 = 15$ edges after. New edges $= 5$. $\checkmark$
+\end{answerband}
+\end{examplebox}
+
+\newpage
+
+% ==================================================================
+% ==================================================================
+%  NEW TOPIC: DICTIONARIES AND BSTs
+% ==================================================================
+% ==================================================================
+
+\begin{center}
+\textcolor{greyline}{\rule{0.6\linewidth}{0.6pt}}\\[6pt]
+{\large\textcolor{utnavy}{\textbf{--- New Topic ---}}}
+\end{center}
+
+We now shift from priority queues to a different ADT. Priority queues are great when you always want the min (or max), but what if you want to \textbf{search for a specific key}? That requires a \textbf{Dictionary}.
+
+% ==================================================================
+\section{The Dictionary ADT}
+
+\begin{defbox}[Dictionary ADT]
+\textbf{Object:} A set $S$ of elements, each identified by a \textcolor{rustW}{key}.
+
+\textbf{Operations:}
+\begin{itemize}[leftmargin=1.4em,itemsep=1pt]
+    \item \textcolor{heapblue}{\textbf{Search$(S, k)$}}: find and return the element with key $k$ (or report it doesn't exist)
+    \item \textcolor{heapblue}{\textbf{Insert$(S, x)$}}: add element $x$ to $S$
+    \item \textcolor{heapblue}{\textbf{Delete$(S, x)$}}: remove element $x$ from $S$ (given a pointer to $x$)
+\end{itemize}
+\end{defbox}
+
+\textbf{Dictionaries are everywhere:} symbol tables in compilers, database indices, contact lists, DNS lookups. Any time you need to look something up by a key.
+
+\subsection{First Attempt: Linked List}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{l c l}
+Insert & \textcolor{greenO}{$\Theta(1)$} & prepend to head \\
+Search & \textcolor{rustW}{$\Theta(n)$} & must scan entire list (key could be anywhere) \\
+Delete & \textcolor{rustW}{$\Theta(n)$} & need to search first, then remove \\
+\end{tabular}
+\end{center}
+
+Search takes $\Theta(n)$ because a linked list has \textbf{no ordering} — there is no way to skip ahead. We need a structure that lets us \textbf{eliminate half the candidates} at each step.
+
+\begin{keybox}[Goal]
+A data structure where \textit{all three} dictionary operations run in \textcolor{greenO}{$O(\log n)$} time. The \textbf{Binary Search Tree} is our first attempt at this.
+\end{keybox}
+
+% ==================================================================
+\section{Binary Search Trees (BST)}
+
+\subsection{The BST Property}
+
+The idea: store elements in a binary tree, arranged so that at each node, we know which direction to go. This is the \textbf{binary search} idea applied to a tree structure.
+
+\begin{defbox}[\textcolor{defblue}{BST Property}]
+For \textbf{every} node $x$ in the tree:
+
+\begin{center}
+\textcolor{defblue}{\Large keys in left subtree of $x$} $\;\;\textcolor{rustW}{\boldsymbol{\leq}}\;\;$ \textcolor{defblue}{\Large $x.\text{key}$} $\;\;\textcolor{rustW}{\boldsymbol{\leq}}\;\;$ \textcolor{defblue}{\Large keys in right subtree of $x$}
+\end{center}
+
+\medskip
+\textcolor{amber}{\textbf{Note:}} Keys are \textbf{NOT necessarily unique}. The \textcolor{rustW}{$\leq$} (not $<$) is critical — equal keys can go either way.
+\end{defbox}
+
+\begin{examplebox}[Example: Valid BST with $S = \{2, 4, 5, 6, 7, 9\}$]
+\begin{center}
+\begin{tikzpicture}[
+    level distance=1cm, sibling distance=1.8cm,
+    every node/.style={circle, draw=heapblue, line width=0.7pt, minimum size=6mm, inner sep=1pt, font=\small, fill=white}
+]
+\node {4}
+    child {node {2}}
+    child {node {7}
+        child {node {5}
+            child[missing]
+            child {node {6}}
+        }
+        child {node {9}}
+    };
+\end{tikzpicture}
+\end{center}
+
+Check the property at each node:
+\begin{itemize}[leftmargin=1.4em,itemsep=1pt]
+    \item \textbf{Node 4:} left subtree $\{2\}$ — all $\leq 4$ $\checkmark$. Right subtree $\{5,6,7,9\}$ — all $\geq 4$ $\checkmark$.
+    \item \textbf{Node 7:} left subtree $\{5,6\}$ — all $\leq 7$ $\checkmark$. Right subtree $\{9\}$ — $9 \geq 7$ $\checkmark$.
+    \item \textbf{Node 5:} no left child. Right subtree $\{6\}$ — $6 \geq 5$ $\checkmark$.
+    \item Leaves 2, 6, 9: no children, trivially satisfied.
+\end{itemize}
+\end{examplebox}
+
+\begin{warnbox}[BST for a set $S$ is NOT unique]
+The \textit{shape} of the tree depends on the \textbf{insertion order}. The same set $S = \{2,4,5,6,7,9\}$ can produce many different valid BSTs. This non-uniqueness is what leads to the worst-case problem we'll see later.
+\end{warnbox}
+
+\subsection{In-Order Traversal}
+
+A key consequence of the BST property: visiting nodes in \textbf{left-root-right} order gives all keys in \textcolor{greenO}{ascending sorted order}.
+
+\begin{codebox}[InOrderTraversal(x)]
+\ttfamily InOrderTraversal(x):\\
+\ttfamily \hspace*{2em}if x != NIL:\\
+\ttfamily \hspace*{4em}InOrderTraversal(x.left) \hfill\textnormal{\itshape // recurse into left subtree}\\
+\ttfamily \hspace*{4em}visit(x) \hfill\textnormal{\itshape // process current node}\\
+\ttfamily \hspace*{4em}InOrderTraversal(x.right) \hfill\textnormal{\itshape // recurse into right subtree}
+\end{codebox}
+
+\textbf{Why does this produce sorted order?} The BST property guarantees: everything in the left subtree $\leq$ current node $\leq$ everything in the right subtree. Recursion applies this at every level.
+
+\begin{examplebox}[Worked Example: In-Order Traversal]
+Using the BST above (root = 4):
+
+\begin{center}
+\begin{tikzpicture}[
+    level distance=1cm, sibling distance=1.8cm,
+    every node/.style={circle, draw=heapblue, line width=0.7pt, minimum size=6mm, inner sep=1pt, font=\small, fill=white}
+]
+\node {4}
+    child {node {2}}
+    child {node {7}
+        child {node {5}
+            child[missing]
+            child {node {6}}
+        }
+        child {node {9}}
+    };
+\end{tikzpicture}
+\end{center}
+
+Trace: go left from 4 $\to$ visit \textbf{2} $\to$ back up, visit \textbf{4} $\to$ go right $\to$ go left from 7 $\to$ visit \textbf{5} $\to$ go right from 5 $\to$ visit \textbf{6} $\to$ back up, visit \textbf{7} $\to$ go right from 7 $\to$ visit \textbf{9}
+
+Result: $2, 4, 5, 6, 7, 9$ \textcolor{greenO}{$\checkmark$ sorted!}
+\end{examplebox}
+
+\subsection{Left Rotation}
+
+A \textcolor{rustW}{rotation} restructures a BST without changing which keys it stores or violating the BST property. Rotations are the fundamental tool for \textbf{rebalancing} — we'll use them heavily when we get to AVL trees next lecture.
+
+\begin{defbox}[Left Rotation at node $x$]
+Let $y = x.\text{right}$ (must exist). Left rotation at $x$:
+\begin{enumerate}[leftmargin=1.4em,itemsep=2pt]
+    \item $y$ takes $x$'s position (becomes new subtree root)
+    \item $x$ becomes $y$'s left child
+    \item $y$'s old left subtree ($B$) becomes $x$'s new right subtree
+\end{enumerate}
+\end{defbox}
+
+\begin{center}
+\begin{tikzpicture}[
+    level distance=1.1cm, sibling distance=1.5cm,
+    every node/.style={circle, draw=heapblue, line width=0.7pt, minimum size=7mm, inner sep=1pt, font=\small, fill=white},
+    every child/.style={edge from parent/.style={draw=heapblue, line width=0.7pt}},
+    tri/.style={regular polygon, regular polygon sides=3, draw=greyline, fill=skyfill, minimum size=8mm, inner sep=0pt, font=\scriptsize}
+]
+% Before
+\node at (0,0.5) [draw=none, fill=none, font=\bfseries] {Before:};
+\node (x) at (0,0) {$x$}
+    child {node[tri] {$A$}}
+    child {node (y) {$y$}
+        child {node[tri] {$B$}}
+        child {node[tri] {$C$}}
+    };
+
+% Arrow
+\draw[->, very thick, greenO] (3,0) -- (5,0) node[midway, above, font=\small\bfseries, text=greenO] {Left Rotate at $x$};
+
+% After
+\node at (8,0.5) [draw=none, fill=none, font=\bfseries] {After:};
+\node (y2) at (8,0) {$y$}
+    child {node (x2) {$x$}
+        child {node[tri] {$A$}}
+        child {node[tri] {$B$}}
+    }
+    child {node[tri] {$C$}};
+\end{tikzpicture}
+\end{center}
+
+\begin{keybox}[Why BST Property Is Preserved]
+Before the rotation, we know: keys in $A \leq x \leq$ keys in $B \leq y \leq$ keys in $C$.
+
+After the rotation, $B$ moves from $y$'s left to $x$'s right. But $B$'s keys are between $x$ and $y$, so $B$ being $x$'s right subtree ($\geq x$) and in $y$'s left subtree ($\leq y$) is perfectly valid. Nothing else changes.
+
+\textcolor{violetT}{\textbf{Cost:}} $O(1)$ — just rearranging 3 pointers.
+\end{keybox}
+
+\begin{examplebox}[Worked Example: Left Rotation at Node 4]
+$S = \{2, 4, 5, 6, 7, 9\}$, tree rooted at 4. Left rotate at node 4:
+
+\textbf{Before:} root = 4, right child = 7, 7's left subtree = \{5, 6\}
+
+\begin{center}
+\begin{tikzpicture}[
+    level distance=1cm, sibling distance=1.8cm,
+    every node/.style={circle, draw=heapblue, line width=0.7pt, minimum size=6mm, inner sep=1pt, font=\small, fill=white}
+]
+\node[fill=red!15] {4}
+    child {node {2}}
+    child {node {7}
+        child {node {5}
+            child[missing]
+            child {node {6}}
+        }
+        child {node {9}}
+    };
+\end{tikzpicture}
+\hspace{1cm}
+$\xrightarrow{\text{left rotate at 4}}$
+\hspace{1cm}
+\begin{tikzpicture}[
+    level distance=1cm, sibling distance=1.6cm,
+    every node/.style={circle, draw=heapblue, line width=0.7pt, minimum size=6mm, inner sep=1pt, font=\small, fill=white}
+]
+\node {7}
+    child {node[fill=red!15] {4}
+        child {node {2}}
+        child {node {5}
+            child[missing]
+            child {node {6}}
+        }
+    }
+    child {node {9}};
+\end{tikzpicture}
+\end{center}
+
+7 becomes the new root. 4 becomes 7's left child. \{5, 6\} (was 7's left subtree) becomes 4's right subtree.
+
+\textcolor{violetT}{Verify:} In-order traversal of the result: $2, 4, 5, 6, 7, 9$. Same as before. BST property preserved. $\checkmark$
+\end{examplebox}
+
+% ==================================================================
+\subsection{BST Operations}
+
+All BST operations follow one path from root toward a leaf, making comparisons at each node to decide left or right.
+
+\subsubsection*{Search$(T, k)$: Find a Key}
+
+\begin{codebox}[Search(T, k)]
+\ttfamily x = T.root\\
+\ttfamily while x != NIL and x.key != k:\\
+\ttfamily \hspace*{2em}if k < x.key:\\
+\ttfamily \hspace*{4em}x = x.left \hfill\textnormal{\itshape // k must be in left subtree}\\
+\ttfamily \hspace*{2em}else:\\
+\ttfamily \hspace*{4em}x = x.right \hfill\textnormal{\itshape // k must be in right subtree}\\
+\ttfamily return x \hfill\textnormal{\itshape // NIL if not found}
+\end{codebox}
+
+\textbf{Why this works:} The BST property tells us that if $k < x.\text{key}$, then $k$ cannot be in the right subtree (all keys there are $\geq x.\text{key} > k$). So we can safely ignore the entire right subtree and go left. Symmetric for $k > x.\text{key}$. This is the same idea as binary search on a sorted array.
+
+\textbf{Complexity:} \textcolor{greenO}{$O(h)$} where $h$ = height of tree (we visit at most one node per level).
+
+\begin{examplebox}[Worked Example: Search$(T, 5)$]
+Tree rooted at 4 $\to$ \{2, 7 $\to$ \{5 $\to$ \{$\emptyset$, 6\}, 9\}\}:
+
+\begin{enumerate}[leftmargin=1.4em,itemsep=1pt]
+    \item At root 4: $5 > 4$ $\Rightarrow$ go \textcolor{rustW}{right} to 7
+    \item At 7: $5 < 7$ $\Rightarrow$ go \textcolor{heapblue}{left} to 5
+    \item At 5: $5 = 5$ $\Rightarrow$ \textcolor{greenO}{Found!} Return this node.
+\end{enumerate}
+
+3 comparisons, 3 nodes visited. Height of tree = 3, so this is within $O(h)$. $\checkmark$
+\end{examplebox}
+
+\subsubsection*{Insert$(T, z)$: Add a New Node}
+
+\begin{codebox}[Insert(T, z)]
+\ttfamily Follow the search path for z.key (comparing at each node)\\
+\ttfamily When you reach a NIL position, place z there as a new leaf
+\end{codebox}
+
+\textbf{Why this works:} The search path tells us exactly where $z$ \textbf{should} be to maintain the BST property. The NIL position at the end is the only valid place for $z$'s key. Since $z$ becomes a leaf, it doesn't disturb any existing nodes.
+
+\textbf{Complexity:} \textcolor{greenO}{$O(h)$}
+
+\begin{examplebox}[Worked Example: Insert$(T, 10)$]
+Using the same tree. Search for where 10 belongs:
+
+\begin{enumerate}[leftmargin=1.4em,itemsep=1pt]
+    \item At root 4: $10 > 4$ $\Rightarrow$ go right
+    \item At 7: $10 > 7$ $\Rightarrow$ go right
+    \item At 9: $10 > 9$ $\Rightarrow$ go right — but right child of 9 is NIL!
+    \item \textcolor{greenO}{Insert 10 as right child of 9.}
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}[
+    level distance=0.9cm, sibling distance=1.6cm,
+    every node/.style={circle, draw=heapblue, line width=0.7pt, minimum size=6mm, inner sep=1pt, font=\small, fill=white}
+]
+\node {4}
+    child {node {2}}
+    child {node {7}
+        child {node {5}
+            child[missing]
+            child {node {6}}
+        }
+        child {node {9}
+            child[missing]
+            child {node[fill=greenO!20] {10}}
+        }
+    };
+\end{tikzpicture}
+\end{center}
+\end{examplebox}
+
+% ==================================================================
+\subsection{BST Delete$(T, x)$: Three Cases}
+
+Deletion is the most complex BST operation. We have a pointer to node $x$ and need to remove it while maintaining the BST property.
+
+\begin{warnbox}[Why deletion is tricky]
+Removing a node from the middle of a tree can disconnect its children. We need to ``repair'' the tree so every node still has a parent and the BST property still holds.
+\end{warnbox}
+
+\subsubsection*{Case 1: $x$ is a leaf (no children)}
+
+Simplest case. Just remove $x$ — nothing to reconnect.
+
+\begin{center}
+\begin{tikzpicture}[
+    level distance=1cm, sibling distance=1.5cm,
+    every node/.style={circle, draw=heapblue, line width=0.7pt, minimum size=7mm, inner sep=1pt, font=\small, fill=white}
+]
+% Before
+\node at (-0.5, 0.7) [draw=none, fill=none, font=\bfseries\small] {Before:};
+\node {7}
+    child {node {5}
+        child[missing]
+        child {node {6}}
+    }
+    child {node[fill=red!20] {9}};
+
+\draw[->, very thick, greyline] (2.5, 0) -- (4, 0) node[midway, above, font=\small] {Delete 9};
+
+% After
+\node at (6, 0.7) [draw=none, fill=none, font=\bfseries\small] {After:};
+\node at (6.5, 0) {7}
+    child {node {5}
+        child[missing]
+        child {node {6}}
+    }
+    child[missing];
+\end{tikzpicture}
+\end{center}
+
+\subsubsection*{Case 2: $x$ has exactly one child}
+
+Replace $x$ with its only child (and the child's entire subtree). The child ``moves up'' to take $x$'s position.
+
+\textbf{Why this is safe:} if $x$ had key $k$ and its child's subtree contains keys that satisfied BST property relative to $x$, those keys also satisfy BST property relative to $x$'s parent (they were already in the correct subtree of the parent).
+
+\begin{center}
+\begin{tikzpicture}[
+    level distance=1cm, sibling distance=1.5cm,
+    every node/.style={circle, draw=heapblue, line width=0.7pt, minimum size=7mm, inner sep=1pt, font=\small, fill=white}
+]
+% Before
+\node at (-0.5, 0.7) [draw=none, fill=none, font=\bfseries\small] {Before:};
+\node {7}
+    child {node[fill=red!20] {5}
+        child[missing]
+        child {node[fill=greenO!15] {6}}
+    }
+    child {node {9}};
+
+\draw[->, very thick, greyline] (2.5, 0) -- (4, 0) node[midway, above, font=\small] {Delete 5};
+
+% After
+\node at (6, 0.7) [draw=none, fill=none, font=\bfseries\small] {After:};
+\node at (6.5, 0) {7}
+    child {node[fill=greenO!15] {6}}
+    child {node {9}};
+\end{tikzpicture}
+\end{center}
+
+Node 6 (the only child of 5) replaces 5. BST property: $6 \leq 7$ $\checkmark$.
+
+\subsubsection*{Case 3: $x$ has two children \textcolor{amber}{(hardest case)}}
+
+We can't just remove $x$ — both subtrees need a parent. The solution: replace $x$'s key with its \textcolor{rustW}{successor}'s key, then delete the successor (which is easier to remove).
+
+\begin{defbox}[The Successor]
+The \textcolor{rustW}{successor} of node $x$ = the node with the \textbf{smallest key that is larger than} $x.\text{key}$.
+
+In a BST, the successor is in $x$'s right subtree (since right subtree has all keys $\geq x.\text{key}$). To find it: go to $x$'s \textbf{right child}, then follow \textbf{left child pointers all the way down} until you hit NIL. That leftmost node in the right subtree is the successor.
+\end{defbox}
+
+\begin{keybox}[Why the Successor Has At Most One Child]
+The successor is the \textbf{leftmost} node in some subtree. By definition, it has \textbf{no left child} (otherwise there would be a smaller key, contradicting ``leftmost''). So the successor has at most one child (a right child). This means deleting the successor is either Case 1 or Case 2!
+
+This is the clever part: Case 3 \textbf{reduces to} Case 1 or 2.
+\end{keybox}
+
+\begin{enumerate}[leftmargin=1.4em,itemsep=3pt]
+    \item \textbf{Find} the successor of $x$: go right once, then left all the way
+    \item \textbf{Copy} the successor's key into $x$'s position (replacing $x$'s key)
+    \item \textbf{Delete} the original successor node (Case 1 or 2)
+\end{enumerate}
+
+\begin{examplebox}[Worked Example: Delete$(T, 4)$ — Two Children Case (Step by Step)]
+Tree: $4 \to \{2,\; 7 \to \{5 \to \{\emptyset, 6\},\; 9\}\}$
+
+Sorted order of $S$: $2, \mathbf{4}, \textcolor{rustW}{5}, 6, 7, 9$. The \textcolor{rustW}{successor of 4 is 5}.
+
+\bigskip
+
+\textbf{Step 1: Find successor of 4}
+
+\begin{center}
+\begin{tikzpicture}[
+    level distance=1cm, sibling distance=1.5cm,
+    every node/.style={circle, draw=heapblue, line width=0.7pt, minimum size=7mm, inner sep=1pt, font=\small, fill=white}
+]
+\node[fill=red!20] (root) {4}
+    child {node {2}}
+    child {node {7}
+        child {node[fill=goldpath!40] (succ) {5}
+            child[missing]
+            child {node {6}}
+        }
+        child {node {9}}
+    };
+\draw[->, thick, dashed, rustW] (root) -- ++(1.2, -0.3) node[right, draw=none, fill=none, font=\scriptsize\itshape, text=rustW] {1. go right to 7};
+\draw[->, thick, dashed, rustW] (1.5, -0.7) -- (succ) node[left, draw=none, fill=none, font=\scriptsize\itshape, text=rustW, xshift=-3mm] {2. go left to 5 (NIL left $\to$ stop)};
+\end{tikzpicture}
+\end{center}
+
+Go right to 7, then left to 5. Left child of 5 is NIL $\Rightarrow$ \textcolor{rustW}{successor = 5}
+
+\bigskip
+
+\textbf{Step 2: Copy successor's key into 4's position}
+
+Replace 4 with 5. Now there are temporarily two nodes with key 5.
+
+\begin{center}
+\begin{tikzpicture}[
+    level distance=1cm, sibling distance=1.5cm,
+    every node/.style={circle, draw=heapblue, line width=0.7pt, minimum size=7mm, inner sep=1pt, font=\small, fill=white}
+]
+\node[fill=greenO!20] {5}
+    child {node {2}}
+    child {node {7}
+        child {node[fill=goldpath!40] {5}
+            child[missing]
+            child {node {6}}
+        }
+        child {node {9}}
+    };
+\end{tikzpicture}
+\end{center}
+
+\textbf{Step 3: Delete original successor (the highlighted 5)}
+
+The successor node 5 has one child (6) $\Rightarrow$ \textcolor{rustW}{Case 2}. Replace the successor 5 with its child 6:
+
+\begin{center}
+\begin{tikzpicture}[
+    level distance=1cm, sibling distance=1.5cm,
+    every node/.style={circle, draw=heapblue, line width=0.7pt, minimum size=7mm, inner sep=1pt, font=\small, fill=white}
+]
+\node[fill=greenO!20] {5}
+    child {node {2}}
+    child {node {7}
+        child {node {6}}
+        child {node {9}}
+    };
+\end{tikzpicture}
+\end{center}
+
+\textbf{Final result:} $5 \to \{2,\; 7 \to \{6, 9\}\}$
+
+\textcolor{violetT}{Verify in-order:} $2, 5, 6, 7, 9$ $\checkmark$ (4 removed, BST property intact)
+\end{examplebox}
+
+\begin{examplebox}[Practice Problem: BST Delete]
+\textbf{Q:} Given BST: $8 \to \{3 \to \{1, 6 \to \{4, 7\}\},\; 10 \to \{\emptyset, 14 \to \{13, \emptyset\}\}\}$
+
+Delete node 3 (two children).
+
+\begin{answerband}
+\textbf{Solution:}
+\begin{enumerate}[leftmargin=1.4em,itemsep=1pt]
+    \item Successor of 3: go right to 6, then all-way left to 4. Successor = 4.
+    \item Copy 4 into 3's position.
+    \item Delete original 4: it is a leaf (Case 1), just remove it.
+    \item Result: $8 \to \{4 \to \{1, 6 \to \{\emptyset, 7\}\},\; 10 \to \{\emptyset, 14 \to \{13, \emptyset\}\}\}$
+\end{enumerate}
+
+In-order: $1, 4, 6, 7, 8, 10, 13, 14$ $\checkmark$
+\end{answerband}
+\end{examplebox}
+
+\begin{keybox}[BST Delete: Summary of All 3 Cases]
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{c l l}
+\textbf{Case} & \textbf{Condition} & \textbf{Action} \\
+\hline
+1 & $x$ is a \textcolor{rustW}{leaf} (0 children) & Remove $x$ \\
+2 & $x$ has \textcolor{rustW}{one child} & Replace $x$ with that child \\
+3 & $x$ has \textcolor{rustW}{two children} & Copy successor's key into $x$, delete successor (Case 1 or 2) \\
+\end{tabular}
+\end{center}
+
+\textbf{All cases:} \textcolor{greenO}{$O(h)$}. Finding successor walks down at most $h$ nodes. Removing the successor is $O(1)$.
+\end{keybox}
+
+% ==================================================================
+\subsection{The Problem: Worst-Case Height}
+
+All BST operations run in $O(h)$ where $h$ = height of the tree. So the real question is: \textbf{how tall can a BST get?}
+
+\textbf{Best case:} A perfectly balanced BST with $n$ nodes has height $\lfloor \log_2 n \rfloor$. All operations are $O(\log n)$.
+
+\textbf{Worst case:} Consider inserting $1, 2, 3, \ldots, n$ \textbf{in sorted order}:
+
+\begin{itemize}[leftmargin=1.4em,itemsep=2pt]
+    \item Insert 1: root = 1
+    \item Insert 2: $2 > 1$, goes right. Now: $1 \to 2$
+    \item Insert 3: $3 > 1$, right. $3 > 2$, right. Now: $1 \to 2 \to 3$
+    \item $\vdots$
+    \item Insert $n$: goes right at every step. Chain: $1 \to 2 \to 3 \to \cdots \to n$
+\end{itemize}
+
+\begin{center}
+\begin{tikzpicture}[
+    every node/.style={circle, draw=heapblue, line width=0.7pt, minimum size=6mm, inner sep=1pt, font=\small, fill=white}
+]
+\node (n1) at (0, 0) {1};
+\node (n2) at (0.8, -0.8) {2};
+\node (n3) at (1.6, -1.6) {3};
+\node (dots) at (2.2, -2.2) [draw=none, fill=none] {$\ddots$};
+\node (nn) at (2.8, -2.8) {$n$};
+\draw[heapblue, line width=0.7pt] (n1) -- (n2);
+\draw[heapblue, line width=0.7pt] (n2) -- (n3);
+\draw[heapblue, dashed] (n3) -- (dots);
+\draw[heapblue, dashed] (dots) -- (nn);
+\node[draw=none, fill=none, font=\small\color{rustW}] at (4.5, -1.4) {height $= n - 1$};
+\end{tikzpicture}
+\end{center}
+
+This is a \textcolor{rustW}{degenerate chain} — every node has exactly one child. It is a valid BST but it looks like a linked list!
+
+\textbf{Height} $= n - 1$ edges. So all operations become $\Theta(n)$:
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{l c c}
+& \textbf{Best-case BST} & \textbf{Worst-case BST} \\
+\hline
+Search & $O(\log n)$ & \textcolor{rustW}{$\Theta(n)$} \\
+Insert & $O(\log n)$ & \textcolor{rustW}{$\Theta(n)$} \\
+Delete & $O(\log n)$ & \textcolor{rustW}{$\Theta(n)$} \\
+\end{tabular}
+\end{center}
+
+\begin{warnbox}[Plain BSTs are not good enough!]
+A plain BST gives us no guarantee on height. If the input happens to be sorted (or nearly sorted), we degrade to a linked list. We need a BST variant that \textbf{automatically rebalances} to keep the height small.
+\end{warnbox}
+
+\textcolor{violetT}{\textbf{Next lecture:}} the \textcolor{rustW}{AVL tree} — a self-balancing BST that guarantees height $\leq$ \textcolor{greenO}{$O(\log n)$}, making all dictionary operations $O(\log n)$ in the \textbf{worst case}. It uses \textbf{rotations} (like the left rotation we just learned) to rebalance after every insert and delete.
+
+% ==================================================================
+\section{Past Exam Questions}
+
+\begin{exambox}[Seen on a past exam \textnormal{(Fall 2014 Midterm, Q3b)}]
+
+\textbf{[4 marks]} Draw the result when \textbf{55 is deleted} from the AVL tree below. Show your work; in particular, identify clearly any \textbf{rotation} performed.
+
+\begin{center}
+\begin{tikzpicture}[
+    level distance=0.9cm, sibling distance=1.3cm,
+    every node/.style={circle, draw=heapblue, line width=0.7pt, minimum size=6mm, inner sep=1pt, font=\small, fill=white}
+]
+\node {21}
+    child {node {8}
+        child {node {5}
+            child {node {3}}
+            child[missing]
+        }
+        child {node {13}}
+    }
+    child {node {55}
+        child {node {34}}
+        child[missing]
+    };
+\end{tikzpicture}
+\end{center}
+
+\begin{answerband}
+\textbf{Step 1: BST-Delete 55.} Node 55 has one child (34) $\Rightarrow$ Case 2: replace 55 with 34.
+
+Result: $21 \to \{8 \to \{5 \to \{3, \emptyset\}, 13\}, 34\}$
+
+\textbf{Step 2: Check AVL balance.} Node 21 has left subtree height 2, right subtree height 0. Balance factor $= |2 - 0| = 2 > 1$. \textcolor{rustW}{Unbalanced!}
+
+\textbf{Step 3: Rotate.} Right-rotate at 21 (with 8 as pivot).
+
+Final result: $8 \to \{5 \to \{3, \emptyset\}, 21 \to \{13, 34\}\}$
+
+\medskip
+\textcolor{violetT}{\textbf{Key concepts tested:}} BST Delete (Case 2) + AVL balance check + Rotation.
+
+\textit{(AVL trees are covered in Lecture 5. This exam question is included to show what's coming and how BST deletion connects to AVL rebalancing.)}
+\end{answerband}
+\end{exambox}
+
+\begin{exambox}[Seen on a past exam \textnormal{(Fall 2014 Midterm, Q2)}]
+\textbf{[10 marks]} Consider the ``k-Set'' ADT:
+
+\textbf{Objects:} Collection $C$ of rational numbers (duplicates allowed).
+
+\textbf{Operations:}
+\begin{itemize}[leftmargin=1.4em,itemsep=1pt]
+    \item \texttt{Insert$(C, x)$}: add $x$ to $C$
+    \item \texttt{k-Select$(C)$}: return element at rank $k$ in $C$, or NIL if $|C| < k$
+\end{itemize}
+
+Implement using data structures from class. \texttt{k-Select} must run in \textcolor{greenO}{$O(1)$} worst case.
+
+\begin{answerband}
+\textbf{Solution:} Store $k$ smallest elements in a \textcolor{rustW}{max-heap} $H_1$, rest in \textcolor{rustW}{min-heap} $H_2$.
+
+\textbf{Idea:} the $k$-th smallest element = the largest among the $k$ smallest = root of a max-heap containing exactly the $k$ smallest.
+
+\texttt{k-Select$(C)$}: if $|H_1| < k$: return NIL; else return $H_1[1]$ (root of max-heap). $O(1)$.
+
+\texttt{Insert$(C, x)$}: if $x < H_1[1]$ or $|H_1| < k$: insert into $H_1$, else insert into $H_2$. If $|H_1| > k$: extract max from $H_1$, insert into $H_2$. Cost: \textcolor{greenO}{$O(\log n)$}.
+
+\medskip
+\textcolor{violetT}{\textbf{Key concepts tested:}} Heap operations, ADT implementation, runtime analysis
+\end{answerband}
+\end{exambox}
+
+% ==================================================================
+\section*{\textcolor{violetT}{Quick Reference: Lecture 4}}
+\addcontentsline{toc}{section}{Quick Reference: Lecture 4}
+\begin{keybox}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{l l}
+\multicolumn{2}{l}{\textbf{\textcolor{utnavy}{Binomial Heaps (Part 2)}}}\\
+Decrease\_Key & set key, bubble up via PARENT pointer $\to$ $O(\log n)$\\
+Delete & Decrease\_Key($-\infty$) + Extract\_Min $\to$ $O(\log n)$\\
+Increase\_Key & Delete + Insert (not bubble-down: that's $O(\log^2 n)$) $\to$ $O(\log n)$\\
+$k$ inserts total cost & $k + \alpha(n) - \alpha(n+k)$; $\leq 2k$ when $k > \log_2 n$\\
+Average insert cost & $< 2$ key comparisons (when $k > \log_2 n$)\\[6pt]
+\multicolumn{2}{l}{\textbf{\textcolor{utnavy}{Dictionary ADT + BST}}}\\
+Dictionary ADT & Search + Insert + Delete on keyed elements\\
+Linked list baseline & Insert $\Theta(1)$, Search/Delete $\Theta(n)$\\
+BST property & left subtree keys $\leq$ node key $\leq$ right subtree keys\\
+In-order traversal & left $\to$ visit $\to$ right = sorted order\\
+Left rotation & $x$ goes down, $x.\text{right}$ goes up; preserves BST; $O(1)$\\
+BST Search/Insert & follow comparisons down the tree; $O(h)$\\
+BST Delete & 3 cases: leaf / 1 child / 2 children (via successor); $O(h)$\\
+Worst-case BST height & $n - 1$ (degenerate chain) $\Rightarrow$ all ops $\Theta(n)$\\
+\textbf{Next: AVL trees} & guarantee height $O(\log n)$ via rotations\\
+\end{tabular}
+\end{keybox}
+
+\vspace{4pt}
+
+% ******************************************************************
+%  PASTE INSTRUCTIONS:
+%
+%  1. In your master document, DELETE these 3 lines near the end:
+%       \begin{center}\textcolor{greyline}{\rule{0.5\linewidth}{0.6pt}}\end{center}
+%       \begin{center}\small\textcolor{greyline}{End of Lectures 1, 2, 3 \& 4 notes.}\end{center}
+%       \end{document}
+%
+%  2. Paste EVERYTHING below this comment block in their place.
+%
+%  3. On the cover page, change:
+%       {\large\textcolor{violetT}{Lectures 1, 2, 3 \& 4}}
+%     to:
+%       {\large\textcolor{violetT}{Lectures 1, 2, 3, 4 \& 5}}
+%
+%  That's it. No preamble changes needed.
+% ******************************************************************
+
+\newpage
+
+% ******************************************************************
+%  PART V: LECTURE 5 — AVL TREES (PART 1)
+% ******************************************************************
+
+\part*{\textcolor{utnavy}{Lecture 5: Balanced BSTs and AVL Trees}}
+\addcontentsline{toc}{part}{Lecture 5: Balanced BSTs and AVL Trees}
+
+% ==================================================================
+\section{Recall: the Problem with BSTs}
+
+A plain BST implements the \textbf{Dictionary ADT} (Search, Insert, Delete), each in \textcolor{greenO}{$\Theta(h)$} where $h$ is the height. The catch: if we insert keys in sorted order $1, 2, 3, \ldots, n$, the tree becomes a \textcolor{rustW}{degenerate chain} with height $\Theta(n)$, so every operation is $\Theta(n)$.
+
+\begin{keybox}[Goal]
+Keep the tree \textbf{balanced} so its height stays \textcolor{greenO}{$\Theta(\log n)$}. Then Search, Insert, Delete are all \textcolor{greenO}{$\Theta(\log n)$}.
+\end{keybox}
+
+\textbf{Balanced BST} data structures for the Dictionary ADT: \textcolor{heapblue}{2-3 trees}, \textcolor{heapblue}{Red-Black trees}, \textcolor{heapblue}{B-Trees}, and \textcolor{rustW}{AVL trees} (this lecture).
+
+% ==================================================================
+\section{Reminder: Height of a Node}
+
+\begin{defbox}[Height]
+$\text{height}(v)$ = number of \textcolor{rustW}{edges} on the longest path from $v$ down to a leaf.
+\begin{itemize}[leftmargin=1.4em,itemsep=1pt]
+  \item $\text{height}(v) = 0$ \quad if $v$ is a \textbf{leaf} (a single node).
+  \item $\text{height}(\text{empty tree}) = -1$.
+\end{itemize}
+$\text{height}(T)$ = height of the root node of $T$.
+\end{defbox}
+
+The $-1$ for the empty tree is a convention that makes the recurrence $\text{height}(v) = 1 + \max(\text{height}(v.\text{left}),\, \text{height}(v.\text{right}))$ work even when a child is missing.
+
+% ==================================================================
+\section{Balance Factor (BF)}
+
+\begin{defbox}[Balance Factor of a node $v$]
+\begin{center}\large
+$\text{BF}(v) \;=\; \text{height}(\text{right subtree of } v) \;-\; \text{height}(\text{left subtree of } v) \;=\; h_R - h_L$
+\end{center}
+\end{defbox}
+
+The bigger $|\text{BF}(v)|$, the more \textcolor{rustW}{imbalanced} the node. We want every $\text{BF}(v)$ as close to $0$ as possible.
+
+\begin{keybox}[Reading the Balance Factor]
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{c l}
+$\text{BF}(v) = \textcolor{rustW}{+1}$ & $v$ is \textcolor{rustW}{\textbf{right-heavy}} \; ($h_R = h_L + 1$)\\
+$\text{BF}(v) = \textcolor{greenO}{\phantom{+}0}$ & $v$ is \textcolor{greenO}{\textbf{balanced}} \; ($h_R = h_L$)\\
+$\text{BF}(v) = \textcolor{heapblue}{-1}$ & $v$ is \textcolor{heapblue}{\textbf{left-heavy}} \; ($h_L = h_R + 1$)\\
+\end{tabular}
+\end{keybox}
+
+% ==================================================================
+\section{AVL Tree Definition (Adelson-Velsky and Landis)}
+
+\begin{defbox}[\textcolor{defblue}{AVL Tree (MUST KNOW)}]
+An \textbf{AVL tree} $T$ is a BST where \textbf{every} node $v \in T$ satisfies
+\begin{center}\Large
+$-1 \;\;\textcolor{rustW}{\leq}\;\; \text{BF}(v) \;\;\textcolor{rustW}{\leq}\;\; +1$
+\end{center}
+Every node is left-heavy, balanced, or right-heavy. \textbf{No node may reach $\pm 2$.}
+\end{defbox}
+
+% ==================================================================
+\section{Is This an AVL Tree?}
+
+To check: compute $\text{BF}(v)$ at \emph{every} node. It is an AVL tree \textbf{iff} every $|\text{BF}(v)| \leq 1$. A single node with $|\text{BF}| \geq 2$ breaks it.
+
+\begin{examplebox}[One tree, balance factor on every node]
+Compute $h_R - h_L$ at each node (heights shown are of the subtree rooted there).
+
+\begin{center}
+\begin{tikzpicture}[
+    level distance=1.15cm, sibling distance=2.0cm,
+    every node/.style={circle, draw=heapblue, line width=0.7pt, minimum size=7mm, inner sep=1pt, font=\small, fill=white}
+]
+\node [label={[greenO,font=\scriptsize\bfseries]above right:{+1}}] {8}
+    child {node [label={[heapblue,font=\scriptsize\bfseries]left:{-1}}] {4}
+        child {node [label={[greenO,font=\scriptsize\bfseries]left:{0}}] {2}}
+        child[missing]
+    }
+    child {node [label={[greenO,font=\scriptsize\bfseries]right:{+1}}] {12}
+        child {node [label={[greenO,font=\scriptsize\bfseries]left:{0}}] {10}}
+        child {node [label={[greenO,font=\scriptsize\bfseries]right:{+1}}] {14}
+            child[missing]
+            child {node [label={[greenO,font=\scriptsize\bfseries]right:{0}}] {15}}
+        }
+    };
+\end{tikzpicture}
+\end{center}
+
+Every $|\text{BF}| \leq 1$, so this \textbf{is} an AVL tree. \textcolor{greenO}{$\checkmark$}
+\end{examplebox}
+
+\begin{warnbox}[When it is NOT an AVL tree]
+If any node reaches $\text{BF} = \textcolor{rustW}{+2}$ or $\text{BF} = \textcolor{rustW}{-2}$, the tree is not AVL. Example: a node whose left subtree has height $0$ and right subtree has height $2$ gives $\text{BF} = 2 - 0 = +2$. \textcolor{rustW}{Not AVL.}
+\end{warnbox}
+
+% ==================================================================
+\section{Properties of AVL Trees}
+
+\begin{keybox}[Why AVL trees are good]
+\begin{itemize}[leftmargin=1.4em,itemsep=2pt]
+  \item An AVL tree of $n$ nodes has height \textcolor{violetT}{$\Theta(\log n)$} \quad\big[precisely, $\text{height} \leq 1.44\,\log_2(n+2)$\big].
+  \item Insert and Delete can maintain the balance in \textcolor{violetT}{$\Theta(\log n)$} time.
+  \item Elegant, relatively clean and simple, works well in practice.
+\end{itemize}
+So Search, Insert, Delete are all \textcolor{greenO}{$\Theta(\log n)$} worst case.
+\end{keybox}
+
+\begin{exambox}[Seen on a past exam \textnormal{(Fall 2014 Midterm, Q3a)}]
+\textbf{[4 marks]} Draw an AVL tree containing $\{1, 2, \ldots, 12\}$, but make it \textbf{as unbalanced as possible}. Next to each node, indicate the \textbf{height} of the subtree rooted at that node.
+
+\begin{answerband}
+``As unbalanced as possible'' = the \textbf{minimum} number of nodes are used to reach the height, so every node sits at its balance limit ($\text{BF} = \pm 1$). One valid answer (height shown as a subscript):
+
+\begin{center}
+\begin{tikzpicture}[
+    level distance=1.0cm,
+    every node/.style={circle, draw=heapblue, line width=0.7pt, minimum size=7mm, inner sep=1pt, font=\scriptsize, fill=white},
+    level 1/.style={sibling distance=3.4cm},
+    level 2/.style={sibling distance=1.8cm},
+    level 3/.style={sibling distance=1.1cm}
+]
+\node {$8_{\,4}$}
+  child {node {$5_{\,3}$}
+    child {node {$3_{\,2}$}
+      child {node {$2_{\,1}$}
+        child {node {$1_{\,0}$}}
+        child[missing]
+      }
+      child {node {$4_{\,0}$}}
+    }
+    child {node {$7_{\,1}$}
+      child {node {$6_{\,0}$}}
+      child[missing]
+    }
+  }
+  child {node {$11_{\,2}$}
+    child {node {$10_{\,1}$}
+      child {node {$9_{\,0}$}}
+      child[missing]
+    }
+    child {node {$12_{\,0}$}}
+  };
+\end{tikzpicture}
+\end{center}
+
+\textcolor{violetT}{\textbf{Key idea:}} The subtree of height $4$ (root $8$) uses one child of height $3$ and, by the AVL rule, the other child may be as short as height $2$. That is the fewest nodes possible, which is why it looks so lopsided while still being AVL.
+\end{answerband}
+\end{exambox}
+
+\begin{exambox}[Seen on a past exam \textnormal{(Fall 2014 Midterm, Q3c)}]
+\textbf{[4 marks]} Let $m(h)$ = the \textbf{minimum} number of nodes in any AVL tree of height $h$. Give a recurrence for $m(h)$ with base cases, and explain it briefly.
+
+\begin{answerband}
+\[
+  m(0) = 1, \qquad m(1) = 2, \qquad m(h) = 1 + m(h-1) + m(h-2) \;\; \text{for } h \geq 2.
+\]
+\textbf{Why:} height $0$ needs $1$ node; height $1$ needs a root with one child ($2$ nodes). For height $h$, the root ($1$ node) needs one child of height $h-1$; by the AVL condition the \emph{other} child can be as short as height $h-2$. Making both children minimal gives $m(h-1) + m(h-2)$ below the root.
+
+\smallskip
+\textcolor{violetT}{\textbf{Consequence:}} $m(h)$ grows like the Fibonacci numbers (exponentially in $h$), which forces $h = \Theta(\log n)$. This is the proof that AVL height is logarithmic.
+\end{answerband}
+\end{exambox}
+
+% ==================================================================
+\section{AVL Operations}
+
+\begin{keybox}[The three operations]
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{l l}
+\textcolor{heapblue}{\textbf{Search}$(T, x)$} & identical to BST search $\to$ \textcolor{greenO}{$O(\log n)$} (height is $O(\log n)$)\\
+\textcolor{heapblue}{\textbf{Insert}$(T, x)$} & BST insert $+$ rebalance $\to$ \textcolor{violetT}{$O(\log n)$}\\
+\textcolor{heapblue}{\textbf{Delete}$(T, x)$} & BST delete $+$ rebalance $\to$ \textcolor{violetT}{$O(\log n)$}\\
+\end{tabular}
+\end{keybox}
+
+Search is unchanged from a plain BST, so the only new work is keeping the tree balanced after Insert (and Delete). This lecture covers \textbf{Insert}.
+
+% ==================================================================
+\section{Insert: General Idea}
+
+\begin{keybox}[Insert$(T, x)$: the plan]
+\begin{enumerate}[leftmargin=1.6em,itemsep=2pt]
+  \item Insert $x$ into $T$ as in any BST. Now $x$ is a \textbf{leaf}; set $\text{BF}(x) = 0$.
+  \item Walk \textbf{from $x$ up to the root}. Only the balance factors of nodes \emph{on this path} can change.
+  \item At each node $v$ on the path, \textbf{adjust} $\text{BF}(v)$. If some $v$ becomes $\pm 2$, \textbf{rebalance} at $v$ with a rotation.
+\end{enumerate}
+\end{keybox}
+
+\textbf{Why only the path changes:} inserting a leaf only lengthens paths that pass through $x$'s ancestors. No other node's subtree heights move.
+
+\begin{keybox}[The stopping rule]
+Going up, at each ancestor $v$:
+\begin{itemize}[leftmargin=1.4em,itemsep=1pt]
+  \item If the subtree containing $x$ got taller, $\text{BF}(v)$ moves by $\pm 1$.
+  \item \textbf{If $\text{BF}(v)$ becomes $0$}, the subtree at $v$ did \emph{not} grow taller overall $\Rightarrow$ \textcolor{greenO}{stop}. Nothing above $v$ can change.
+  \item If $\text{BF}(v)$ becomes $\pm 2$, rotate to fix it (then the height is restored, so we also stop).
+\end{itemize}
+\end{keybox}
+
+% ==================================================================
+\section{Worked Example 1: Insert with No Rebalancing}
+
+Start from this AVL tree of $\{1, 3, 7, 12, 14, 17, 19\}$ (all $\text{BF} = 0$), and \textbf{Insert 8}.
+
+\begin{center}
+\begin{tikzpicture}[
+    level distance=1.1cm, sibling distance=2.2cm,
+    every node/.style={circle, draw=heapblue, line width=0.7pt, minimum size=7mm, inner sep=1pt, font=\small, fill=white},
+    level 2/.style={sibling distance=1.2cm}
+]
+\node [label={[greyline,font=\scriptsize\bfseries]above right:{$0\to-1$}}] {12}
+    child {node [label={[greyline,font=\scriptsize\bfseries]left:{$0\to+1$}}] {3}
+        child {node [label={[greyline,font=\scriptsize\bfseries]left:{0}}] {1}}
+        child {node [label={[rustW,font=\scriptsize\bfseries]right:{$0\to+1$}}] {7}
+            child[missing]
+            child {node[fill=greenO!18,draw=greenO] [label={[greenO,font=\scriptsize\bfseries]right:{0}}] {8}}
+        }
+    }
+    child {node [label={[greyline,font=\scriptsize\bfseries]right:{0}}] {17}
+        child {node {14}}
+        child {node {19}}
+    };
+\end{tikzpicture}
+\end{center}
+
+\begin{examplebox}[Trace: Insert 8]
+\begin{enumerate}[leftmargin=1.4em,itemsep=2pt]
+  \item BST-insert $8$: it lands as the \textbf{right child of 7}. Set $\text{BF}(8) = 0$.
+  \item Go up to $7$: $8$ is in $7$'s right subtree $\Rightarrow$ $\text{BF}(7): 0 \to +1$. Still legal, and \textbf{the height of the subtree at 7 did not change} (it was $1$ before, it is still $1$). \textcolor{rustW}{So we stop at 7.}
+\end{enumerate}
+\textcolor{violetT}{\textbf{Because the height of 7's subtree is unchanged, no ancestor above it is affected}} (3 and 12 keep their old balance factors, shown greyed). \textcolor{greenO}{No rebalancing needed.}
+\end{examplebox}
+
+\begin{warnbox}[Watch the ``+1 at 3'' question]
+After inserting $8$, node $3$ would only change if $7$'s subtree grew. It did not, so we never even reach $3$: we stop the moment a node keeps its height. This is the whole point of the stopping rule.
+\end{warnbox}
+
+% ==================================================================
+\section{Worked Example 2: Single Rotation (Left Rotation)}
+
+Now the tree is the AVL of $\{1, 3, 5, 7, 8, 12, 14, 17, 19\}$. \textbf{Insert 10.}
+
+$10$ BST-inserts as the \textbf{right child of 8}. Walking up: $\text{BF}(8): 0 \to +1$, then $\text{BF}(7): 0 \to +1$, then $\text{BF}(3): +1 \to \textcolor{rustW}{+2}$. \textcolor{rustW}{Node 3 is now unbalanced (right-heavy), and its right child 7 is also right-heavy ($+1$).}
+
+\begin{keybox}[This is the ``right-right'' (RR) case $\Rightarrow$ single Left Rotation]
+$v = 3$ has $\text{BF}(v) = +2$ \textbf{and} $\text{BF}(v.\text{right}) = +1$. Fix with one \textbf{Left Rotation} at $v$.
+\end{keybox}
+
+\begin{center}
+\begin{tikzpicture}[
+    every node/.style={circle, draw=heapblue, line width=0.7pt, minimum size=7mm, inner sep=1pt, font=\small, fill=white}
+]
+% ---- BEFORE (left) ----
+\node[font=\bfseries, draw=none, fill=none] at (0.3,0.9) {Before:};
+\node[draw=rustW,line width=1.1pt, label={[rustW,font=\scriptsize\bfseries]left:{+2}}] (b3) at (0.6,0) {3};
+\node[label={[greyline,font=\scriptsize\bfseries]left:{0}}] (b1) at (-0.6,-1.2) {1};
+\node[draw=rustW,line width=1.1pt, label={[rustW,font=\scriptsize\bfseries]right:{+1}}] (b7) at (1.8,-1.2) {7};
+\node[label={[greyline,font=\scriptsize\bfseries]left:{0}}] (b5) at (0.9,-2.4) {5};
+\node[label={[rustW,font=\scriptsize\bfseries]right:{+1}}] (b8) at (2.7,-2.4) {8};
+\node (b10) at (3.4,-3.6) {10};
+\draw (b3)--(b1); \draw (b3)--(b7); \draw (b7)--(b5); \draw (b7)--(b8); \draw (b8)--(b10);
+
+% ---- arrow ----
+\draw[-{Stealth}, line width=1.2pt, rustW] (4.3,-1.8) -- (6.0,-1.8);
+\node[rustW,font=\small\bfseries, draw=none, fill=none] at (5.15,-1.45) {Left Rotation};
+
+% ---- AFTER (right) ----
+\node[font=\bfseries, draw=none, fill=none] at (8.0,0.9) {After:};
+\node[draw=rustW,line width=1.1pt, label={[greenO,font=\scriptsize\bfseries]above right:{0}}] (a7) at (8.4,0) {7};
+\node[draw=rustW,line width=1.1pt, label={[greenO,font=\scriptsize\bfseries]left:{0}}] (a3) at (7.4,-1.2) {3};
+\node[label={[rustW,font=\scriptsize\bfseries]right:{+1}}] (a8) at (9.4,-1.2) {8};
+\node (a1) at (6.7,-2.4) {1};
+\node[fill=goldpath!25,draw=goldpath] (a5) at (8.1,-2.4) {5};
+\node (a10) at (10.1,-2.4) {10};
+\draw (a7)--(a3); \draw (a7)--(a8); \draw (a3)--(a1); \draw (a3)--(a5); \draw (a8)--(a10);
+\end{tikzpicture}
+\end{center}
+
+\begin{examplebox}[Reading the rotation]
+Left-rotating at $3$: its right child $7$ becomes the new subtree root, and $3$ becomes $7$'s \textbf{left} child.
+\begin{itemize}[leftmargin=1.4em,itemsep=2pt]
+  \item \textbf{Where does 5 go?} $5$ was $7$'s \emph{left} subtree. In a left rotation, $7$'s old left subtree becomes $3$'s new \textbf{right} subtree. So \textcolor{goldpath}{$5$ hangs under $3$, not under $8$}, because $3 < 5 < 7$, so $5$ belongs on $3$'s right. (BST property preserved.)
+  \item After: $\text{BF}(7) = 0$, so $7$'s subtree is balanced again.
+\end{itemize}
+\end{examplebox}
+
+\begin{keybox}[Bonus: nothing propagates upward]
+The subtree rooted at $3$ had height $2$ \emph{before} inserting $10$; after the rotation the subtree rooted at $7$ has height $2$ again. \textbf{Same height as before the insert}, so the balance factor of $12$ (the parent) is unchanged and we \textcolor{greenO}{stop}. One rotation fixes everything.
+\end{keybox}
+
+% ==================================================================
+\section{Worked Example 3: Double Rotation (Right-Left)}
+
+Tree is the AVL of $\{1, 3, 5, 7, 8, 12, 14, 17, 19\}$. \textbf{Insert 6.}
+
+$6$ BST-inserts as the \textbf{right child of 5}. Walking up: $\text{BF}(5): 0 \to +1$, $\text{BF}(7): 0 \to \textcolor{heapblue}{-1}$, $\text{BF}(3): +1 \to \textcolor{rustW}{+2}$. Now $v = 3$ has $\text{BF} = +2$, but its right child $7$ is \textcolor{heapblue}{left-heavy ($-1$)}: the ``bend'' zig-zags.
+
+\begin{warnbox}[A single Left Rotation does NOT fix this]
+Because the heavy grandchild is on the \emph{left} of the right child (a right-then-left zig-zag), one left rotation at $3$ leaves the tree unbalanced. We need \textbf{two} rotations.
+\end{warnbox}
+
+\begin{keybox}[This is the ``right-left'' (RL) case $\Rightarrow$ Double Right-Left Rotation]
+$v = 3$ has $\text{BF}(v) = +2$ \textbf{and} $\text{BF}(v.\text{right}) = -1$.
+\begin{enumerate}[leftmargin=1.6em,itemsep=1pt]
+  \item \textbf{Right-rotate} the right subtree of $v$ (rotate around $7$).
+  \item \textbf{Left-rotate} at $v$ (rotate around $3$).
+\end{enumerate}
+\end{keybox}
+
+\begin{center}
+\begin{tikzpicture}[
+    every node/.style={circle, draw=heapblue, line width=0.7pt, minimum size=6.5mm, inner sep=1pt, font=\scriptsize, fill=white}
+]
+% ---- START ----
+\node[font=\bfseries\scriptsize, draw=none, fill=none] at (0.0,0.9) {Insert 6:};
+\node[draw=rustW,line width=1pt, label={[rustW,font=\tiny\bfseries]left:{+2}}] (s3) at (0.4,0) {3};
+\node[label={[greyline,font=\tiny\bfseries]left:{0}}] (s1) at (-0.5,-1.1) {1};
+\node[draw=rustW,line width=1pt, label={[heapblue,font=\tiny\bfseries]right:{-1}}] (s7) at (1.3,-1.1) {7};
+\node[label={[rustW,font=\tiny\bfseries]left:{+1}}] (s5) at (0.5,-2.2) {5};
+\node[label={[greyline,font=\tiny\bfseries]right:{0}}] (s8) at (2.1,-2.2) {8};
+\node[fill=greenO!18,draw=greenO] (s6) at (1.1,-3.3) {6};
+\draw (s3)--(s1); \draw (s3)--(s7); \draw (s7)--(s5); \draw (s7)--(s8); \draw (s5)--(s6);
+
+% arrow 1
+\draw[-{Stealth}, line width=1pt, rustW] (2.7,-1.6) -- (3.7,-1.6);
+\node[rustW,font=\tiny\bfseries, draw=none, fill=none, align=center] at (3.2,-1.15) {Step 1:\\ right-rot 7};
+
+% ---- MIDDLE (after right-rotate around 7) ----
+\node[draw=rustW,line width=1pt, label={[rustW,font=\tiny\bfseries]left:{+2}}] (m3) at (4.4,0) {3};
+\node[label={[greyline,font=\tiny\bfseries]left:{0}}] (m1) at (3.5,-1.1) {1};
+\node[label={[rustW,font=\tiny\bfseries]right:{+1}}] (m5) at (5.3,-1.1) {5};
+\node[label={[greyline,font=\tiny\bfseries]right:{+1}}] (m7) at (6.1,-2.2) {7};
+\node (m6) at (5.3,-3.3) {6};
+\node (m8) at (6.9,-3.3) {8};
+\draw (m3)--(m1); \draw (m3)--(m5); \draw (m5)--(m7); \draw (m7)--(m6); \draw (m7)--(m8);
+
+% arrow 2
+\draw[-{Stealth}, line width=1pt, rustW] (7.4,-1.6) -- (8.4,-1.6);
+\node[rustW,font=\tiny\bfseries, draw=none, fill=none, align=center] at (7.9,-1.15) {Step 2:\\ left-rot 3};
+
+% ---- END (after left-rotate around 3) ----
+\node[label={[greenO,font=\tiny\bfseries]above right:{0}}] (e5) at (9.9,0) {5};
+\node[label={[greenO,font=\tiny\bfseries]left:{0}}] (e3) at (9.0,-1.1) {3};
+\node[label={[greenO,font=\tiny\bfseries]right:{0}}] (e7) at (10.8,-1.1) {7};
+\node (e1) at (8.4,-2.2) {1};
+\node (e6) at (10.2,-2.2) {6};
+\node (e8) at (11.4,-2.2) {8};
+\draw (e5)--(e3); \draw (e5)--(e7); \draw (e3)--(e1); \draw (e7)--(e6); \draw (e7)--(e8);
+\end{tikzpicture}
+\end{center}
+
+\begin{examplebox}[Result of the double rotation]
+The middle key $5$ rises to the top of the subtree, with $3$ on its left and $7$ on its right. Every node is back to $\text{BF} = 0$, the tree is still a BST, and the subtree height matches what it was \textbf{before} inserting $6$, so we \textcolor{greenO}{stop}: no rebalancing propagates to $12$.
+\end{examplebox}
+
+% ==================================================================
+\section{The Four Rotation Cases}
+
+At the lowest unbalanced node $v$ (with $\text{BF}(v) = \pm 2$), which fix to apply is decided by the balance factor of the child on the heavy side.
+
+\begin{keybox}[Rotation case table]
+\renewcommand{\arraystretch}{1.55}
+\begin{tabular}{c c l l}
+\textbf{$\text{BF}(v)$} & \textbf{heavy child's BF} & \textbf{Shape} & \textbf{Fix}\\
+\hline
+$+2$ & $\text{BF}(v.\text{right}) = +1$ & right-right (RR) & \textcolor{rustW}{single Left rotation at $v$}\\
+$+2$ & $\text{BF}(v.\text{right}) = -1$ & right-left (RL) & \textcolor{rustW}{Right rotation on $v.\text{right}$, then Left at $v$}\\
+$-2$ & $\text{BF}(v.\text{left}) = -1$ & left-left (LL) & \textcolor{rustW}{single Right rotation at $v$}\\
+$-2$ & $\text{BF}(v.\text{left}) = +1$ & left-right (LR) & \textcolor{rustW}{Left rotation on $v.\text{left}$, then Right at $v$}\\
+\end{tabular}
+\end{keybox}
+
+\begin{keybox}[Rule of thumb]
+\begin{itemize}[leftmargin=1.4em,itemsep=1pt]
+  \item Heavy side and grandchild's heavy side \textbf{agree} (both right, or both left) $\Rightarrow$ \textcolor{rustW}{single} rotation.
+  \item They \textbf{disagree} (a zig-zag) $\Rightarrow$ \textcolor{rustW}{double} rotation (fix the child first, then $v$).
+\end{itemize}
+After the rotation the subtree's height returns to what it was before the insert, so \textbf{at most one rotation (single or double) is ever needed per insert}.
+\end{keybox}
+
+% ==================================================================
+\section{Insert Algorithm Sketch}
+
+\begin{codebox}[Insert(T, x)]
+\ttfamily 1. Insert x into T as in any BST.\\
+\ttfamily \hspace*{1.5em}x is now a leaf; set BF(x) = 0.\\[3pt]
+\ttfamily 2. Go up from x to the root. For each node v on this path:\\[2pt]
+\ttfamily \hspace*{1.5em}Adjust BF(v):\\
+\ttfamily \hspace*{3em}if x is in the RIGHT subtree of v:\, increment BF(v)\\
+\ttfamily \hspace*{3em}if x is in the LEFT  subtree of v:\, decrement BF(v)\\
+\ttfamily \hspace*{3em}if BF(v) == 0:\, \textnormal{\itshape (subtree height unchanged)} \, STOP\\[3pt]
+\ttfamily \hspace*{1.5em}Rebalance if necessary:\\
+\ttfamily \hspace*{3em}if BF(v) == +2:\\
+\ttfamily \hspace*{5em}if BF(v.right) == +1:\, Left rotation; update BFs; STOP\\
+\ttfamily \hspace*{5em}if BF(v.right) == -1:\, Right-Left rotation; update BFs; STOP\\
+\ttfamily \hspace*{3em}if BF(v) == -2:\, \textnormal{\itshape (symmetric: Right or Left-Right rotation)} STOP
+\end{codebox}
+
+\textbf{Cost:} the walk up is at most the height $= O(\log n)$, each step is $O(1)$, and at most one rotation ($O(1)$) happens. So \textbf{Insert is $\textcolor{violetT}{O(\log n)}$}.
+
+% ==================================================================
+\section*{\textcolor{violetT}{Quick Reference: Lecture 5}}
+\addcontentsline{toc}{section}{Quick Reference: Lecture 5}
+\begin{keybox}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{l l}
+Height & edges to deepest leaf; leaf $=0$, empty $=-1$\\
+$\text{BF}(v)$ & $h_R - h_L$; \; $+1$ right-heavy, $0$ balanced, $-1$ left-heavy\\
+AVL tree & BST with $-1 \leq \text{BF}(v) \leq +1$ for \emph{every} node\\
+AVL height & $\Theta(\log n)$ \; ($\leq 1.44\log_2(n+2)$); \, $m(h)=1+m(h{-}1)+m(h{-}2)$\\
+Search & same as BST $\to$ $O(\log n)$\\
+Insert & BST-insert leaf, walk up adjusting BF, rotate if $\pm2$ $\to$ $O(\log n)$\\
+Stop rule & stop when a node's BF becomes $0$ (its height did not change)\\
+RR ($+2,+1$) & single Left rotation\\
+LL ($-2,-1$) & single Right rotation\\
+RL ($+2,-1$) & Right rotation on child, then Left at $v$\\
+LR ($-2,+1$) & Left rotation on child, then Right at $v$\\
+Rotations/insert & at most one (single or double)\\
+\end{tabular}
+\end{keybox}
+
+\vspace{4pt}
+\begin{center}\textcolor{greyline}{\rule{0.5\linewidth}{0.6pt}}\end{center}
+\begin{center}\small\textcolor{greyline}{End of Lectures 1, 2, 3, 4 \& 5 notes.}\end{center}
 
 \end{document}
