@@ -10,9 +10,7 @@
 \usepackage{xcolor}
 \usepackage[most]{tcolorbox}
 \usepackage{tikz}
-\usepackage{pgfplots}
-\pgfplotsset{compat=1.17}
-\usetikzlibrary{arrows.meta,calc,backgrounds,decorations.pathmorphing,shapes.geometric}
+\usetikzlibrary{arrows.meta,calc,backgrounds,shapes.geometric}
 \usepackage{enumitem}
 \usepackage[protrusion=true,expansion=false]{microtype}
 \usepackage[colorlinks=true,linkcolor=violetT,urlcolor=violetT]{hyperref}
@@ -121,7 +119,7 @@
 
 \vspace{0.5cm}
 {\large\itshape\textcolor{greyline}{Lecture Notes}}\\[4pt]
-{\large\textcolor{violetT}{Lectures 1, 2, 3 \& 4}}
+{\large\textcolor{violetT}{Lectures 1--6}}
 
 \vspace{0.5cm}
 \textcolor{violetT}{\rule{0.72\linewidth}{1.4pt}}
@@ -134,15 +132,6 @@
 {\Large\textcolor{utnavy}{Cheryl Shi}}
 
 \vfill
-{\centering\large\textcolor{violetT}{\bfseries Contents}\par}
-\vspace{4pt}
-\textcolor{greyline}{\rule{0.72\linewidth}{0.5pt}}
-\vspace{6pt}
-
-\begin{minipage}{0.86\linewidth}\small
-\makeatletter\@starttoc{toc}\makeatother
-\end{minipage}
-\vspace{0.8cm}
 \end{titlepage}
 \setcounter{page}{1}
 
@@ -154,12 +143,22 @@
 \fancyhead[R]{\small\textcolor{greyline}{Cheryl Shi}}
 \fancyfoot[C]{\small\textcolor{greyline}{\thepage}}
 
+% ================= TABLE OF CONTENTS (own page) =================
+\begingroup
+\hypersetup{linkcolor=utnavy}
+\renewcommand{\contentsname}{\textcolor{utnavy}{Contents}}
+\setlength{\parskip}{0pt}
+\tableofcontents
+\endgroup
+\newpage
+
 % ******************************************************************
 %  PART I: LECTURE 1 — WORST CASE TIME COMPLEXITY
 % ******************************************************************
 
 \part*{\textcolor{utnavy}{Lecture 1: Worst Case Time Complexity}}
 \addcontentsline{toc}{part}{Lecture 1: Worst Case Time Complexity}
+\setcounter{section}{0}
 
 % ==================================================================
 \section{Steps and Input Size}
@@ -367,6 +366,7 @@ Bubble sort & $\Theta(n^2)$ \\
 
 \part*{\textcolor{utnavy}{Lecture 2: Priority Queues and Max-Heaps}}
 \addcontentsline{toc}{part}{Lecture 2: Priority Queues and Max-Heaps}
+\setcounter{section}{0}
 
 % ==================================================================
 \section{ADT vs.\ Data Structure}
@@ -731,7 +731,7 @@ Height of CBT & $\lfloor \log_2 n \rfloor$\\
 %  2. Paste EVERYTHING below this comment block in their place.
 %
 %  3. On the cover page, change:
-%       {\large\textcolor{violetT}{Lectures 1, 2, 3 \& 4}}
+%       {\large\textcolor{violetT}{Lectures 1--6}}
 %     to:
 %       {\large\textcolor{violetT}{Lectures 1, 2 \& 3}}
 %
@@ -746,6 +746,7 @@ Height of CBT & $\lfloor \log_2 n \rfloor$\\
 
 \part*{\textcolor{utnavy}{Lecture 3: Min Binomial Heaps}}
 \addcontentsline{toc}{part}{Lecture 3: Min Binomial Heaps}
+\setcounter{section}{0}
 
 % ==================================================================
 \section{Mergeable Priority Queue ADT}
@@ -1678,6 +1679,7 @@ Lemma 2 & delete root of $B_k \to$ valid heap of $2^k{-}1$ elements\\
 
 \part*{\textcolor{utnavy}{Lecture 4: Binomial Heaps (Part 2) + Binary Search Trees}}
 \addcontentsline{toc}{part}{Lecture 4: Binomial Heaps (Part 2) + BST}
+\setcounter{section}{0}
 
 % ==================================================================
 \section{Remaining Binomial Heap Operations}
@@ -2619,7 +2621,7 @@ Worst-case BST height & $n - 1$ (degenerate chain) $\Rightarrow$ all ops $\Theta
 %  2. Paste EVERYTHING below this comment block in their place.
 %
 %  3. On the cover page, change:
-%       {\large\textcolor{violetT}{Lectures 1, 2, 3 \& 4}}
+%       {\large\textcolor{violetT}{Lectures 1--6}}
 %     to:
 %       {\large\textcolor{violetT}{Lectures 1, 2, 3, 4 \& 5}}
 %
@@ -2634,6 +2636,7 @@ Worst-case BST height & $n - 1$ (degenerate chain) $\Rightarrow$ all ops $\Theta
 
 \part*{\textcolor{utnavy}{Lecture 5: Balanced BSTs and AVL Trees}}
 \addcontentsline{toc}{part}{Lecture 5: Balanced BSTs and AVL Trees}
+\setcounter{section}{0}
 
 % ==================================================================
 \section{Recall: the Problem with BSTs}
@@ -2647,7 +2650,9 @@ Keep the tree \textbf{balanced} so its height stays \textcolor{greenO}{$\Theta(\
 \textbf{Balanced BST} data structures for the Dictionary ADT: \textcolor{heapblue}{2-3 trees}, \textcolor{heapblue}{Red-Black trees}, \textcolor{heapblue}{B-Trees}, and \textcolor{rustW}{AVL trees} (this lecture).
 
 % ==================================================================
-\section{Reminder: Height of a Node}
+\section{Height and Balance Factor}
+
+\subsection{Height of a Node}
 
 \begin{defbox}[Height]
 $\text{height}(v)$ = number of \textcolor{rustW}{edges} on the longest path from $v$ down to a leaf.
@@ -2661,7 +2666,7 @@ $\text{height}(T)$ = height of the root node of $T$.
 The $-1$ for the empty tree is a convention that makes the recurrence $\text{height}(v) = 1 + \max(\text{height}(v.\text{left}),\, \text{height}(v.\text{right}))$ work even when a child is missing.
 
 % ==================================================================
-\section{Balance Factor (BF)}
+\subsection{Balance Factor}
 
 \begin{defbox}[Balance Factor of a node $v$]
 \begin{center}\large
@@ -2681,7 +2686,9 @@ $\text{BF}(v) = \textcolor{heapblue}{-1}$ & $v$ is \textcolor{heapblue}{\textbf{
 \end{keybox}
 
 % ==================================================================
-\section{AVL Tree Definition (Adelson-Velsky and Landis)}
+\section{AVL Trees}
+
+\subsection{Definition (Adelson-Velsky and Landis)}
 
 \begin{defbox}[\textcolor{defblue}{AVL Tree (MUST KNOW)}]
 An \textbf{AVL tree} $T$ is a BST where \textbf{every} node $v \in T$ satisfies
@@ -2692,7 +2699,7 @@ Every node is left-heavy, balanced, or right-heavy. \textbf{No node may reach $\
 \end{defbox}
 
 % ==================================================================
-\section{Is This an AVL Tree?}
+\subsection{Is This an AVL Tree?}
 
 To check: compute $\text{BF}(v)$ at \emph{every} node. It is an AVL tree \textbf{iff} every $|\text{BF}(v)| \leq 1$. A single node with $|\text{BF}| \geq 2$ breaks it.
 
@@ -2727,7 +2734,7 @@ If any node reaches $\text{BF} = \textcolor{rustW}{+2}$ or $\text{BF} = \textcol
 \end{warnbox}
 
 % ==================================================================
-\section{Properties of AVL Trees}
+\subsection{Properties}
 
 \begin{keybox}[Why AVL trees are good]
 \begin{itemize}[leftmargin=1.4em,itemsep=2pt]
@@ -2809,7 +2816,9 @@ So Search, Insert, Delete are all \textcolor{greenO}{$\Theta(\log n)$} worst cas
 Search is unchanged from a plain BST, so the only new work is keeping the tree balanced after Insert (and Delete). This lecture covers \textbf{Insert}.
 
 % ==================================================================
-\section{Insert: General Idea}
+\section{Insert}
+
+\subsection{General Idea}
 
 \begin{keybox}[Insert$(T, x)$: the plan]
 \begin{enumerate}[leftmargin=1.6em,itemsep=2pt]
@@ -2831,7 +2840,7 @@ Going up, at each ancestor $v$:
 \end{keybox}
 
 % ==================================================================
-\section{Worked Example 1: Insert with No Rebalancing}
+\subsection{Worked Example 1: No Rebalancing}
 
 Start from this AVL tree of $\{1, 3, 7, 12, 14, 17, 19\}$ (all $\text{BF} = 0$), and \textbf{Insert 8}.
 
@@ -2869,7 +2878,7 @@ After inserting $8$, node $3$ would only change if $7$'s subtree grew. It did no
 \end{warnbox}
 
 % ==================================================================
-\section{Worked Example 2: Single Rotation (Left Rotation)}
+\subsection{Worked Example 2: Single Rotation}
 
 Now the tree is the AVL of $\{1, 3, 5, 7, 8, 12, 14, 17, 19\}$. \textbf{Insert 10.}
 
@@ -2922,7 +2931,7 @@ The subtree rooted at $3$ had height $2$ \emph{before} inserting $10$; after the
 \end{keybox}
 
 % ==================================================================
-\section{Worked Example 3: Double Rotation (Right-Left)}
+\subsection{Worked Example 3: Double Rotation}
 
 Tree is the AVL of $\{1, 3, 5, 7, 8, 12, 14, 17, 19\}$. \textbf{Insert 6.}
 
@@ -2987,7 +2996,7 @@ The middle key $5$ rises to the top of the subtree, with $3$ on its left and $7$
 \end{examplebox}
 
 % ==================================================================
-\section{The Four Rotation Cases}
+\subsection{The Four Rotation Cases}
 
 At the lowest unbalanced node $v$ (with $\text{BF}(v) = \pm 2$), which fix to apply is decided by the balance factor of the child on the heavy side.
 
@@ -3012,7 +3021,7 @@ After the rotation the subtree's height returns to what it was before the insert
 \end{keybox}
 
 % ==================================================================
-\section{Insert Algorithm Sketch}
+\subsection{Insert Algorithm Sketch}
 
 \begin{codebox}[Insert(T, x)]
 \ttfamily 1. Insert x into T as in any BST.\\
@@ -3054,6 +3063,503 @@ Rotations/insert & at most one (single or double)\\
 
 \vspace{4pt}
 \begin{center}\textcolor{greyline}{\rule{0.5\linewidth}{0.6pt}}\end{center}
-\begin{center}\small\textcolor{greyline}{End of Lectures 1, 2, 3, 4 \& 5 notes.}\end{center}
+\newpage
+
+% ******************************************************************
+%  PART VI: LECTURE 6 — AVL TREES (PART 2): WHY INSERT WORKS
+% ******************************************************************
+
+\part*{\textcolor{utnavy}{Lecture 6: AVL Insert Correctness and Cost}}
+\addcontentsline{toc}{part}{Lecture 6: AVL Insert Correctness and Cost}
+\setcounter{section}{0}
+
+% ==================================================================
+\section{What This Lecture Adds}
+
+Lecture 5 gave the \textbf{Insert} procedure by example and the \textbf{four rotation cases} (RR, LL, RL, LR). This lecture does \emph{not} re-teach those. It proves the procedure restores the AVL property in \textbf{every} case, states the \textbf{node layout}, and shows each rotation is \textcolor{greenO}{$\Theta(1)$}.
+
+\begin{keybox}[Setup: the first unbalanced node]
+Insert $x$ as a BST leaf, then walk up. Let \textcolor{rustW}{$A$} = the \textbf{first} node on the path from $x$ to the root with $|\text{BF}(A)| = 2$. Everything strictly below $A$ is still AVL.
+
+By symmetry assume $\text{BF}(A) = \textcolor{rustW}{+2}$ (the $-2$ case is a mirror image). Then before the insert $\text{BF}(A) = +1$, and the insert went into $A$'s \textbf{right} subtree and \textbf{increased its height} from $h$ to $h+1$. $A$'s left subtree still has height $h$.
+\end{keybox}
+
+Let \textcolor{heapblue}{$B$} = right child of $A$ (root of the subtree that grew to height $h+1$).
+
+% ==================================================================
+\section{Why the Insert Algorithm is Correct}
+
+\subsection{The Skipped Step: $\text{BF}(B) \neq 0$}
+
+Before rotating we must know $B$'s shape. Since $A$ is the \textbf{first} unbalanced node, $B$ is still balanced: $\text{BF}(B) \in \{-1, 0, +1\}$.
+
+\begin{keybox}[Claim: $\text{BF}(B)$ cannot be $0$]
+So $\text{BF}(B) = +1$ (\textbf{Case 1a}) or $\text{BF}(B) = -1$ (\textbf{Case 1b}). These are the only two cases.
+\end{keybox}
+
+\textbf{Why $\text{BF}(B) = 0$ is impossible.} The insert of a single leaf increased $B$'s height by exactly $1$ (from $h$ to $h+1$). One leaf can lengthen only \textbf{one} of $B$'s two subtrees. If $\text{BF}(B) = 0$ now (both subtrees height $h$), then before the insert one subtree was height $h$ already, so $B$ had height $h+1$ \emph{before} the insert too. That contradicts ``$B$'s height increased.'' \hfill $\square$
+
+\begin{warnbox}[Reading the two cases]
+$\text{BF}(B) = \textcolor{rustW}{+1}$: the growth is on $B$'s \textbf{right} (right-right, RR).\\
+$\text{BF}(B) = \textcolor{heapblue}{-1}$: the growth is on $B$'s \textbf{left} (right-left, RL). Here name $C = B.\text{left}$.
+\end{warnbox}
+
+% ==================================================================
+\subsection{Case 1(a): Single Left Rotation}
+
+$x$ landed in $B$'s right subtree. Fix with a single \textbf{Left Rotation at $A$}.
+
+\begin{center}
+\begin{tikzpicture}[
+  every node/.style={circle, draw=heapblue, line width=0.7pt, minimum size=7mm, inner sep=1pt, font=\small, fill=white},
+  tri/.style={regular polygon, regular polygon sides=3, draw=greyline, fill=skyfill, minimum size=9mm, inner sep=0pt, font=\scriptsize, shape border rotate=0}
+]
+% BEFORE
+\node[font=\bfseries, draw=none, fill=none] at (0.2,0.9) {Before:};
+\node[draw=rustW,line width=1.1pt,label={[rustW,font=\scriptsize\bfseries]left:{$+2$}}] (A) at (0.8,0) {$A$};
+\node[draw=heapblue,label={[rustW,font=\scriptsize\bfseries]right:{$+1$}}] (B) at (2.1,-1.2) {$B$};
+\node[tri] (T1) at (-0.3,-1.4) {$T_1$};
+\node[tri] (T2) at (1.3,-2.4) {$T_2$};
+\node[tri] (T3) at (2.9,-2.4) {$T_3$};
+\draw (A)--(B); \draw (A)--(T1); \draw (B)--(T2); \draw (B)--(T3);
+\node[draw=none,fill=none,font=\scriptsize\itshape,text=greyline] at (-0.3,-2.1) {$h$};
+\node[draw=none,fill=none,font=\scriptsize\itshape,text=greyline] at (1.3,-3.05) {$h$};
+\node[draw=none,fill=none,font=\scriptsize\itshape,text=greyline] at (2.9,-3.05) {$h{+}1$};
+% arrow
+\draw[-{Stealth},line width=1.2pt,rustW] (4.0,-1.4)--(5.6,-1.4);
+\node[rustW,font=\small\bfseries,draw=none,fill=none] at (4.8,-1.05) {Left Rotate};
+% AFTER
+\node[font=\bfseries,draw=none,fill=none] at (7.4,0.9) {After:};
+\node[draw=heapblue,label={[greenO,font=\scriptsize\bfseries]above right:{$0$}}] (B2) at (8.2,0) {$B$};
+\node[draw=heapblue,label={[greenO,font=\scriptsize\bfseries]left:{$0$}}] (A2) at (7.2,-1.2) {$A$};
+\node[tri] (t3) at (9.2,-1.4) {$T_3$};
+\node[tri] (t1) at (6.4,-2.4) {$T_1$};
+\node[tri] (t2) at (8.0,-2.4) {$T_2$};
+\draw (B2)--(A2); \draw (B2)--(t3); \draw (A2)--(t1); \draw (A2)--(t2);
+\end{tikzpicture}
+\end{center}
+
+\begin{examplebox}[What the rotation does]
+$B$ rises, $A$ becomes $B$'s left child, and $B$'s old left subtree $T_2$ (height $h$) becomes $A$'s new right subtree. Order $T_1\, A\, T_2\, B\, T_3$ is unchanged, so the \textbf{BST property holds}. New factors: $\text{BF}(A)=0$, $\text{BF}(B)=0$.
+\end{examplebox}
+
+\begin{keybox}[Bonus: height is restored]
+Before inserting $x$, the subtree at $A$ had height $h+2$. After the rotation it is $h+2$ again. \textbf{Same height as before the insert} $\Rightarrow$ no ancestor's BF changes $\Rightarrow$ \textcolor{greenO}{stop}. One rotation finishes the whole insert.
+\end{keybox}
+
+% ==================================================================
+\subsection{Case 1(b): Double Right-Left Rotation}
+
+$x$ landed in $B$'s \textbf{left} subtree, rooted at $C = B.\text{left}$. A single left rotation would \textbf{not} fix it. Do two: \textbf{right-rotate at $B$}, then \textbf{left-rotate at $A$}.
+
+\begin{center}
+\begin{tikzpicture}[
+  every node/.style={circle, draw=heapblue, line width=0.7pt, minimum size=6.5mm, inner sep=1pt, font=\scriptsize, fill=white},
+  tri/.style={regular polygon, regular polygon sides=3, draw=greyline, fill=skyfill, minimum size=7mm, inner sep=0pt, font=\tiny}
+]
+% BEFORE
+\node[font=\bfseries\scriptsize,draw=none,fill=none] at (0.0,0.9) {Before:};
+\node[draw=rustW,line width=1pt,label={[rustW,font=\tiny\bfseries]left:{$+2$}}] (A) at (0.7,0) {$A$};
+\node[draw=heapblue,label={[heapblue,font=\tiny\bfseries]right:{$-1$}}] (B) at (2.0,-1.1) {$B$};
+\node[draw=heapblue] (C) at (1.1,-2.2) {$C$};
+\node[tri] (T1) at (-0.3,-1.3) {$T_1$};
+\node[tri] (T3) at (2.9,-2.2) {$T_3$};
+\node[tri] (T21) at (0.4,-3.3) {$T_{21}$};
+\node[tri] (T22) at (1.8,-3.3) {$T_{22}$};
+\draw (A)--(B); \draw (A)--(T1); \draw (B)--(C); \draw (B)--(T3); \draw (C)--(T21); \draw (C)--(T22);
+% arrow
+\draw[-{Stealth},line width=1pt,rustW] (3.7,-1.6)--(4.7,-1.6);
+\node[rustW,font=\tiny\bfseries,draw=none,fill=none,align=center] at (4.2,-1.15) {2 rotations};
+% AFTER
+\node[font=\bfseries\scriptsize,draw=none,fill=none] at (5.6,0.9) {After:};
+\node[draw=greenO,line width=1pt,label={[greenO,font=\tiny\bfseries]above:{$0$}}] (C2) at (7.4,0) {$C$};
+\node[draw=heapblue,label={[greenO,font=\tiny\bfseries]left:{$0/{-}1$}}] (A2) at (6.3,-1.2) {$A$};
+\node[draw=heapblue,label={[greenO,font=\tiny\bfseries]right:{${+}1/0$}}] (B2) at (8.5,-1.2) {$B$};
+\node[tri] (t1) at (5.5,-2.4) {$T_1$};
+\node[tri] (t21) at (7.1,-2.4) {$T_{21}$};
+\node[tri] (t22) at (7.9,-2.4) {$T_{22}$};
+\node[tri] (t3) at (9.3,-2.4) {$T_3$};
+\draw (C2)--(A2); \draw (C2)--(B2); \draw (A2)--(t1); \draw (A2)--(t21); \draw (B2)--(t22); \draw (B2)--(t3);
+\end{tikzpicture}
+\end{center}
+
+\begin{examplebox}[What the double rotation does]
+$C$ (the middle key) rises to the top. Its two subtrees $T_{21}, T_{22}$ split: $T_{21}$ goes under $A$, $T_{22}$ goes under $B$. Order $T_1\, A\, T_{21}\, C\, T_{22}\, B\, T_3$ is preserved, so the \textbf{BST property holds}. Final factors: $\text{BF}(C)=0$; $A$ and $B$ get $\{0, -1\}$ and $\{+1, 0\}$ depending on which of $T_{21}, T_{22}$ received $x$. The subtree height returns to $h+2$, so again we \textcolor{greenO}{stop}.
+\end{examplebox}
+
+\begin{keybox}[Special case $h = -1$]
+When $h=-1$, the subtrees are empty and $C$ \textbf{is} the inserted leaf $x$. The double rotation collapses to: $A$, $x$, $B$ become root $x$ with children $A$ and $B$, all $\text{BF}=0$. Same rule, no special handling needed.
+\end{keybox}
+
+% ==================================================================
+\section{Cost, Node Layout, and Algorithm}
+
+\subsection{Rotation Cost and Total Insert Cost}
+
+\begin{keybox}[A rotation is $\Theta(1)$]
+A left (or right) rotation rewires only \textbf{3 pairs of pointers}. No subtree is copied or traversed $\Rightarrow$ \textcolor{greenO}{$\Theta(1)$}.
+\end{keybox}
+
+\begin{keybox}[Insert is $\Theta(\log n)$]
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{l l}
+BST insert of the leaf & $O(\log n)$ \\
+Walk up adjusting BF & $O(\log n)$, \; $O(1)$ per node \\
+Rebalance & \textbf{at most one} rotation (single or double), $\Theta(1)$ \\
+\end{tabular}
+
+The ``height restored'' bonus is what caps it at \textbf{one} rotation: after rotating, the subtree has its pre-insert height, so nothing above changes. Total: \textcolor{violetT}{$O(\log n)$}.
+\end{keybox}
+
+% ==================================================================
+\subsection{Contents of an AVL Node}
+
+\begin{defbox}[AVL node layout]
+Each node stores \textbf{5 fields}:
+\begin{center}
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{l l}
+\hline
+\textcolor{rustW}{\textbf{PARENT}} & pointer to parent (needed to walk up)\\
+\texttt{key} & the element's key (data)\\
+\texttt{BF} & balance factor $\in \{-1,0,+1\}$ (stored, not recomputed)\\
+\textcolor{greenO}{\textbf{LEFT CHILD}} & pointer to left child\\
+\textcolor{heapblue}{\textbf{RIGHT CHILD}} & pointer to right child\\
+\hline
+\end{tabular}
+\end{center}
+Storing \texttt{BF} in the node lets the walk-up update it in $O(1)$ per step instead of recomputing subtree heights.
+\end{defbox}
+
+% ==================================================================
+\subsection{Final Insert Algorithm}
+
+\begin{codebox}[Insert(T, x)]
+\ttfamily Insert x into T as in any BST; x is now a leaf; set BF(x) = 0.\\[3pt]
+\ttfamily Go up from x to the root. For each node v on the path:\\[2pt]
+\ttfamily \hspace*{1.5em}Adjust BF(v):\\
+\ttfamily \hspace*{3em}if x is in RIGHT subtree of v:\, BF(v) $\mathbin{+}{=}$ 1\\
+\ttfamily \hspace*{3em}if x is in LEFT  subtree of v:\, BF(v) $\mathbin{-}{=}$ 1\\
+\ttfamily \hspace*{3em}if BF(v) == 0:\, STOP \hfill\textnormal{\itshape (height unchanged)}\\[3pt]
+\ttfamily \hspace*{1.5em}Rebalance:\\
+\ttfamily \hspace*{3em}if BF(v) == +2:\\
+\ttfamily \hspace*{5em}if BF(v.right)==+1:\, Left Rotation; update BFs; STOP\\
+\ttfamily \hspace*{5em}if BF(v.right)==$-$1:\, Right-Left Rotation; update BFs; STOP\\
+\ttfamily \hspace*{3em}if BF(v) == $-$2:\, \textnormal{\itshape symmetric (Right or Left-Right rotation)}
+\end{codebox}
+
+% ==================================================================
+\section{Exam-Style Practice}
+
+\begin{exambox}[Practice: insert triggering a double rotation]
+Start from the AVL tree of $\{10, 20, 30, 40, 50\}$ built in order, then \textbf{Insert 25}. Show the rebalancing.
+
+\begin{answerband}
+Inserting $10,20,30$ forces one left rotation, giving root $20$. After $40, 50$ (another left rotation at $30$) the tree is:
+$$20 \to \{\, 10,\; 40 \to \{30, 50\}\,\}$$
+
+\textbf{Insert 25:} search path $20 \to 40 \to 30$, land as \textbf{left child of 30}.
+
+Walk up: $\text{BF}(30): 0 \to -1$, \; $\text{BF}(40): 0 \to -1$, \; $\text{BF}(20): +1 \to \textcolor{rustW}{+2}$.
+
+$v=20$ has $\text{BF}=+2$ and $\text{BF}(v.\text{right})=\text{BF}(40)=-1$ $\Rightarrow$ \textbf{Right-Left rotation}: right-rotate at $40$, then left-rotate at $20$. Middle key $30$ rises:
+$$30 \to \{\, 20 \to \{10, 25\},\; 40 \to \{\emptyset, 50\}\,\}$$
+
+All $|\text{BF}| \le 1$. In-order: $10,20,25,30,40,50$ \textcolor{greenO}{$\checkmark$}
+\end{answerband}
+\end{exambox}
+
+\begin{warnbox}[On past exams]
+AVL questions in this course ask you to \textbf{draw the tree after an insert/delete and name each rotation} (see the Fall 2014 boxes in Lecture 5). The skill tested is exactly the case decision above: $\text{BF}(v)$ plus the heavy child's BF picks single vs double.
+\end{warnbox}
+
+% ==================================================================
+\section*{\textcolor{violetT}{Quick Reference: Lecture 6}}
+\addcontentsline{toc}{section}{Quick Reference: Lecture 6}
+\begin{keybox}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{l l}
+First unbalanced node $A$ & lowest node with $|\text{BF}|=2$ after insert; assume $+2$\\
+$B = A.\text{right}$ & grew to height $h+1$; $\text{BF}(B)\neq 0$ (proved)\\
+Case 1a ($+2,+1$, RR) & single Left rotation; $A,B \to 0$\\
+Case 1b ($+2,-1$, RL) & Right-Left double; $C$ rises, $\text{BF}(C)=0$\\
+$h=-1$ special case & inserted leaf becomes the new subtree root\\
+Rotation cost & 3 pointer pairs $\Rightarrow \Theta(1)$\\
+Height after fix & equals pre-insert height $\Rightarrow$ at most 1 rotation\\
+Node fields & PARENT, key, BF, LEFT CHILD, RIGHT CHILD\\
+\textbf{Insert} total & BST insert + walk-up + $\le 1$ rotation $\to \Theta(\log n)$\\
+\end{tabular}
+\end{keybox}
+
+\vspace{4pt}
+
+\begin{center}\textcolor{greyline}{\rule{0.5\linewidth}{0.6pt}}\end{center}
+\begin{center}\small\textcolor{greyline}{End of Lectures 1--6 notes.}\end{center}
+
+
+\newpage
+
+\newpage
+
+% ******************************************************************
+%  PART VII: LECTURE 7 — AUGMENTING DATA STRUCTURES
+%  (paste this block before the final rule/"End of ... notes"/\end{document})
+%  On the cover, bump "Lectures 1--6" to "Lectures 1--7".
+% ******************************************************************
+
+\part*{\textcolor{utnavy}{Lecture 7: Augmenting Data Structures}}
+\addcontentsline{toc}{part}{Lecture 7: Augmenting Data Structures}
+\setcounter{section}{0}
+
+% ==================================================================
+\section{Augmenting a Data Structure}
+
+\begin{defbox}[Augmenting a data structure]
+Take an \textbf{existing} data structure and add \textbf{extra stored information} so it supports \textbf{new operations}, without breaking the old ones. Three steps:
+\begin{enumerate}[leftmargin=1.4em,itemsep=1pt]
+  \item Decide \textbf{what extra info} to store at each node.
+  \item Check the info can be \textbf{cheaply maintained} under every existing operation.
+  \item Use the info to \textbf{implement the new operations} efficiently.
+\end{enumerate}
+Not automatic: choosing the right field takes \textbf{creativity}.
+\end{defbox}
+
+% ==================================================================
+\section{Dynamic Order Statistics}
+
+\begin{defbox}[Dynamic Order Statistics ADT]
+A dynamic set $S$ of elements with \textbf{distinct keys}, supporting:
+\begin{itemize}[leftmargin=1.4em,itemsep=1pt]
+  \item \textbf{Search$(x)$, Insert$(x)$, Delete$(x)$} \hfill (the Dictionary operations)
+  \item \textbf{Select$(k)$}: return the \textcolor{rustW}{$k$-th smallest} element (the element of \textbf{rank} $k$)
+  \item \textbf{Rank$(x)$}: given a pointer to $x$, return its \textcolor{rustW}{rank}
+\end{itemize}
+\textbf{Rank of $x$} = position of $x$ in the sorted order of $S$ (starting at $1$).
+\end{defbox}
+
+\subsection{Example}
+
+\begin{examplebox}[Select and Rank on $S=\{5,15,27,30,56\}$]
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{l l l l}
+\textbf{Select}$(4) = 30$ & \textbf{Select}$(1) = 5$ & \textbf{Rank}$(15) = 2$ & \textbf{Rank}$(30) = 4$\\
+\end{tabular}
+\end{center}
+$\text{Rank}(30)=4$ because \textbf{exactly 3} elements are $< 30$ (namely $5, 15, 27$), so $30$ sits in position $4$.
+\end{examplebox}
+
+\subsection{Naive Attempt: Store Each Node's Rank}
+
+Keep $S$ in an \textbf{AVL tree} (Search/Insert/Delete already $O(\log n)$). To get Select/Rank, augment it. First idea: at each node store its \textbf{rank}.
+
+\begin{center}
+\begin{tikzpicture}[
+  every node/.style={circle, draw=heapblue, line width=0.7pt, minimum size=7mm, inner sep=1pt, font=\small, fill=white},
+  lbl/.style={draw=none, fill=none, font=\scriptsize\bfseries, text=rustW}
+]
+\node (n15) {15}; \node[lbl] at (0.55,0.45) {2};
+\node (n5) at (-1.6,-1.2) {5}; \node[lbl] at (-1.05,-0.9) {1};
+\node (n30) at (1.6,-1.2) {30}; \node[lbl] at (2.15,-0.9) {4};
+\node (n27) at (0.6,-2.4) {27}; \node[lbl] at (1.15,-2.1) {3};
+\node (n56) at (2.6,-2.4) {56}; \node[lbl] at (3.15,-2.1) {5};
+\draw (n15)--(n5); \draw (n15)--(n30); \draw (n30)--(n27); \draw (n30)--(n56);
+\end{tikzpicture}
+\end{center}
+
+\begin{keybox}[Good, but\ldots]
+\textcolor{greenO}{Good:} Rank$(x)$ reads the stored field ($O(1)$ after finding $x$), and Select$(k)$ searches for the node whose rank is $k$ in $O(\log n)$.
+\end{keybox}
+
+\begin{warnbox}[Why this fails: $O(n)$ updates]
+\textbf{Insert$(2)$} (a new minimum) makes $2$ rank $1$ and \textbf{shifts every other rank up by 1}. One insert can rewrite \textbf{all $n$} rank fields $\Rightarrow$ Insert and Delete become \textcolor{rustW}{$O(n)$}. The rank field is \textbf{too global} to maintain cheaply.
+\end{warnbox}
+
+% ==================================================================
+\section{Size-Augmented AVL Tree}
+
+\subsection{The \texttt{size} Field}
+
+\begin{defbox}[Store subtree size]
+At each node $x$ store $\texttt{size}(x)$ = number of nodes in the subtree rooted at $x$. Invariant, for every node:
+\begin{center}\large
+$\texttt{size}(x) = \texttt{size}(\text{left}(x)) + \texttt{size}(\text{right}(x)) + 1$
+\end{center}
+(An empty child contributes $\texttt{size}=0$.) This is a \textbf{local} field: it depends only on $x$'s two children, so a single insert changes it on just \textbf{one root-to-leaf path}.
+\end{defbox}
+
+\begin{center}
+\begin{tikzpicture}[
+  every node/.style={circle, draw=heapblue, line width=0.7pt, minimum size=7mm, inner sep=1pt, font=\small, fill=white},
+  lbl/.style={draw=none, fill=none, font=\scriptsize\bfseries, text=greenO}
+]
+\node (n15) {15}; \node[lbl] at (0.6,0.45) {5};
+\node (n5) at (-1.6,-1.2) {5}; \node[lbl] at (-1.05,-0.9) {1};
+\node (n30) at (1.6,-1.2) {30}; \node[lbl] at (2.2,-0.9) {3};
+\node (n27) at (0.6,-2.4) {27}; \node[lbl] at (1.15,-2.1) {1};
+\node (n56) at (2.6,-2.4) {56}; \node[lbl] at (3.15,-2.1) {1};
+\draw (n15)--(n5); \draw (n15)--(n30); \draw (n30)--(n27); \draw (n30)--(n56);
+\node[draw=none,fill=none,font=\scriptsize,text=greenO,anchor=west] at (3.4,-1.2) {(green = \texttt{size})};
+\end{tikzpicture}
+\end{center}
+
+\subsection{Select: the $k$-th Smallest}
+
+\begin{defbox}[Relative rank RR($x$)]
+$\text{RR}(x)$ = the rank of $x$ counting \textbf{only the nodes in $x$'s own subtree}. In other words, if you sorted just $x$'s subtree, $\text{RR}(x)$ is the position $x$ would land in.
+$$\text{RR}(x) = \texttt{size}(\text{left}(x)) + 1$$
+\end{defbox}
+
+\begin{keybox}[Why that formula works]
+In a BST, the \textbf{left subtree of $x$ holds exactly the elements smaller than $x$} (within $x$'s subtree). So:
+\begin{itemize}[leftmargin=1.4em,itemsep=1pt]
+  \item $\texttt{size}(\text{left}(x))$ = how many elements are smaller than $x$ here.
+  \item $+\,1$ = counts $x$ itself.
+\end{itemize}
+Add them and you get $x$'s position. No traversal needed: the \texttt{size} field already has the count.
+\end{keybox}
+
+\begin{examplebox}[Reading RR straight off the tree]
+\begin{center}
+\begin{tikzpicture}[
+  every node/.style={circle, draw=heapblue, line width=0.7pt, minimum size=7mm, inner sep=1pt, font=\small, fill=white},
+  lbl/.style={draw=none, fill=none, font=\scriptsize\bfseries, text=greenO}
+]
+\node (n30) {30}; \node[lbl] at (0.6,0.45) {5};
+\node (n15) at (-1.6,-1.2) {15}; \node[lbl] at (-1.05,-0.9) {3};
+\node (n56) at (1.6,-1.2) {56}; \node[lbl] at (2.15,-0.9) {1};
+\node (n5) at (-2.6,-2.4) {5}; \node[lbl] at (-2.05,-2.1) {1};
+\node (n27) at (-0.6,-2.4) {27}; \node[lbl] at (-0.05,-2.1) {1};
+\draw (n30)--(n15); \draw (n30)--(n56); \draw (n15)--(n5); \draw (n15)--(n27);
+\end{tikzpicture}
+\end{center}
+Green numbers are \texttt{size}. Read RR off each node:
+\begin{itemize}[leftmargin=1.4em,itemsep=1pt]
+  \item $\text{RR}(30) = \texttt{size}(\text{left}{=}15) + 1 = 3 + 1 = 4$. So $30$ is the \textbf{4th smallest} in this whole subtree. Check: $5,15,27,\mathbf{30},56$ \checkmark
+  \item $\text{RR}(15) = \texttt{size}(\text{left}{=}5) + 1 = 1 + 1 = 2$. So $15$ is the \textbf{2nd smallest} in the subtree under $15$ ($\{5,15,27\}$). Check: $5,\mathbf{15},27$ \checkmark
+  \item $\text{RR}(5) = 0 + 1 = 1$ (no left child). $5$ is smallest in its subtree. \checkmark
+\end{itemize}
+Notice RR is \textbf{local}: $\text{RR}(15)=2$ is its rank inside $\{5,15,27\}$, not its rank $2$ in the full set. Select stitches these local ranks together as it walks down.
+\end{examplebox}
+
+\begin{codebox}[Select(x, k): the $k$-th smallest in the subtree at $x$]
+\ttfamily RR $\leftarrow$ size(left(x)) + 1\\
+\ttfamily if k = RR:\, return x \hfill\textnormal{\itshape // x sits exactly at position k}\\
+\ttfamily if k < RR:\, return Select(left(x), k) \hfill\textnormal{\itshape // target is smaller, look left}\\
+\ttfamily if k > RR:\, return Select(right(x), k $-$ RR) \hfill\textnormal{\itshape // skip x and all of left}
+\end{codebox}
+
+Call \texttt{Select(T, k) = Select(root, k)}.
+
+\begin{keybox}[The one tricky line: why subtract when going right]
+Going right means the answer is bigger than $x$, so it is \textbf{not} $x$ and not anyone in $x$'s left subtree. That is $\text{RR}$ elements we are leaving behind. Inside the right subtree those elements no longer exist, so the thing that was rank $k$ overall becomes rank $k - \text{RR}$ \emph{there}. That is why we recurse with $k - \text{RR}$, not $k$.
+\end{keybox}
+
+\begin{examplebox}[Trace: Select(3) on $S=\{5,15,27,30,56\}$]
+\begin{enumerate}[leftmargin=1.4em,itemsep=1pt]
+  \item At root $15$: $\text{RR}=\texttt{size}(\text{left}=5)+1 = 1+1 = 2$. \; $k=3 > 2 \Rightarrow$ go right, $k \leftarrow 3-2 = 1$.
+  \item At $30$: $\text{RR}=\texttt{size}(\text{left}=27)+1 = 1+1 = 2$. \; $k=1 < 2 \Rightarrow$ go left.
+  \item At $27$: $\text{RR}=0+1=1$. \; $k=1 = \text{RR} \Rightarrow$ \textcolor{greenO}{return $27$.}
+\end{enumerate}
+$\text{Select}(3)=27$ \checkmark (sorted: $5,15,\mathbf{27},30,56$).
+\end{examplebox}
+
+\begin{keybox}[Cost of Select]
+Each call drops one level (or returns), $O(1)$ per level, height $O(\log n)$ $\Rightarrow$ \textcolor{violetT}{$O(\log n)$}.
+\end{keybox}
+
+\subsection{Rank of a Node}
+
+Given a pointer to $x$, walk \textbf{from $x$ up to the root}, accumulating the elements that come before $x$.
+
+\begin{codebox}[Rank(T, x): rank of x in the whole tree]
+\ttfamily RR $\leftarrow$ size(left(x)) + 1 \hfill\textnormal{\itshape // rank of x within its own subtree}\\
+\ttfamily y $\leftarrow$ x\\
+\ttfamily while y $\ne$ root:\\
+\ttfamily \hspace*{2em}if y is the RIGHT child of its parent p:\\
+\ttfamily \hspace*{4em}RR $\leftarrow$ RR + size(left(p)) + 1 \hfill\textnormal{\itshape // p and its left subtree precede x}\\
+\ttfamily \hspace*{2em}y $\leftarrow$ p\\
+\ttfamily return RR
+\end{codebox}
+
+\begin{keybox}[Why]
+Climbing to parent $p$: if we came up from $p$'s \textbf{right} subtree, then $p$ itself and all of $p$'s \textbf{left} subtree are smaller than $x$, so add $\texttt{size}(\text{left}(p))+1$. If we came up from the \textbf{left}, those nodes are all larger, so $\text{RR}$ is \textbf{unchanged}.
+\end{keybox}
+
+\begin{examplebox}[Accumulating up the path]
+Suppose $\text{RR}(x)=7$ inside $x$'s subtree. Climbing through ancestors where $x$ sits in the right subtree, with left-subtree sizes $3$, then $6$:
+$$7 \;\to\; 7 + 3 + 1 = 11 \;\to\; 11 + 6 + 1 = 18.$$
+Each right-turn adds ``that ancestor $+$ its left subtree.'' Left-turns add nothing.
+\end{examplebox}
+
+\begin{keybox}[Cost of Rank]
+One step per level, $O(1)$ each, height $O(\log n)$ $\Rightarrow$ \textcolor{violetT}{$O(\log n)$}.
+\end{keybox}
+
+\subsection{Maintaining \texttt{size} on Insert and Delete}
+
+\begin{codebox}[Insert(T, x): keep \texttt{size} correct]
+\ttfamily \textbf{Phase 1 (BST insert):} insert x as a leaf; size(x) = 1;\\
+\ttfamily \hspace*{2em}for each node y on the path from the root down to x:\, size(y) += 1\\[3pt]
+\ttfamily \textbf{Phase 2 (rebalance):} walk up adjusting BF; rotate if some BF hits $\pm 2$.\\
+\ttfamily \hspace*{2em}After a rotation, recompute size() of the rotated nodes\\
+\ttfamily \hspace*{2em}bottom-up: size(z) = size(left(z)) + size(right(z)) + 1
+\end{codebox}
+
+\begin{keybox}[Why it stays $O(\log n)$]
+Phase 1 touches one root-to-leaf path ($O(\log n)$ increments). A rotation only changes the children of \textbf{2 nodes}, so recomputing their \texttt{size} from the invariant is \textcolor{greenO}{$O(1)$} extra. AVL insert already does at most one rotation $\Rightarrow$ total \textcolor{violetT}{$O(\log n)$}. \textbf{Delete} is symmetric (decrement down the path; fix \texttt{size} after each rotation).
+\end{keybox}
+
+\begin{examplebox}[Fixing \texttt{size} after a left rotation]
+A left rotation at $A$ (right child $B$ rises). Only $A$ and $B$ changed children, so recompute \textbf{bottom-up}:
+\begin{itemize}[leftmargin=1.4em,itemsep=1pt]
+  \item $A$ (now lower): $\texttt{size}(A) = \texttt{size}(T_1) + \texttt{size}(T_2) + 1$.
+  \item $B$ (now on top): $\texttt{size}(B) = \texttt{size}(A) + \texttt{size}(T_3) + 1$.
+\end{itemize}
+Everything below $T_1, T_2, T_3$ is untouched, so two updates suffice.
+\end{examplebox}
+
+% ==================================================================
+\section{Summary and Practice}
+
+\begin{keybox}[Size-augmented AVL: all operations $O(\log n)$]
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{l l l}
+\textbf{Search / Insert / Delete} & \textcolor{violetT}{$O(\log n)$} & AVL + fix \texttt{size} on the path\\
+\textbf{Select$(k)$} & \textcolor{violetT}{$O(\log n)$} & descend using $\text{RR}=\texttt{size}(\text{left})+1$\\
+\textbf{Rank$(x)$} & \textcolor{violetT}{$O(\log n)$} & climb, add $\texttt{size}(\text{left}(p))+1$ on right-turns\\
+\end{tabular}
+\end{keybox}
+
+\begin{exambox}[Practice: Select and Rank]
+Augmented AVL for $S=\{5,15,27,30,56\}$ (root $15$; $30$ has children $27, 56$). Do \textbf{Select$(5)$} and \textbf{Rank$(27)$}.
+
+\begin{answerband}
+\textbf{Select$(5)$:} root $15$, $\text{RR}=2$, $5>2 \Rightarrow$ right, $k=3$. At $30$, $\text{RR}=2$, $3>2 \Rightarrow$ right, $k=1$. At $56$, $\text{RR}=1=k \Rightarrow$ \textcolor{greenO}{return $56$}.
+
+\textbf{Rank$(27)$:} start $\text{RR}=\texttt{size}(\text{left}(27))+1 = 0+1 = 1$. Climb to $30$: $27$ is $30$'s \textbf{left} child $\Rightarrow$ unchanged. Climb to $15$: $30$ is $15$'s \textbf{right} child $\Rightarrow$ $\text{RR} \leftarrow 1 + \texttt{size}(\text{left}(15){=}5) + 1 = 1+1+1 = 3$. \textcolor{greenO}{Rank$(27)=3$} \checkmark
+\end{answerband}
+\end{exambox}
+
+% ==================================================================
+\section*{\textcolor{violetT}{Quick Reference: Lecture 7}}
+\addcontentsline{toc}{section}{Quick Reference: Lecture 7}
+\begin{keybox}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{l l}
+Augmenting (3 steps) & pick field; keep it cheap to maintain; use it for new ops\\
+Order statistics & Dictionary + Select$(k)$ ($k$-th smallest) + Rank$(x)$\\
+Naive (store rank) & Select/Rank easy but Insert/Delete $O(n)$ (too global)\\
+Fix: store \texttt{size}$(x)$ & $\texttt{size}(x)=\texttt{size}(\text{left})+\texttt{size}(\text{right})+1$ (local)\\
+$\text{RR}(x)$ & $\texttt{size}(\text{left}(x))+1$ = rank of $x$ within its subtree\\
+Select$(x,k)$ & $=$RR: return; $<$: go left; $>$: go right with $k-\text{RR}$\\
+Rank$(T,x)$ & climb to root; right-child step adds $\texttt{size}(\text{left}(p))+1$\\
+Maintain \texttt{size} & $+1$ down insert path; recompute 2 nodes per rotation ($O(1)$)\\
+All operations & \textcolor{violetT}{$O(\log n)$}\\
+\end{tabular}
+\end{keybox}
+
+\vspace{4pt}
+
 
 \end{document}
