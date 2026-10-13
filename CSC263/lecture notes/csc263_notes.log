@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  21 SEP 2026 17:29
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  13 OCT 2026 10:13
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -651,136 +651,14 @@ File: pgflibraryfadings.code.tex 2023-01-15 v3.1.10 (3.1.10)
 )))
 (/usr/local/texlive/2025/texmf-dist/tex/latex/tcolorbox/tcbposter.code.tex
 Library (tcolorbox): 'tcbposter.code.tex' version '6.4.1'
-)) (/usr/local/texlive/2025/texmf-dist/tex/latex/pgfplots/pgfplots.sty
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgfplots/pgfplots.revision.tex)
-Package: pgfplots 2021/05/15 v1.18.1 Data Visualization (1.18.1)
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgfplots/pgfplots.code.tex
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgfplots/pgfplotscore.code.tex
-\t@pgfplots@toka=\toks47
-\t@pgfplots@tokb=\toks48
-\t@pgfplots@tokc=\toks49
-\pgfplots@tmpa=\dimen285
-\c@pgfplots@coordindex=\count328
-\c@pgfplots@scanlineindex=\count329
-
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgfplots/sys/pgfplotssysgeneric
-.code.tex))
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgfplots/libs/pgfplotslibrary.c
-ode.tex)
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgfplots/oldpgfcompatib/pgfplot
-soldpgfsupp_loader.code.tex
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/libraries/pgflibraryfpu.cod
-e.tex)
-Package pgfplots: loading complementary utilities for your pgf version...
-\t@pgf@toka=\toks50
-\t@pgf@tokb=\toks51
-\t@pgf@tokc=\toks52
-
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgfplots/oldpgfcompatib/pgfplot
-soldpgfsupp_pgfutil-common-lists.tex))
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgfplots/util/pgfplotsutil.code
-.tex
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgfplots/liststructure/pgfplots
-liststructure.code.tex)
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgfplots/liststructure/pgfplots
-liststructureext.code.tex)
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgfplots/liststructure/pgfplots
-array.code.tex
-\c@pgfplotsarray@tmp=\count330
-)
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgfplots/liststructure/pgfplots
-matrix.code.tex)
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgfplots/numtable/pgfplotstable
-shared.code.tex
-\c@pgfplotstable@counta=\count331
-\t@pgfplotstable@a=\toks53
-)
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgfplots/liststructure/pgfplots
-deque.code.tex)
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgfplots/util/pgfplotsbinary.co
-de.tex
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgfplots/util/pgfplotsbinary.da
-ta.code.tex))
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgfplots/util/pgfplotsutil.verb
-.code.tex)
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgfplots/libs/pgflibrarypgfplot
-s.surfshading.code.tex
-\c@pgfplotslibrarysurf@no=\count332
-
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgfplots/sys/pgflibrarypgfplots
-.surfshading.pgfsys-pdftex.def)))
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgfplots/util/pgfplotscolormap.
-code.tex
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgfplots/util/pgfplotscolor.cod
-e.tex))
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgfplots/pgfplotsstackedplots.c
-ode.tex)
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgfplots/pgfplotsplothandlers.c
-ode.tex
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgfplots/pgfplotsmeshplothandle
-r.code.tex
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgfplots/pgfplotsmeshplotimage.
-code.tex)))
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgfplots/pgfplots.scaling.code.
-tex)
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgfplots/pgfplotscoordprocessin
-g.code.tex)
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgfplots/pgfplots.errorbars.cod
-e.tex)
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgfplots/pgfplots.markers.code.
-tex)
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgfplots/pgfplotsticks.code.tex
-)
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgfplots/pgfplots.paths.code.te
-x)
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librarie
-s/tikzlibrarydecorations.code.tex
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/modules/pgfmoduledecoration
-s.code.tex
-\pgfdecoratedcompleteddistance=\dimen286
-\pgfdecoratedremainingdistance=\dimen287
-\pgfdecoratedinputsegmentcompleteddistance=\dimen288
-\pgfdecoratedinputsegmentremainingdistance=\dimen289
-\pgf@decorate@distancetomove=\dimen290
-\pgf@decorate@repeatstate=\count333
-\pgfdecorationsegmentamplitude=\dimen291
-\pgfdecorationsegmentlength=\dimen292
-)
-\tikz@lib@dec@box=\box81
-)
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librarie
-s/tikzlibrarydecorations.pathmorphing.code.tex
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/libraries/decorations/pgfli
-brarydecorations.pathmorphing.code.tex))
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librarie
-s/tikzlibrarydecorations.pathreplacing.code.tex
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/libraries/decorations/pgfli
-brarydecorations.pathreplacing.code.tex))
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgfplots/libs/tikzlibrarypgfplo
-ts.contourlua.code.tex)
-\pgfplots@numplots=\count334
-\pgfplots@xmin@reg=\dimen293
-\pgfplots@xmax@reg=\dimen294
-\pgfplots@ymin@reg=\dimen295
-\pgfplots@ymax@reg=\dimen296
-\pgfplots@zmin@reg=\dimen297
-\pgfplots@zmax@reg=\dimen298
-)
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librarie
-s/tikzlibraryplotmarks.code.tex
-File: tikzlibraryplotmarks.code.tex 2023-01-15 v3.1.10 (3.1.10)
-
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/libraries/pgflibraryplotmar
-ks.code.tex
-File: pgflibraryplotmarks.code.tex 2023-01-15 v3.1.10 (3.1.10)
-)))
+))
 (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/libraries/pgflibraryarrows.
 meta.code.tex
 File: pgflibraryarrows.meta.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfarrowinset=\dimen299
-\pgfarrowlength=\dimen300
-\pgfarrowwidth=\dimen301
-\pgfarrowlinewidth=\dimen302
+\pgfarrowinset=\dimen285
+\pgfarrowlength=\dimen286
+\pgfarrowwidth=\dimen287
+\pgfarrowlinewidth=\dimen288
 )
 (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librarie
 s/tikzlibrarycalc.code.tex
@@ -789,8 +667,8 @@ File: tikzlibrarycalc.code.tex 2023-01-15 v3.1.10 (3.1.10)
 (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librarie
 s/tikzlibrarybackgrounds.code.tex
 File: tikzlibrarybackgrounds.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@layerbox@background=\box82
-\pgf@layerboxsaved@background=\box83
+\pgf@layerbox@background=\box81
+\pgf@layerboxsaved@background=\box82
 )
 (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librarie
 s/tikzlibraryshapes.geometric.code.tex
@@ -803,26 +681,26 @@ File: pgflibraryshapes.geometric.code.tex 2023-01-15 v3.1.10 (3.1.10)
 (/usr/local/texlive/2025/texmf-dist/tex/latex/enumitem/enumitem.sty
 Package: enumitem 2025/02/06 v3.11 Customized lists
 \labelindent=\skip61
-\enit@outerparindent=\dimen303
-\enit@toks=\toks54
-\enit@inbox=\box84
-\enit@count@id=\count335
-\enitdp@description=\count336
+\enit@outerparindent=\dimen289
+\enit@toks=\toks47
+\enit@inbox=\box83
+\enit@count@id=\count328
+\enitdp@description=\count329
 )
 (/usr/local/texlive/2025/texmf-dist/tex/latex/microtype/microtype.sty
 Package: microtype 2025/02/11 v3.2a Micro-typographical refinements (RS)
-\MT@toks=\toks55
-\MT@tempbox=\box85
-\MT@count=\count337
+\MT@toks=\toks48
+\MT@tempbox=\box84
+\MT@count=\count330
 LaTeX Info: Redefining \noprotrusionifhmode on input line 1087.
 LaTeX Info: Redefining \leftprotrusion on input line 1088.
-\MT@prot@toks=\toks56
+\MT@prot@toks=\toks49
 LaTeX Info: Redefining \rightprotrusion on input line 1107.
 LaTeX Info: Redefining \textls on input line 1449.
-\MT@outer@kern=\dimen304
+\MT@outer@kern=\dimen290
 LaTeX Info: Redefining \microtypecontext on input line 2053.
 LaTeX Info: Redefining \textmicrotypecontext on input line 2070.
-\MT@listname@count=\count338
+\MT@listname@count=\count331
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/microtype/microtype-pdftex.def
 File: microtype-pdftex.def 2025/02/11 v3.2a Definitions specific to pdftex (RS)
@@ -862,11 +740,11 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
  (/usr/local/texlive/2025/texmf-dist/tex/latex/kvoptions/kvoptions.sty
 Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
 ))
-\c@section@level=\count339
+\c@section@level=\count332
 )
-\@linkdim=\dimen305
-\Hy@linkcounter=\count340
-\Hy@pagecounter=\count341
+\@linkdim=\dimen291
+\Hy@linkcounter=\count333
+\Hy@pagecounter=\count334
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/hyperref/pd1enc.def
 File: pd1enc.def 2024-11-05 v7.01l Hyperref: PDFDocEncoding definition (HO)
@@ -876,7 +754,7 @@ Now handling font encoding PD1 ...
 (/usr/local/texlive/2025/texmf-dist/tex/generic/intcalc/intcalc.sty
 Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
 )
-\Hy@SavedSpaceFactor=\count342
+\Hy@SavedSpaceFactor=\count335
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/hyperref/puenc.def
 File: puenc.def 2024-11-05 v7.01l Hyperref: PDF Unicode definition (HO)
@@ -891,14 +769,14 @@ Package hyperref Info: Plain pages OFF on input line 4172.
 Package hyperref Info: Backreferencing OFF on input line 4177.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4424.
-\c@Hy@tempcnt=\count343
+\c@Hy@tempcnt=\count336
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip18
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
 LaTeX Info: Redefining \url on input line 4763.
-\XeTeXLinkMargin=\dimen306
+\XeTeXLinkMargin=\dimen292
 
 (/usr/local/texlive/2025/texmf-dist/tex/generic/bitset/bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
@@ -907,9 +785,9 @@ Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
 Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
 )
 ))
-\Fld@menulength=\count344
-\Field@Width=\dimen307
-\Fld@charsize=\dimen308
+\Fld@menulength=\count337
+\Field@Width=\dimen293
+\Fld@charsize=\dimen294
 Package hyperref Info: Hyper figures OFF on input line 6042.
 Package hyperref Info: Link nesting OFF on input line 6047.
 Package hyperref Info: Hyper index ON on input line 6050.
@@ -922,9 +800,9 @@ Package hyperref Info: PDF/A mode OFF on input line 6072.
 Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
 package with kernel methods
 )
-\Hy@abspage=\count345
-\c@Item=\count346
-\c@Hfootnote=\count347
+\Hy@abspage=\count338
+\c@Item=\count339
+\c@Hfootnote=\count340
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
 
@@ -936,8 +814,8 @@ Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend pac
 kage
 with kernel methods
 )
-\Fld@listcount=\count348
-\c@bookmark@seq@number=\count349
+\Fld@listcount=\count341
+\c@bookmark@seq@number=\count342
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
 Package: rerunfilecheck 2022-07-10 v1.10 Rerun checks for auxiliary files (HO)
@@ -966,7 +844,7 @@ Package: fancyhdr 2025/02/07 v5.2 Extensive control of page headers and footers
 \f@nch@widthL=\skip75
 \f@nch@widthC=\skip76
 \f@nch@widthR=\skip77
-\@temptokenb=\toks57
+\@temptokenb=\toks50
 )
 (/usr/local/texlive/2025/texmf-dist/tex/latex/sectsty/sectsty.sty
 Package: sectsty 2002/02/25 v2.0.2 Commands to change all sectional heading sty
@@ -982,29 +860,29 @@ LaTeX Warning: Command \underline  has changed.
 
 ) (/usr/local/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count350
-\l__pdf_internal_box=\box86
+\l__color_backend_stack_int=\count343
+\l__pdf_internal_box=\box85
 ) (./csc263_notes.aux)
 \openout1 = `csc263_notes.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 105.
-LaTeX Font Info:    ... okay on input line 105.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 105.
-LaTeX Font Info:    ... okay on input line 105.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 105.
-LaTeX Font Info:    ... okay on input line 105.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 105.
-LaTeX Font Info:    ... okay on input line 105.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 105.
-LaTeX Font Info:    ... okay on input line 105.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 105.
-LaTeX Font Info:    ... okay on input line 105.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 105.
-LaTeX Font Info:    ... okay on input line 105.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 105.
-LaTeX Font Info:    ... okay on input line 105.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 105.
-LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 103.
+LaTeX Font Info:    ... okay on input line 103.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 103.
+LaTeX Font Info:    ... okay on input line 103.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 103.
+LaTeX Font Info:    ... okay on input line 103.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 103.
+LaTeX Font Info:    ... okay on input line 103.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 103.
+LaTeX Font Info:    ... okay on input line 103.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 103.
+LaTeX Font Info:    ... okay on input line 103.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 103.
+LaTeX Font Info:    ... okay on input line 103.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 103.
+LaTeX Font Info:    ... okay on input line 103.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 103.
+LaTeX Font Info:    ... okay on input line 103.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -1042,17 +920,17 @@ LaTeX Font Info:    ... okay on input line 105.
 
 (/usr/local/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count351
-\scratchdimen=\dimen309
-\scratchbox=\box87
-\nofMPsegments=\count352
-\nofMParguments=\count353
-\everyMPshowfont=\toks58
-\MPscratchCnt=\count354
-\MPscratchDim=\dimen310
-\MPnumerator=\count355
-\makeMPintoPDFobject=\count356
-\everyMPtoPDFconversion=\toks59
+\scratchcounter=\count344
+\scratchdimen=\dimen295
+\scratchbox=\box86
+\nofMPsegments=\count345
+\nofMParguments=\count346
+\everyMPshowfont=\toks51
+\MPscratchCnt=\count347
+\MPscratchDim=\dimen296
+\MPnumerator=\count348
+\makeMPintoPDFobject=\count349
+\everyMPtoPDFconversion=\toks52
 ) (/usr/local/texlive/2025/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
@@ -1062,18 +940,14 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-\c@lstlisting=\count357
-
-Package pgfplots notification 'compat/show suggested version=true': you might b
-enefit from \pgfplotsset{compat=1.18} (current compat level: 1.17).
-
-LaTeX Info: Redefining \microtypecontext on input line 105.
-Package microtype Info: Applying patch `item' on input line 105.
-Package microtype Info: Applying patch `toc' on input line 105.
-Package microtype Info: Applying patch `eqnum' on input line 105.
-Package microtype Info: Applying patch `footnote' on input line 105.
-Package microtype Info: Applying patch `verbatim' on input line 105.
-LaTeX Info: Redefining \microtypesetup on input line 105.
+\c@lstlisting=\count350
+LaTeX Info: Redefining \microtypecontext on input line 103.
+Package microtype Info: Applying patch `item' on input line 103.
+Package microtype Info: Applying patch `toc' on input line 103.
+Package microtype Info: Applying patch `eqnum' on input line 103.
+Package microtype Info: Applying patch `footnote' on input line 103.
+Package microtype Info: Applying patch `verbatim' on input line 103.
+LaTeX Info: Redefining \microtypesetup on input line 103.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
@@ -1081,11 +955,12 @@ Package microtype Info: No font expansion.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
+
 (/usr/local/texlive/2025/texmf-dist/tex/latex/microtype/mt-cmr.cfg
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
 (RS)
 )
-Package hyperref Info: Link coloring ON on input line 105.
+Package hyperref Info: Link coloring ON on input line 103.
 
 (./csc263_notes.out) (./csc263_notes.out)
 \@outlinefile=\write4
@@ -1094,12 +969,18 @@ Package hyperref Info: Link coloring ON on input line 105.
 
 
 LaTeX Font Warning: Font shape `T1/cmr/m/n' in size <62> not available
-(Font)              size <35.83> substituted on input line 119.
+(Font)              size <35.83> substituted on input line 117.
 
 
 LaTeX Font Warning: Font shape `T1/cmr/bx/n' in size <62> not available
-(Font)              size <35.83> substituted on input line 119.
+(Font)              size <35.83> substituted on input line 117.
 
+
+
+[1
+
+{/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/loc
+al/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}]
 (./csc263_notes.toc
 LaTeX Font Info:    Trying to load font information for U+msa on input line 4.
 
@@ -1116,452 +997,650 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 (/usr/local/texlive/2025/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
-))
-\tf@toc=\write5
-\openout5 = `csc263_notes.toc'.
-
-
-
-[1
-
-{/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/loc
-al/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}]
-Overfull \vbox (621.6445pt too high) has occurred while \output is active []
-
-
-
-[2]
-Package microtype Info: Loading generic protrusion settings for font family
-(microtype)             `cmtt' (encoding: T1).
-(microtype)             For optimal results, create family-specific settings.
-(microtype)             See the microtype manual for details.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 209.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 209.
-
-
+)
 
 
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.230 \end{center}
-                   [1]
+l.31 ...3}Properties of $B_k$}{20}{subsection.2.3}
+                                                  % [1]
 
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 237.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\Rightarrow' on input line 237.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 237.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 250.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 250.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 269.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\Omega' on input line 269.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 269.
-
-
-
-
-pdfTeX warning (ext4): destination with the same identifier (name{page.2}) has 
-been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.281 \end{keybox}
-                   [2]
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 292.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\Theta' on input line 292.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 292.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 327.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\Theta' on input line 327.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `superscript' on input line 327.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 327.
-
-
+[2]
 
 [3]
+Package microtype Info: Loading generic protrusion settings for font family
+(microtype)             `cmtt' (encoding: T1).
+(microtype)             For optimal results, create family-specific settings.
+(microtype)             See the microtype manual for details.
 
-[4]
 
-[5{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
-}]
+[4])
+\tf@toc=\write5
+\openout5 = `csc263_notes.toc'.
+
+
+
+[5]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 208.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 208.
+
+
 
 [6]
 
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 236.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\Rightarrow' on input line 236.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 236.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 249.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 249.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 268.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\Omega' on input line 268.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 268.
+
+
+
 [7]
 
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 291.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\Theta' on input line 291.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 291.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 326.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\Theta' on input line 326.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `superscript' on input line 326.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 326.
+
+
+
 [8]
+
+[9]
+pdfTeX warning (ext4): destination with the same identifier (name{section.1}) h
+as been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.372 \section{ADT vs.\ Data Structure}
+                                       
+pdfTeX warning (ext4): destination with the same identifier (name{section.2}) h
+as been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.383 \section{The Priority Queue ADT}
+                                      
+pdfTeX warning (ext4): destination with the same identifier (name{section.3}) h
+as been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.399 ...mentations: Why We Need Something Better}
+                                                  
+pdfTeX warning (ext4): destination with the same identifier (name{section.4}) h
+as been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.422 \section{Complete Binary Tree (CBT)}
+                                          
+
+[10{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.en
+c}]
+pdfTeX warning (ext4): destination with the same identifier (name{section.5}) h
+as been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.464 \section{Max-Heap}
+                        
+
+[11]
+pdfTeX warning (ext4): destination with the same identifier (name{section.6}) h
+as been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.488 \section{Array Representation}
+                                    
+pdfTeX warning (ext4): destination with the same identifier (name{section.7}) h
+as been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.516 \section{The Three Operations}
+                                    
+
+[12]
+
+[13]
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <10.95> not available
 (Font)              Font shape `T1/cmtt/m/n' tried instead on input line 576.
 
 
-[9]
-
-[10]
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 665.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 665.
-
-
-
-[11]
-
-[12]
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 788.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 788.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 788.
-
-
-
-[13]
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 859.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 859.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 859.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 927.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 927.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 927.
-
-
-
 [14]
+pdfTeX warning (ext4): destination with the same identifier (name{section.8}) h
+as been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.615 \section{Complexity Analysis}
+                                   
 
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 959.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 959.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 959.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 982--983
-
- []
+Package hyperref Warning: The anchor of a bookmark and its parent's must not
+(hyperref)                be the same. Added a new anchor on input line 615.
 
 
 
 [15]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 991.
+(hyperref)                removing `math shift' on input line 665.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\alpha' on input line 991.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 991.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1011.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 1011.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1011.
+(hyperref)                removing `math shift' on input line 665.
 
 
 
 [16]
 
 [17]
+pdfTeX warning (ext4): destination with the same identifier (name{section.1}) h
+as been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.752 \section{Mergeable Priority Queue ADT}
+                                            
+pdfTeX warning (ext4): destination with the same identifier (name{section.2}) h
+as been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.787 \section{Binomial Trees}
+                              
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 789.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 789.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 789.
+
+
+
+[18]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 860.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 860.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 860.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 928.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 928.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 928.
+
+
+
+[19]
+pdfTeX warning (ext4): destination with the same identifier (name{section.3}) h
+as been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.960 \section{Binomial Forest $F_n$}
+                                     
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 960.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 960.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 960.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 983--984
+
+ []
+
+
+
+[20]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 992.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\alpha' on input line 992.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 992.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1012.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 1012.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1012.
+
+
+pdfTeX warning (ext4): destination with the same identifier (name{section.4}) h
+as been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.1032 ...{Min Binomial Heap: The Full Definition}
+                                                  
+
+[21]
+pdfTeX warning (ext4): destination with the same identifier (name{section.5}) h
+as been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.1047 ...uilding a Binomial Heap: Worked Example}
+                                                  
+
+[22]
+pdfTeX warning (ext4): destination with the same identifier (name{section.6}) h
+as been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.1123 \section{Memory Representation}
+                                      
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `cmss' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 
 
-[18]
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1235.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 1235.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1235.
-
-
-
-[19]
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1298.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 1298.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1298.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1325.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1325.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1325.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1325.
-
-
-
-[20]
-Underfull \hbox (badness 10000) in paragraph at lines 1393--1394
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1403--1404
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1411--1412
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1417--1418
-
- []
-
-
-
-[21]
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1471.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1471.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1471.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1471.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1496.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1496.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1506.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1506.
-
-
-
-[22]
-
 [23]
+pdfTeX warning (ext4): destination with the same identifier (name{section.7}) h
+as been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.1232 \section{Two Key Lemmas}
+                               
+pdfTeX warning (ext4): destination with the same identifier (name{subsection.7.
+1}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.1236 ...ection{Lemma 1: Merging Two $B_k$ Trees}
+                                                  
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1236.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 1236.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1236.
+
+
 
 [24]
-Overfull \hbox (38.59662pt too wide) in paragraph at lines 1653--1665
-[][] 
- []
+pdfTeX warning (ext4): destination with the same identifier (name{subsection.7.
+2}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.1299 ...ion{Lemma 2: Deleting the Root of $B_k$}
+                                                  
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1299.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 1299.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1299.
+
+
+pdfTeX warning (ext4): destination with the same identifier (name{section.8}) h
+as been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.1314 \section{Operations}
+                           
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1326.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1326.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1326.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1326.
 
 
 
 [25]
+Underfull \hbox (badness 10000) in paragraph at lines 1394--1395
 
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1689.
+ []
 
 
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1689.
+Underfull \hbox (badness 10000) in paragraph at lines 1404--1405
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1412--1413
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1418--1419
+
+ []
 
 
 
 [26]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1755.
+(hyperref)                removing `math shift' on input line 1472.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1755.
+(hyperref)                removing `math shift' on input line 1472.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1770.
+(hyperref)                removing `math shift' on input line 1472.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1770.
+(hyperref)                removing `math shift' on input line 1472.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1497.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1497.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1507.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1507.
 
 
 
 [27]
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1834.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1834.
-
-
+pdfTeX warning (ext4): destination with the same identifier (name{section.9}) h
+as been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.1543 \section{Complexity Summary}
+                                   
+pdfTeX warning (ext4): destination with the same identifier (name{section.10}) 
+has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.1558 \section{Practice Problems}
+                                  
 
 [28]
 
+[29]
+Overfull \hbox (38.59662pt too wide) in paragraph at lines 1654--1666
+[][] 
+ []
+
+
+pdfTeX warning (ext4): destination with the same identifier (name{section.1}) h
+as been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.1685 ...tion{Remaining Binomial Heap Operations}
+                                                  
+
+[30]
+
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1857.
+(hyperref)                removing `math shift' on input line 1691.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1857.
+(hyperref)                removing `math shift' on input line 1691.
 
 
-Overfull \hbox (168.70386pt too wide) in paragraph at lines 1866--1877
+
+[31]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1757.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1757.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1772.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1772.
+
+
+
+[32]
+pdfTeX warning (ext4): destination with the same identifier (name{section.2}) h
+as been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.1836 \section{Cost of $k$ Successive Inserts}
+                                               
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1836.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1836.
+
+
+pdfTeX warning (ext4): destination with the same identifier (name{subsection.2.
+1}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.1844 ...sight: Each Insert = Adding 1 in Binary}
+                                                  
+
+[33]
+pdfTeX warning (ext4): destination with the same identifier (name{subsection.2.
+2}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.1859 ...ple: 5 Successive Inserts into $|T|=27$}
+                                                  
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1859.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1859.
+
+
+Overfull \hbox (168.70386pt too wide) in paragraph at lines 1868--1879
  [] 
  []
 
 
-
-[29]
-
-[30]
-
-[31]
-
-[32]
-
-[33]
+pdfTeX warning (ext4): destination with the same identifier (name{subsection.2.
+3}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.1886 ...section{Exact Formula via Edge Counting}
+                                                  
 
 [34]
 
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 2255.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 2255.
-
-
-
 [35]
+pdfTeX warning (ext4): destination with the same identifier (name{section.3}) h
+as been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.1966 \section{The Dictionary ADT}
+                                   
+pdfTeX warning (ext4): destination with the same identifier (name{subsection.3.
+1}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.1981 \subsection{First Attempt: Linked List}
+                                              
+pdfTeX warning (ext4): destination with the same identifier (name{section.4}) h
+as been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.1999 \section{Binary Search Trees (BST)}
+                                          
+pdfTeX warning (ext4): destination with the same identifier (name{subsection.4.
+1}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.2001 \subsection{The BST Property}
+                                    
 
 [36]
 
 [37]
-Overfull \hbox (3.6213pt too wide) in paragraph at lines 2445--2452
- [] 
- []
-
-
 
 [38]
 
 [39]
 
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 2257.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 2257.
+
+
+
 [40]
-Overfull \hbox (93.33357pt too wide) in paragraph at lines 2661--2662
+
+[41]
+
+[42]
+Overfull \hbox (3.6213pt too wide) in paragraph at lines 2447--2454
+ [] 
+ []
+
+
+
+[43]
+pdfTeX warning (ext4): destination with the same identifier (name{section.5}) h
+as been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.2515 \section{Past Exam Questions}
+                                    
+
+[44]
+
+[45]
+pdfTeX warning (ext4): destination with the same identifier (name{section.1}) h
+as been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.2642 \section{Recall: the Problem with BSTs}
+                                              
+pdfTeX warning (ext4): destination with the same identifier (name{section.2}) h
+as been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.2653 \section{Height and Balance Factor}
+                                          
+pdfTeX warning (ext4): destination with the same identifier (name{subsection.2.
+1}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.2655 \subsection{Height of a Node}
+                                    
+Overfull \hbox (93.33357pt too wide) in paragraph at lines 2666--2667
 []\T1/cmr/m/n/10.95 The $\OMS/cmsy/m/n/10.95 ^^@\OT1/cmr/m/n/10.95 1$ \T1/cmr/m
 /n/10.95 for the empty tree is a con-ven-tion that makes the re-cur-rence $[]\O
 T1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 v\OT1/cmr/m/n/10.95 ) = 1 + []([](\OML/cm
@@ -1570,87 +1649,113 @@ m/m/it/10.95 v:[]\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ;  []\OT1/cmr/m/n/10.9
  []
 
 
-
-[41]
-
-[42]
-
-[43]
-
-[44]
-
-[45]
+pdfTeX warning (ext4): destination with the same identifier (name{subsection.2.
+2}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.2669 \subsection{Balance Factor}
+                                  
+pdfTeX warning (ext4): destination with the same identifier (name{section.3}) h
+as been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.2689 \section{AVL Trees}
+                          
+pdfTeX warning (ext4): destination with the same identifier (name{subsection.3.
+1}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.2691 ...{Definition (Adelson-Velsky and Landis)}
+                                                  
 
 [46]
+pdfTeX warning (ext4): destination with the same identifier (name{subsection.3.
+2}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.2702 \subsection{Is This an AVL Tree?}
+                                        
+pdfTeX warning (ext4): destination with the same identifier (name{subsection.3.
+3}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.2737 \subsection{Properties}
+                              
 
-[47] (./csc263_notes.aux)
- ***********
-LaTeX2e <2024-11-01> patch level 2
-L3 programming layer <2025-01-18>
- ***********
+[47]
+pdfTeX warning (ext4): destination with the same identifier (name{section.4}) h
+as been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.2805 \section{AVL Operations}
+                               
+pdfTeX warning (ext4): destination with the same identifier (name{section.5}) h
+as been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.2819 \section{Insert}
+                       
+
+[48]
+
+[49]
+
+[50]
+
+[51]
+
+[52]
+pdfTeX warning (ext4): destination with the same identifier (name{section.1}) h
+as been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.3077 \section{What This Lecture Adds}
+                                       
+pdfTeX warning (ext4): destination with the same identifier (name{section.2}) h
+as been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.3090 ...ion{Why the Insert Algorithm is Correct}
+                                                  
+pdfTeX warning (ext4): destination with the same identifier (name{subsection.2.
+1}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.3092 ...The Skipped Step: $\text{BF}(B) \neq 0$}
+                                                  
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 3092.
 
 
-LaTeX Font Warning: Size substitutions with differences
-(Font)              up to 26.17pt have occurred.
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\not' on input line 3092.
 
 
-Package rerunfilecheck Warning: File `csc263_notes.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 3092.
 
-Package rerunfilecheck Info: Checksums for `csc263_notes.out':
-(rerunfilecheck)             Before: 0B5B1CA7B9D6F96EE7013A879F53D0B3;14530
-(rerunfilecheck)             After:  89224ED15BCA5BD5CF0C948812907C75;17788.
- ) 
-Here is how much of TeX's memory you used:
- 44250 strings out of 473190
- 1019468 string characters out of 5715801
- 1586380 words of memory out of 5000000
- 66634 multiletter control sequences out of 15000+600000
- 591265 words of font info for 115 fonts, out of 8000000 for 9000
- 1141 hyphenation exceptions out of 8191
- 116i,17n,121p,1009b,2272s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbsy10.pf
-b></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
-></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb>
-</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
-/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></
-usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></us
-r/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/
-local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/lo
-cal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/loca
-l/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/
-texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/tex
-live/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texliv
-e/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2
-025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/20
-25/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2025
-/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/
-2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texl
-ive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx0600.pfb></usr/local/texliv
-e/2025/texmf-dist/fonts/type1/public/cm-super/sfbx0800.pfb></usr/local/texlive/
-2025/texmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb></usr/local/texlive/20
-25/texmf-dist/fonts/type1/public/cm-super/sfbx1095.pfb></usr/local/texlive/2025
-/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2025/t
-exmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2025/tex
-mf-dist/fonts/type1/public/cm-super/sfbx2074.pfb></usr/local/texlive/2025/texmf
--dist/fonts/type1/public/cm-super/sfbx3583.pfb></usr/local/texlive/2025/texmf-d
-ist/fonts/type1/public/cm-super/sfcc1000.pfb></usr/local/texlive/2025/texmf-dis
-t/fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive/2025/texmf-dist/
-fonts/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2025/texmf-dist/fo
-nts/type1/public/cm-super/sfrm1095.pfb></usr/local/texlive/2025/texmf-dist/font
-s/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/
-type1/public/cm-super/sfrm1440.pfb></usr/local/texlive/2025/texmf-dist/fonts/ty
-pe1/public/cm-super/sfrm1728.pfb></usr/local/texlive/2025/texmf-dist/fonts/type
-1/public/cm-super/sfsx1095.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/
-public/cm-super/sfti0800.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/pu
-blic/cm-super/sfti1095.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/publ
-ic/cm-super/sfti1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public
-/cm-super/sftt1095.pfb>
-Output written on csc263_notes.pdf (49 pages, 794647 bytes).
-PDF statistics:
- 952 PDF objects out of 1000 (max. 8388607)
- 794 compressed objects within 8 object streams
- 208 named destinations out of 1000 (max. 500000)
- 22773 words of extra memory for PDF output out of 24883 (max. 10000000)
 
+pdfTeX warning (ext4): destination with the same identifier (name{subsection.2.
+2}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.3108 ...section{Case 1(a): Single Left Rotation}
+                                                  
+
+[53]
+pdfTeX warning (ext4): destination with the same identifier (name{subsection.2.
+3}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.3151 ...n{Case 1(b): Double Right-Left Rotation}
+                                                  
+pdfTeX warning (ext4): destination with the same identifier (name{section.3}) h
+as been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.3195 \section{Cost, Node Layout, and Algorithm}
+                                                 
+
+[54]
+pdfTeX warning (ext4): destinat

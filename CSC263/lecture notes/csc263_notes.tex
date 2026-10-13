@@ -3424,7 +3424,7 @@ Add them and you get $x$'s position. No traversal needed: the \texttt{size} fiel
 \begin{tikzpicture}[
   every node/.style={circle, draw=heapblue, line width=0.7pt, minimum size=7mm, inner sep=1pt, font=\small, fill=white},
   lbl/.style={draw=none, fill=none, font=\scriptsize\bfseries, text=greenO}
-]
+
 \node (n30) {30}; \node[lbl] at (0.6,0.45) {5};
 \node (n15) at (-1.6,-1.2) {15}; \node[lbl] at (-1.05,-0.9) {3};
 \node (n56) at (1.6,-1.2) {56}; \node[lbl] at (2.15,-0.9) {1};
@@ -3560,6 +3560,1035 @@ All operations & \textcolor{violetT}{$O(\log n)$}\\
 \end{keybox}
 
 \vspace{4pt}
+
+
+
+% ******************************************************************
+%  PASTE INSTRUCTIONS  (same idea as your Lecture 5 snippet)
+%
+%  1. In your master document, DELETE these 3 closing lines near the end:
+%       \begin{center}\textcolor{greyline}{\rule{0.5\linewidth}{0.6pt}}\end{center}
+%       \begin{center}\small\textcolor{greyline}{End of Lectures ... notes.}\end{center}
+%       \end{document}
+%
+%  2. Paste EVERYTHING below this comment block in their place.
+%     (The closing lines + \end{document} are included again at the very bottom.)
+%
+%  3. On the cover page, add the new parts to the lecture line, e.g. change
+%       {\large\textcolor{violetT}{Lectures 1, 2, 3, 4 \& 5}}
+%     to include: Lectures 8, 9, 10 \& the Interval Trees tutorial.
+%
+%  No preamble changes needed. All four parts reuse your existing colours
+%  and box environments (defbox, keybox, codebox, exambox, answerband,
+%  warnbox, examplebox).
+%
+%  The four parts below are independent, so you can reorder them in your
+%  master document if you want the tutorial next to the AVL material.
+% ******************************************************************
+
+\newpage
+
+% ==================================================================
+% ==================================================================
+%  PART VIII: LECTURE 8 — HASH TABLES
+% ==================================================================
+% ==================================================================
+
+\part*{\textcolor{utnavy}{Lecture 8: Hash Tables}}
+\addcontentsline{toc}{part}{Lecture 8: Hash Tables}
+
+% ------------------------------------------------------------------
+\section{Recall: the Dictionary ADT}
+
+\begin{defbox}[Dictionary ADT]
+Object: a dynamic set $S$. Each element has a \textcolor{rustW}{key} $k \in U$, where $U$ is the \textbf{universe} of possible keys.
+
+Operations: \textcolor{heapblue}{\textbf{Search}}, \textcolor{heapblue}{\textbf{Insert}}, \textcolor{heapblue}{\textbf{Delete}}.
+\end{defbox}
+
+We already saw BSTs and AVL trees give $O(\log n)$ per operation. Hashing aims for \textcolor{greenO}{$\Theta(1)$ expected} per operation.
+
+% ------------------------------------------------------------------
+\section{If the Universe $U$ is Small: Direct-Access Table}
+
+\begin{defbox}[Direct-access table]
+If $U = \{0, 1, \ldots, u-1\}$ is small, use an array $T[0 \ldots u-1]$. Store the element with key $k$ directly in slot $T[k]$. Empty slots hold \texttt{NIL}.
+\end{defbox}
+
+\begin{keybox}[Direct-access operations: all \textcolor{greenO}{$\Theta(1)$} worst case]
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{l l}
+\textcolor{heapblue}{\textbf{Search}$(T, k)$} & return $T[k]$ \\
+\textcolor{heapblue}{\textbf{Insert}$(T, x)$} & $T[k] \leftarrow x$ \quad (where $k$ is $x$'s key) \\
+\textcolor{heapblue}{\textbf{Delete}$(T, x)$} & $T[k] \leftarrow \texttt{NIL}$ \\
+\end{tabular}
+\end{keybox}
+
+\begin{examplebox}[Why it works: counting character frequencies]
+Read a text file, count how often each character appears. Each character has an ASCII code in $\{0, \ldots, 127\}$. Use $T[0 \ldots 127]$, all entries start at $0$. For each character with code $k$, increment $T[k]$. Then $T[k]$ is the frequency of the character with code $k$.
+
+Total time $\textcolor{rustW}{\Theta(n)}$ where $n$ is the length of the text. Each character costs $\Theta(1)$.
+\end{examplebox}
+
+% ------------------------------------------------------------------
+\section{When the Universe is Huge}
+
+\begin{warnbox}[Direct-access tables break down]
+Suppose keys are 64-bit integers: $|U| = 2^{64} \approx 1.84 \times 10^{19}$. A table of size $2^{64}$ is \textbf{infeasible}. Usually we only store $n \ll |U|$ keys, so almost every slot would be wasted.
+\end{warnbox}
+
+\textbf{Fix:} use a table of size $m$ that is close to $n$ (not $|U|$), and a function that maps any key into $\{0, \ldots, m-1\}$. This is a \textcolor{rustW}{hash table}.
+
+% ------------------------------------------------------------------
+\section{Hash Tables}
+
+\begin{defbox}[\textcolor{defblue}{Hash table (MUST KNOW)}]
+\begin{itemize}[leftmargin=1.4em,itemsep=1pt]
+  \item $m$ = size of the table $T[0 \ldots m-1]$.
+  \item \textbf{Hash function} $h : U \to \{0, 1, \ldots, m-1\}$.
+  \item For a key $k$, if $h(k) = i$ we say ``\textit{$k$ hashes to slot $i$}''.
+  \item Store the element with key $k$ in slot $T[h(k)]$.
+\end{itemize}
+\end{defbox}
+
+\begin{warnbox}[What could go wrong: collisions]
+A \textcolor{rustW}{collision} is when two different keys hash to the same slot: $h(k_1) = h(k_3)$. Since $|U| > m$, by pigeonhole \textbf{some pair of keys must collide}. We cannot avoid collisions, only resolve them.
+\end{warnbox}
+
+% ------------------------------------------------------------------
+\section{Resolving Collisions: Chaining}
+
+\begin{defbox}[Chaining]
+Keep a \textbf{linked list} at each table slot. To insert the element with key $k$, add it at the \textbf{head} of the list in slot $T[h(k)]$. All keys that hash to the same slot sit in the same list (chain).
+\end{defbox}
+
+\begin{center}
+\begin{tikzpicture}[
+  box/.style={draw=heapblue, line width=0.7pt, minimum width=1.4cm, minimum height=0.55cm, font=\small, fill=white},
+  tslot/.style={draw=heapblue, line width=0.7pt, minimum width=0.9cm, minimum height=0.55cm, fill=skyfill}
+]
+% table column
+\node[tslot] (ti) at (0,0) {};
+\node[tslot] (td) at (0,-0.55) {$\vdots$};
+\node[tslot] (tj) at (0,-1.1) {};
+\node[font=\scriptsize\bfseries, rustW] at (-0.75,0) {$i$};
+\node[font=\scriptsize\bfseries, rustW] at (-0.75,-1.1) {$j$};
+\node[font=\bfseries] at (0,0.55) {$T$};
+% chain at i: k4 -> k3 -> k1
+\node[box] (k4) at (2.0,0) {$k_4$};
+\node[box] (k3) at (3.7,0) {$k_3$};
+\node[box] (k1) at (5.4,0) {$k_1$};
+\draw[{Stealth}-{Stealth}, heapblue] (ti.east) -- (k4.west);
+\draw[{Stealth}-{Stealth}, heapblue] (k4.east) -- (k3.west);
+\draw[{Stealth}-{Stealth}, heapblue] (k3.east) -- (k1.west);
+% chain at j: k2
+\node[box] (k2) at (2.0,-1.1) {$k_2$};
+\draw[{Stealth}-{Stealth}, heapblue] (tj.east) -- (k2.west);
+\end{tikzpicture}
+\end{center}
+
+Here $h(k_1) = h(k_3) = h(k_4) = i$ and $h(k_2) = j$. New keys go in at the head, so $k_4$ (inserted last) is first in slot $i$'s chain.
+
+% ------------------------------------------------------------------
+\section{Dictionary Operations with Chaining}
+
+\begin{keybox}[Costs (assume doubly linked lists, and $h(k)$ computable in \textcolor{greenO}{$\Theta(1)$})]
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{l l l}
+\textcolor{heapblue}{\textbf{Insert}$(x)$} & insert at head of $T[h(\text{key}(x))]$ & \textcolor{greenO}{$\Theta(1)$}\\
+\textcolor{heapblue}{\textbf{Delete}$(x)$} & remove $x$, given a pointer to $x$ & \textcolor{greenO}{$\Theta(1)$}\\
+\textcolor{heapblue}{\textbf{Search}$(k)$} & scan the chain at $T[h(k)]$ & \textcolor{rustW}{depends on chain length}\\
+\end{tabular}
+\end{keybox}
+
+\begin{warnbox}[Worst case for Search]
+All $n$ keys could hash to the \textbf{same} slot. Then that one chain has length $n$, and Search takes \textcolor{rustW}{$\Theta(n)$} in the worst case. So we analyse the \textbf{average} chain length instead.
+\end{warnbox}
+
+% ------------------------------------------------------------------
+\section{Analysis: SUHA and the Load Factor}
+
+\begin{defbox}[Simple Uniform Hashing Assumption (SUHA)]
+Each key $k$ we insert is \textbf{equally likely} to hash into any of the $m$ slots, \textbf{independently} of the other keys:
+\[
+  \Pr[h(k) = i] = \tfrac{1}{m}, \qquad 0 \le i \le m-1.
+\]
+\end{defbox}
+
+\begin{keybox}[Expected chain length $=$ load factor $\alpha$]
+Insert $n$ keys into an empty table $T[0 \ldots m-1]$. Let $n_i$ be the length of the chain at $T[i]$ (a random variable). The chains partition all keys, so
+\[
+  n_0 + n_1 + \cdots + n_{m-1} = n
+  \;\;\Longrightarrow\;\;
+  E[n_0] + \cdots + E[n_{m-1}] = n.
+\]
+By symmetry under SUHA all $E[n_i]$ are equal, so $m \cdot E[n_i] = n$, giving
+\[
+  \boxed{\,E[n_i] = \frac{n}{m} = \alpha\,} \qquad \text{the \textcolor{violetT}{load factor} of } T.
+\]
+\end{keybox}
+
+% ------------------------------------------------------------------
+\section{Expected Cost of Search (under SUHA)}
+
+\begin{keybox}[Expected Search time is \textcolor{greenO}{$\Theta(1 + \alpha)$}]
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{l l}
+\textcolor{rustW}{\textbf{Unsuccessful}} & inspect a whole chain: $\alpha$ comparisons on average\\
+\textcolor{greenO}{\textbf{Successful}} & inspect about half a chain, then match: $\tfrac{\alpha}{2} + 1$ on average\\
+\end{tabular}
+\medskip
+
+The ``$+1$'' is the cost of computing $h(k)$ and indexing, which happens even when $\alpha = 0$. So expected Search time is \textcolor{greenO}{$\Theta(1 + \alpha)$}.
+\end{keybox}
+
+\begin{keybox}[Keeping Search fast: fix $\alpha$]
+If $n$ keeps growing while $m$ is fixed, $\alpha = n/m$ grows and chains get longer. Keep $\alpha$ \textbf{bounded by a constant} by ensuring $m = \Theta(n)$. Then $\alpha = \Theta(1)$ and
+\[
+  \text{Expected Search time} = \textcolor{greenO}{\Theta(1)}.
+\]
+\end{keybox}
+
+\begin{keybox}[The table may have to grow (resizing)]
+To keep $\alpha \le c$ for a chosen constant $c$:
+\[
+  \frac{n}{m} \le c \;\Longleftrightarrow\; m \ge \frac{n}{c}.
+\]
+When $n$ grows past $c\,m$: (1) allocate a new, larger table so $\alpha \le c$ holds again, then (2) \textbf{rehash} every current element into it.
+\end{keybox}
+
+% ------------------------------------------------------------------
+\section{Choosing a Hash Function}
+
+\begin{defbox}[Division method]
+\begin{center}\large $h(k) = k \bmod m$\end{center}
+Common heuristic: choose $m$ to be \textbf{prime}.
+\end{defbox}
+
+\begin{examplebox}[Picking $m$]
+We want to store $n = 2000$ keys with target $\alpha \le 3$.
+\[
+  \alpha = \frac{2000}{m} \le 3 \;\Longrightarrow\; m \ge \frac{2000}{3} \approx 666.7.
+\]
+Smallest qualifying prime: $\textcolor{rustW}{673}$. Use $m = 673$ and $h(k) = k \bmod 673$.
+\end{examplebox}
+
+\begin{warnbox}[Why not just any $m$?]
+If $m = 2^{\ell}$, then $k \bmod m$ uses \textbf{only the last $\ell$ bits} of $k$. Extreme case $m = 2$: even keys go to slot $0$, odd keys to slot $1$. If most keys are even, almost all land in slot $0$: a very uneven distribution.
+
+A good hash function uses \textbf{all the bits} of the key and spreads keys \textbf{evenly} across slots, even when the inserted keys follow some regular pattern.
+\end{warnbox}
+
+% ------------------------------------------------------------------
+\section{Past Exam Questions}
+
+\begin{exambox}[Seen on a past exam \textnormal{(Final, Dec 2013, Q1: Hash Tables)}]
+\textbf{[18 marks]} Hash tables with chaining; $m$ = table size, $n$ = number of items.
+
+\textbf{(a)} What issue with the \textit{direct-access table} does the \textit{hash table} solve?\\
+\textbf{(b)} To store $n$ items, what is a good choice for $m$?\\
+\textbf{(c)} What is the purpose of chaining?\\
+\textbf{(d)} What property should a good hash function have?\\
+\textbf{(e)} Assume SUHA. Fill the running-time table (tight bounds, only $n$ and $m$):
+
+\begin{answerband}
+\textbf{(a)} A direct-access table needs size $|U|$, which is infeasible when $U$ is huge (e.g. 64-bit keys). A hash table uses a small table of size $m = \Theta(n)$ and maps keys into it with $h$.
+
+\textbf{(b)} $m = \Theta(n)$, chosen prime (keeps $\alpha = n/m$ constant).
+
+\textbf{(c)} Chaining \textbf{resolves collisions}: all keys hashing to the same slot are kept in one linked list at that slot.
+
+\textbf{(d)} It should spread keys \textbf{evenly} across all $m$ slots and \textbf{use all the bits} of the key, so chains stay short even for patterned inputs.
+
+\smallskip
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{l c c c}
+\hline
+ & \textbf{Search}$(k)$ & \textbf{Insert}$(k)$ & \textbf{Delete}$(x)$\\
+\hline
+\textbf{Worst case} & \textcolor{rustW}{$\Theta(n)$} & \textcolor{greenO}{$\Theta(1)$} & \textcolor{greenO}{$\Theta(1)$}\\
+\textbf{Expected} & \textcolor{greenO}{$\Theta(1 + \alpha) = \Theta(1)$} & \textcolor{greenO}{$\Theta(1)$} & \textcolor{greenO}{$\Theta(1)$}\\
+\hline
+\end{tabular}
+\smallskip
+
+(Delete is $\Theta(1)$ given a pointer to $x$ and doubly linked chains. Expected Search uses $m = \Theta(n)$ so $\alpha = \Theta(1)$.)
+\end{answerband}
+\end{exambox}
+
+\begin{exambox}[Seen on a past exam \textnormal{(Final, Dec 2013, Q1e)}]
+\textbf{[4 marks]} A hash table $T$ of size $1000$ uses chaining, starts empty, SUHA holds. What is the \textbf{maximum} number of keys we can insert so that, afterwards, the \textbf{expected} number of key comparisons to search for a key \textbf{not} in $T$ is at most $15$?
+
+\begin{answerband}
+An unsuccessful search inspects a whole chain, so its expected number of comparisons is $\alpha = \dfrac{n}{m} = \dfrac{n}{1000}$. Require
+\[
+  \frac{n}{1000} \le 15 \;\Longrightarrow\; n \le 15000.
+\]
+\textcolor{violetT}{\textbf{Maximum} $= 15000$ keys.}
+\end{answerband}
+\end{exambox}
+
+% ------------------------------------------------------------------
+\section*{\textcolor{violetT}{Quick Reference: Lecture 8}}
+\addcontentsline{toc}{section}{Quick Reference: Lecture 8}
+\begin{keybox}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{l l}
+Direct-access table & $U$ small: store $x$ in $T[k]$; all ops \textcolor{greenO}{$\Theta(1)$}; needs size $|U|$\\
+Hash table & $h : U \to \{0,\ldots,m-1\}$; store $x$ in $T[h(k)]$; $m = \Theta(n)$\\
+Collision & $h(k_1)=h(k_2)$; unavoidable since $|U| > m$\\
+Chaining & linked list per slot; Insert/Delete \textcolor{greenO}{$\Theta(1)$}, Search = chain length\\
+Worst-case Search & all keys in one chain $\Rightarrow$ \textcolor{rustW}{$\Theta(n)$}\\
+SUHA & $\Pr[h(k)=i] = 1/m$, independent\\
+Load factor & $\alpha = n/m = $ expected chain length $E[n_i]$\\
+Expected Search & \textcolor{greenO}{$\Theta(1+\alpha)$}; unsuccessful $\alpha$, successful $\alpha/2 + 1$\\
+Keep fast & $m = \Theta(n) \Rightarrow \alpha = \Theta(1) \Rightarrow$ Search \textcolor{greenO}{$\Theta(1)$}\\
+Resize & keep $\alpha \le c$: $m \ge n/c$; grow $+$ rehash all\\
+Division method & $h(k) = k \bmod m$, $m$ prime; avoid $m = 2^{\ell}$\\
+Good hash function & uses all bits, spreads keys evenly\\
+\end{tabular}
+\end{keybox}
+
+\vspace{4pt}
+\begin{center}\textcolor{greyline}{\rule{0.5\linewidth}{0.6pt}}\end{center}
+
+\newpage
+
+% ==================================================================
+% ==================================================================
+%  PART IX: LECTURE 9 — BLOOM FILTERS
+% ==================================================================
+% ==================================================================
+
+\part*{\textcolor{utnavy}{Lecture 9: Bloom Filters}}
+\addcontentsline{toc}{part}{Lecture 9: Bloom Filters}
+
+% ------------------------------------------------------------------
+\section{What is a Bloom Filter?}
+
+\begin{defbox}[\textcolor{defblue}{Bloom Filter (Burton Howard Bloom, 1970)}]
+A space-efficient ``\textbf{probabilistic dictionary}''. It keeps the ``fingerprints'' of the elements of a set $S$ (not the elements themselves).
+
+Operations:
+\begin{itemize}[leftmargin=1.4em,itemsep=1pt]
+  \item \textcolor{heapblue}{\textbf{BF\_Insert}$(x)$}: $S \leftarrow S \cup \{x\}$.
+  \item \textcolor{heapblue}{\textbf{BF\_Search}$(x)$}: returns one of two answers.
+\end{itemize}
+\end{defbox}
+
+\begin{keybox}[The two answers of BF\_Search]
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{l l}
+\textcolor{greenO}{\textbf{``No''}} & $\Rightarrow$ \textbf{definitely} $x \notin S$ \quad (never wrong)\\
+\textcolor{rustW}{\textbf{``Probably Yes''}} & $\Rightarrow$ probably $x \in S$, but perhaps not\\
+\end{tabular}
+\medskip
+
+So a Bloom filter can have \textbf{\textcolor{rustW}{false positives}} (says ``Probably Yes'' for an $x \notin S$), but \textbf{never false negatives}.
+\end{keybox}
+
+\begin{examplebox}[Application: malicious URLs]
+A browser wants to check if a URL is malicious. The set $S$ of malicious URLs is huge: say $10$ million URLs at $50$ bytes each, so $\approx 500$ MB. We do not want to store that on the user's side.
+
+Store only a \textbf{Bloom filter} of $S$ on the user's side (around $10$ MB). To check a URL:
+\begin{itemize}[leftmargin=1.4em,itemsep=1pt]
+  \item \textcolor{greenO}{``No''} $\Rightarrow$ URL $\notin S$, safe to visit the website.
+  \item \textcolor{rustW}{``Probably Yes''} $\Rightarrow$ probably malicious, issue a warning.
+\end{itemize}
+This works with a filter of $\approx 10$ MB and a false positive rate of just $2\%$.
+\end{examplebox}
+
+% ------------------------------------------------------------------
+\section{Structure}
+
+\begin{defbox}[Bloom filter structure]
+\begin{itemize}[leftmargin=1.4em,itemsep=2pt]
+  \item An array $\mathbf{BF}[0 \ldots m-1]$ of $m$ \textbf{bits}, initially all $0$.
+  \item $t$ \textbf{independent} hash functions $h_1, h_2, \ldots, h_t$, each $h_i : U \to \{0, \ldots, m-1\}$, each satisfying SUHA.
+\end{itemize}
+SUHA here: every element is equally likely to hash to any of the $m$ slots, independent of where the other elements hash.
+\end{defbox}
+
+\begin{defbox}[Fingerprint]
+The ``\textbf{fingerprint}'' of $x$ is the set of indices $h_1(x), h_2(x), \ldots, h_t(x)$.
+\end{defbox}
+
+\begin{codebox}[BF\_Insert(x) and BF\_Search(x)]
+\ttfamily BF\_Insert(x):\hfill \textnormal{\itshape // write x's fingerprint into BF}\\
+\ttfamily \hspace*{1.5em}for i = 1 to t:\\
+\ttfamily \hspace*{3em}BF[h\textsubscript{i}(x)] = 1\\[4pt]
+\ttfamily BF\_Search(x):\hfill \textnormal{\itshape // look for x's fingerprint in BF}\\
+\ttfamily \hspace*{1.5em}for i = 1 to t:\\
+\ttfamily \hspace*{3em}if BF[h\textsubscript{i}(x)] = 0 then return ``No''\\
+\ttfamily \hspace*{1.5em}return ``Probably Yes''
+\end{codebox}
+
+\begin{keybox}[Why ``No'' is always correct]
+If $x$ was ever inserted, \emph{all} its fingerprint bits were set to $1$. So if \emph{any} fingerprint bit of $x$ is still $0$, then $x$ was never inserted: ``No'' is certain. ``Probably Yes'' only means all of $x$'s bits happen to be $1$, which could be due to \textbf{other} elements.
+\end{keybox}
+
+% ------------------------------------------------------------------
+\section{Worked Example: $\mathbf{BF}[0 \ldots 7]$ with $t = 2$}
+
+Insert $x_1, x_2, x_3$, then search $x$ and $x'$. Each insert sets two bits; each search reads two bits.
+
+\begin{center}
+\begin{tikzpicture}[
+  bit/.style={draw=heapblue, line width=0.7pt, minimum width=0.7cm, minimum height=0.52cm, font=\small, fill=white},
+  on/.style={draw=greenO, line width=1pt, minimum width=0.7cm, minimum height=0.52cm, font=\small\bfseries, fill=greenO!15}
+]
+\node[font=\bfseries] at (0,0.55) {$\mathbf{BF}$};
+\node[on]  (b0) at (0,0)    {1};
+\node[bit] (b1) at (0,-0.52){0};
+\node[bit] (b2) at (0,-1.04){0};
+\node[on]  (b3) at (0,-1.56){1};
+\node[bit] (b4) at (0,-2.08){0};
+\node[on]  (b5) at (0,-2.60){1};
+\node[on]  (b6) at (0,-3.12){1};
+\node[on]  (b7) at (0,-3.64){1};
+\foreach \i/\y in {0/0,1/-0.52,2/-1.04,3/-1.56,4/-2.08,5/-2.60,6/-3.12,7/-3.64}
+  {\node[font=\scriptsize\bfseries, rustW, anchor=west] at (0.42,\y) {\i};}
+% inserts on left
+\node[font=\bfseries, heapblue] at (-4.6,0.55) {INSERTS};
+\node[font=\small] at (-4.6,-0.3) {\textbf{BF\_Insert}$(x_1)$: $h_1{=}0,\ h_2{=}3$};
+\node[font=\small] at (-4.6,-1.9) {\textbf{BF\_Insert}$(x_2)$: $h_1{=}5,\ h_2{=}6$};
+\node[font=\small] at (-4.6,-3.4) {\textbf{BF\_Insert}$(x_3)$: $h_1{=}6,\ h_2{=}7$};
+\draw[-{Stealth}, rustW] (-2.9,-0.3) -- (b0.west);
+\draw[-{Stealth}, rustW] (-2.9,-0.45) -- (b3.west);
+\draw[-{Stealth}, rustW] (-2.9,-1.9) -- (b5.west);
+\draw[-{Stealth}, rustW] (-2.9,-2.0) -- (b6.west);
+\draw[-{Stealth}, rustW] (-2.9,-3.4) -- (b6.west);
+\draw[-{Stealth}, rustW] (-2.9,-3.5) -- (b7.west);
+\end{tikzpicture}
+\end{center}
+
+\begin{examplebox}[Reading two searches]
+\begin{itemize}[leftmargin=1.4em,itemsep=3pt]
+  \item \textbf{BF\_Search}$(x)$ with $h_1(x) = 3$, $h_2(x) = 1$: bit $3$ is $1$ but bit $1$ is $\textcolor{greenO}{0}$, so return \textcolor{greenO}{``No''}. Certain: $x \notin \{x_1, x_2, x_3\}$.
+  \item \textbf{BF\_Search}$(x')$ with $h_1(x') = 3$, $h_2(x') = 6$: both bits are $1$, so return \textcolor{rustW}{``Probably Yes''}. But $x'$ was never inserted; bit $3$ came from $x_1$ and bit $6$ from $x_2$ and $x_3$. This is a \textbf{\textcolor{rustW}{false positive}}.
+\end{itemize}
+\end{examplebox}
+
+% ------------------------------------------------------------------
+\section{Probability of a False Positive}
+
+\textbf{Setup.} Insert $x_1, \ldots, x_n$ into an empty $\mathbf{BF}[0 \ldots m-1]$ with $t$ independent hash functions satisfying SUHA. Then do \textbf{BF\_Search}$(x)$ for some $x \notin \{x_1, \ldots, x_n\}$. We want $\Pr[\text{false positive}] = \Pr[\text{BF\_Search}(x) = \text{``Probably Yes''}]$.
+
+\begin{keybox}[Step 1: probability a fixed bit is still $0$]
+Fix an index $i$. Across the $n$ inserts, each setting $t$ bits, SUHA and independence of the $h_j$ make the $nt$ ``did not hit $i$'' events mutually independent:
+\[
+  \Pr[\mathbf{BF}[i] = 0]
+  = \prod_{k=1}^{n}\prod_{j=1}^{t} \Pr[h_j(x_k) \ne i]
+  = \Big(1 - \tfrac{1}{m}\Big)^{nt}
+  \;\approx\; \big(e^{-1/m}\big)^{nt}
+  = e^{-nt/m},
+\]
+using $1 - y \approx e^{-y}$ for small $y = 1/m$. Therefore
+\[
+  \Pr[\mathbf{BF}[i] = 1] = 1 - \Pr[\mathbf{BF}[i]=0] \approx \underbrace{1 - e^{-nt/m}}_{q}.
+\]
+\end{keybox}
+
+\begin{keybox}[Lemma 1]
+After inserting $x_1, \ldots, x_n$ into a $\mathbf{BF}$ of size $m$ with $t$ hash functions, for an arbitrary index $i$:
+\[
+  \Pr[\mathbf{BF}[i] = 1] \approx 1 - e^{-nt/m} \;=\; q.
+\]
+\end{keybox}
+
+\begin{keybox}[Step 2: a false positive needs all $t$ fingerprint bits set]
+$\text{BF\_Search}(x) = $ ``Probably Yes'' iff $\mathbf{BF}[h_1(x)] = 1$ \textbf{and} $\cdots$ \textbf{and} $\mathbf{BF}[h_t(x)] = 1$. Treating these $t$ bits as independent and each $\approx q$ by Lemma 1:
+\[
+  \Pr[\text{false positive}]
+  \approx q^{\,t}
+  = \Big(1 - e^{-nt/m}\Big)^{t}.
+\]
+\end{keybox}
+
+% ------------------------------------------------------------------
+\section{Choosing $t$: the Optimal Number of Hash Functions}
+
+\begin{keybox}[Optimal $t$]
+Let $\dfrac{m}{n}$ = \textbf{number of bits per element} (fix this ratio). Minimise $\Pr[\text{false positive}] = \big(1 - e^{-nt/m}\big)^t$ over $t$ (take the derivative with respect to $t$, set to $0$):
+\[
+  \text{Optimal } t = (\ln 2)\,\frac{m}{n} = 0.69\,\frac{m}{n},
+  \qquad
+  \text{then } \Pr[\text{false positive}] \approx 0.62^{\,m/n}.
+\]
+\end{keybox}
+
+\begin{examplebox}[The malicious-URL numbers]
+Want a Bloom filter for $n = 10$ million URLs. Allocate $8$ bits per URL:
+\[
+  \text{Size } m = 8n = 8 \times 10\text{M bits} \approx 10\text{ MB}, \qquad \frac{m}{n} = 8.
+\]
+Much less than storing even one full URL per element. The best $t$:
+\[
+  t \approx 0.69 \cdot \frac{m}{n} = 0.69 \times 8 = 5.52 \text{ hash functions.}
+\]
+With this $t$:
+\[
+  \Pr[\text{false positive}] \approx 0.62^{\,m/n} = 0.62^{\,8} \approx \textcolor{rustW}{2\%}.
+\]
+\end{examplebox}
+
+% ------------------------------------------------------------------
+\section{Past Exam Question}
+
+\begin{exambox}[Seen on a past exam \textnormal{(Final, Dec 2012, Q3: Hash / Bloom Filter)}]
+\textbf{[10 marks]} Let $H$ be the family of all hash functions $U \to \{0, \ldots, m-1\}$. For $i = 1, \ldots, k$ let $B_i[0 \ldots m-1]$ be a Boolean array, initially all $0$. Let $S \subseteq U$ with $|S| = n$. Pick $k$ hash functions $h_1, \ldots, h_k$ uniformly and independently from $H$. For each $x \in S$ and each $i$, set $B_i[h_i(x)] \leftarrow 1$. Define
+\[
+  Check(y) = \textbf{true} \iff \forall i \in \{1,\ldots,k\}\ B_i[h_i(y)] = 1.
+\]
+\textbf{(a)} For $k=2$, $m=5$, $U = \{0,\ldots,24\}$, $h_1(x) = x \bmod 5$, $h_2(x) = (2x+3)\bmod 5$, $S = \{2,4,7\}$, draw $B_1$ and $B_2$.\\
+\textbf{(b)} For $h \in H$ and $x, y \in U$ chosen uniformly and independently, what is $\Pr[h(x) = h(y)]$?\\
+\textbf{(c)} If $y \in S$, explain why $Check(y) = \textbf{true}$ always.\\
+\textbf{(d)} If $y \notin S$, explain why $\Pr[Check(y) = \textbf{true}] = \big(1 - (1 - 1/m)^n\big)^k$.
+
+\begin{answerband}
+This is a Bloom filter with one array per hash function. $Check$ is BF\_Search, and (d) is the false positive probability.
+
+\textbf{(a)} Compute each hash on $S = \{2,4,7\}$:
+\[
+  h_1:\ 2\mapsto 2,\ 4\mapsto 4,\ 7\mapsto 2 \qquad
+  h_2:\ 2\mapsto 2,\ 4\mapsto 1,\ 7\mapsto 2
+\]
+So $B_1$ has bits $2,4$ set and $B_2$ has bits $1,2$ set:
+\[
+  B_1 = [\,0,0,\textcolor{greenO}{1},0,\textcolor{greenO}{1}\,], \qquad
+  B_2 = [\,0,\textcolor{greenO}{1},\textcolor{greenO}{1},0,0\,]
+  \quad (\text{indices } 0..4).
+\]
+
+\textbf{(b)} Fix $h(x)$; $h(y)$ is uniform over $m$ slots and independent, so $\Pr[h(x)=h(y)] = \dfrac{1}{m} = \dfrac{1}{5}$.
+
+\textbf{(c)} If $y \in S$, then when $y$ was processed we set $B_i[h_i(y)] \leftarrow 1$ for \emph{every} $i$. Those bits are never reset, so all are still $1$ and $Check(y) = \textbf{true}$. (No false negatives.)
+
+\textbf{(d)} Fix $i$. After inserting the $n$ elements of $S$, by SUHA and independence
+\[
+  \Pr[B_i[h_i(y)] = 0] = \Big(1 - \tfrac{1}{m}\Big)^{n}
+  \;\Rightarrow\;
+  \Pr[B_i[h_i(y)] = 1] = 1 - \Big(1 - \tfrac{1}{m}\Big)^{n}.
+\]
+$Check(y) = \textbf{true}$ needs this for all $k$ independent arrays, so
+\[
+  \Pr[Check(y) = \textbf{true}] = \Big(1 - (1 - 1/m)^{n}\Big)^{k}. \qquad \textcolor{violetT}{\checkmark}
+\]
+(Same shape as our $q^t$ with $t = k$.)
+\end{answerband}
+\end{exambox}
+
+% ------------------------------------------------------------------
+\section*{\textcolor{violetT}{Quick Reference: Lecture 9}}
+\addcontentsline{toc}{section}{Quick Reference: Lecture 9}
+\begin{keybox}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{l l}
+Bloom filter & probabilistic dictionary; stores fingerprints, not elements\\
+Answers & ``No'' $\Rightarrow$ \textcolor{greenO}{certainly} $x \notin S$; ``Probably Yes'' $\Rightarrow$ maybe (false positives)\\
+No false negatives & if $x$ inserted, all its bits are $1$\\
+Structure & $m$-bit array $\mathbf{BF}$, $t$ independent hashes $h_i$ under SUHA\\
+BF\_Insert$(x)$ & set $\mathbf{BF}[h_i(x)] = 1$ for $i = 1..t$\\
+BF\_Search$(x)$ & if any $\mathbf{BF}[h_i(x)] = 0$ return ``No''; else ``Probably Yes''\\
+$\Pr[\mathbf{BF}[i]=0]$ & $(1 - 1/m)^{nt} \approx e^{-nt/m}$\\
+$\Pr[\mathbf{BF}[i]=1]$ & $q = 1 - e^{-nt/m}$ \quad (Lemma 1)\\
+$\Pr[\text{false positive}]$ & $\approx q^t = (1 - e^{-nt/m})^t$\\
+Optimal $t$ & $(\ln 2)\,\tfrac{m}{n} = 0.69\,\tfrac{m}{n}$; then $\Pr[\text{FP}] \approx 0.62^{\,m/n}$\\
+$m/n$ & bits per element (fix it, then optimise $t$)\\
+\end{tabular}
+\end{keybox}
+
+\vspace{4pt}
+\begin{center}\textcolor{greyline}{\rule{0.5\linewidth}{0.6pt}}\end{center}
+
+\newpage
+
+% ==================================================================
+% ==================================================================
+%  PART X: LECTURE 10 — RANDOMIZED QUICKSORT
+% ==================================================================
+% ==================================================================
+
+\part*{\textcolor{utnavy}{Lecture 10: Randomized Quicksort}}
+\addcontentsline{toc}{part}{Lecture 10: Randomized Quicksort}
+
+% ------------------------------------------------------------------
+\section{The Algorithm}
+
+\begin{defbox}[Randomized Quicksort $RQS(S)$]
+Input: a set $S$ of $n$ \textbf{distinct} keys. \quad Output: the keys of $S$ in increasing order.
+
+Recursive, divide-and-conquer:
+\begin{enumerate}[leftmargin=1.6em,itemsep=1pt]
+  \item If $S$ is empty, return. If $|S| = 1$, output the key and return.
+  \item Select a key $p$ (the \textbf{pivot}) \textcolor{rustW}{uniformly at random} from $S$ (each key equally likely).
+  \item Compare $p$ to every other key, splitting $S$ into two subsets:
+  \[
+    S_< = \{\, s \in S \mid s < p \,\}, \qquad S_> = \{\, s \in S \mid s > p \,\}.
+  \]
+  (This split costs $n - 1$ key comparisons when $|S| = n$.)
+  \item Output $RQS(S_<)$; output $p$; output $RQS(S_>)$.
+\end{enumerate}
+\end{defbox}
+
+\begin{examplebox}[One execution on $S = \{2,8,7,1,3,4,6,5\}$]
+Picking pivot $4$ at the root splits into $S_< = \{2,1,3\}$ and $S_> = \{8,7,6,5\}$, then each side recurses with its own random pivots. One possible recursion tree (pivots shown next to each node):
+
+\begin{center}
+\begin{tikzpicture}[
+  every node/.style={ellipse, draw=heapblue, line width=0.6pt, inner sep=2pt, font=\scriptsize, fill=white},
+  level distance=1.0cm,
+  level 1/.style={sibling distance=4.6cm},
+  level 2/.style={sibling distance=2.3cm},
+  level 3/.style={sibling distance=1.2cm},
+  pv/.style={draw=none, fill=none, font=\scriptsize\bfseries, text=rustW}
+]
+\node {$2,8,7,1,3,\mathbf{\textcolor{rustW}{4}},6,5$}
+  child {node {$2,1,\mathbf{\textcolor{rustW}{3}}$}
+    child {node {$2,\mathbf{\textcolor{rustW}{1}}$}
+      child {node {$\emptyset$}}
+      child {node {$2$}}
+    }
+    child {node {$\emptyset$}}
+  }
+  child {node {$8,7,\mathbf{\textcolor{rustW}{6}},5$}
+    child {node {$5$}}
+    child {node {$\mathbf{\textcolor{rustW}{8}},7$}
+      child {node {$7$}}
+      child {node {$\emptyset$}}
+    }
+  };
+\end{tikzpicture}
+\end{center}
+Output (in-order): $1,2,3,4,5,6,7,8$.
+\end{examplebox}
+
+\begin{keybox}[Basic observations (in every $RQS(S)$ execution)]
+\begin{itemize}[leftmargin=1.4em,itemsep=2pt]
+  \item Two keys are compared \textbf{only if} one of them is selected as a pivot.
+  \item Two keys are compared \textbf{at most once}.
+  \item If two keys are ``\textbf{split apart}'' into different subsets by a pivot (like $2$ and $7$ are split by pivot $4$), they are \textbf{never} compared.
+\end{itemize}
+\end{keybox}
+
+% ------------------------------------------------------------------
+\section{Worst-Case Number of Comparisons}
+
+Fix an input $S$ with $n$ distinct keys, run $RQS(S)$, and let $C$ = number of key comparisons.
+
+\begin{keybox}[Worst case: \textcolor{rustW}{$\Theta(n^2)$}]
+If each pivot is the largest (or smallest) remaining key, the split is maximally uneven:
+\[
+  C = (n-1) + (n-2) + \cdots + 2 + 1 = \frac{n(n-1)}{2}, \quad \text{i.e. } \textcolor{rustW}{\Theta(n^2)}.
+\]
+\end{keybox}
+
+\textbf{But} the pivot is \emph{random}, so we care about the \textcolor{violetT}{expected} value $E(C)$, averaged over all random pivot choices.
+
+% ------------------------------------------------------------------
+\section{Expected Number of Comparisons: Indicator Variables}
+
+\begin{defbox}[Setup]
+Let $z_1 < z_2 < \cdots < z_i < \cdots < z_j < \cdots < z_n$ be the keys of $S$ in \textbf{sorted} order. Define the indicator random variable
+\[
+  c_{ij} =
+  \begin{cases}
+    1 & \text{if } RQS(S) \text{ compares } z_i \text{ and } z_j,\\
+    0 & \text{otherwise.}
+  \end{cases}
+\]
+Since any pair is compared at most once, the total number of comparisons is
+\[
+  C = \sum_{1 \le i < j \le n} c_{ij}.
+\]
+\end{defbox}
+
+\begin{keybox}[Expected value of an indicator = its probability]
+\[
+  E[c_{ij}] = 1 \cdot \Pr[c_{ij} = 1] + 0 \cdot \Pr[c_{ij} = 0] = \Pr[c_{ij}=1] = \Pr[z_i \text{ and } z_j \text{ are compared}].
+\]
+By \textbf{linearity of expectation}:
+\[
+  E(C) = E\!\Big(\sum_{1 \le i < j \le n} c_{ij}\Big)
+       = \sum_{1 \le i < j \le n} E[c_{ij}]
+       = \sum_{1 \le i < j \le n} \Pr[z_i \text{ and } z_j \text{ are compared}].
+\]
+\end{keybox}
+
+% ------------------------------------------------------------------
+\section{The Key Lemma}
+
+\begin{keybox}[Lemma: probability two keys are compared]
+For $i < j$:
+\[
+  \Pr[z_i \text{ and } z_j \text{ are compared}] = \frac{2}{\,j - i + 1\,}.
+\]
+\end{keybox}
+
+\begin{examplebox}[Intuition on the extremes]
+\begin{itemize}[leftmargin=1.4em,itemsep=2pt]
+  \item $z_1$ and $z_n$ (smallest and largest) are compared iff the \textbf{first} pivot chosen among all $n$ keys is $z_1$ or $z_n$: probability $\dfrac{2}{n}$. Here $j - i + 1 = n$, so the lemma checks out. (In the example $n=8$: $\Pr = \tfrac{2}{8} = \tfrac14$.)
+  \item $z_i$ and $z_{i+1}$ (adjacent in sorted order) are \textbf{always} compared: nothing lies between them, so whoever becomes a pivot first between the two must compare them. Here $j - i + 1 = 2$, so $\dfrac{2}{2} = 1$. \textcolor{greenO}{\checkmark}
+\end{itemize}
+\end{examplebox}
+
+\begin{keybox}[Proof of the Lemma]
+Consider the set of keys between $z_i$ and $z_j$ inclusive:
+\[
+  Z_{ij} = \{\, z_i, z_{i+1}, \ldots, z_j \,\}, \qquad |Z_{ij}| = j - i + 1.
+\]
+\begin{itemize}[leftmargin=1.4em,itemsep=2pt]
+  \item As long as $RQS$ picks pivots \textbf{not in} $Z_{ij}$, all of $Z_{ij}$ stays together inside one subset, and $z_i, z_j$ stay uncompared.
+  \item At some point $RQS$ \textbf{must} pick a pivot $p \in Z_{ij}$ (to split $Z_{ij}$). Consider the \textbf{first} such $p$. Two cases:
+  \begin{enumerate}[leftmargin=1.6em,itemsep=1pt]
+    \item If $z_i < p < z_j$ (so $p$ is a \emph{middle} element of $Z_{ij}$): $p$ splits $z_i$ and $z_j$ apart $\Rightarrow$ they are \textbf{never} compared.
+    \item If $p = z_i$ or $p = z_j$: then $z_i$ and $z_j$ \textbf{are} compared.
+  \end{enumerate}
+\end{itemize}
+Since the first pivot in $Z_{ij}$ is equally likely to be any of its $|Z_{ij}| = j-i+1$ keys, and exactly $2$ of them ($z_i$ and $z_j$) cause a comparison:
+\[
+  \Pr[z_i \text{ and } z_j \text{ compared}] = \Pr[p = z_i \text{ or } p = z_j \mid p \in Z_{ij}] = \frac{2}{\,j - i + 1\,}. \qquad \square
+\]
+\end{keybox}
+
+% ------------------------------------------------------------------
+\section{Putting it Together: \textcolor{violetT}{$E(C) = O(n \log n)$}}
+
+\begin{keybox}[The bound]
+\[
+  E(C) = \sum_{1 \le i < j \le n} \frac{2}{\,j - i + 1\,}
+       \;\le\; 2n\Big(1 + \tfrac12 + \tfrac13 + \cdots + \tfrac1n\Big)
+       \quad\text{[CLRS p.\ 184]}.
+\]
+The harmonic number $H_n = 1 + \tfrac12 + \cdots + \tfrac1n$ is $O(\log n)$. Therefore
+\[
+  \boxed{\;E(C) = O(n \log n)\;}.
+\]
+\end{keybox}
+
+\begin{warnbox}[Worst case vs expected]
+Worst case $C = \Theta(n^2)$, but the \textbf{expected} number of comparisons is only $O(n \log n)$. Randomizing the pivot makes the bad $\Theta(n^2)$ inputs vanishingly unlikely: no fixed input is consistently bad.
+\end{warnbox}
+
+% ------------------------------------------------------------------
+\section{Past Exam Question}
+
+\begin{exambox}[Seen on a past exam \textnormal{(Final, Aug 2014, Q6: Analysis of a Randomized Algorithm)}]
+\textbf{[20 marks]} An array $A$ of $n$ distinct numbers is sorted ascending \textbf{except} that the first two elements $A[1], A[2]$ are swapped (e.g. $[20,10,30,40,\ldots]$). \texttt{RANDOM-SORT} repeatedly picks a pair $(i,j)$ uniformly at random from the set $S$ of all pairs with $1 \le i \le n$, $1 \le j \le n$ (including $i=j$ and $i>j$), removes it, and if $i<j$ and $A[i]>A[j]$ swaps them; it stops once $A$ is sorted.
+
+\textbf{(1)} How many ``while'' iterations are needed to \textbf{guarantee} $A$ is sorted? \textbf{(2)} Expected number of iterations before $A$ is sorted (exact form)?
+
+\begin{answerband}
+There are $|S| = n^2$ pairs. The array is sorted the moment the one \textbf{fixing pair} $(1,2)$ is drawn (it is the only pair with $i<j$ and $A[i]>A[j]$); every other pair does nothing.
+
+\textbf{(1)} Worst case: the fixing pair $(1,2)$ is drawn \textbf{last}, after all $n^2 - 1$ useless pairs. So to guarantee sorted we may need all
+\[
+  \textcolor{violetT}{n^2} \text{ iterations.}
+\]
+
+\textbf{(2)} The fixing pair is equally likely to be at any position $1, 2, \ldots, n^2$ in the random removal order. Its expected position is
+\[
+  E[\text{iterations}] = \frac{1 + 2 + \cdots + n^2}{n^2} = \frac{n^2 + 1}{2}.
+\]
+\textcolor{violetT}{\textbf{Expected} $= \dfrac{n^2 + 1}{2}$.}
+
+\smallskip
+\textcolor{heapblue}{\textbf{Method tested:}} same as $RQS$ analysis: an indicator / uniform-position argument, then expectation.
+\end{answerband}
+\end{exambox}
+
+\begin{exambox}[Seen on a past exam \textnormal{(Final, Dec 2012, Q8: Randomized Search)}]
+\textbf{[15 marks]} A sorted linked list of length $n$ is stored in an $n \times 2$ matrix $A$ (value, next pointer) with a \texttt{head} index. $Search(x)$ first jumps to a \textbf{uniformly random} row $i$, compares $A[i,1]$ with $x$ (resetting to \texttt{head} if too big, else following \texttt{next}), then walks forward. Find the worst-case \textbf{expected} number of comparisons.
+
+\begin{answerband}
+\textbf{Worst case (deterministic):} $\Theta(n)$ (a random start near the front, then walk the whole list).
+
+\textbf{Expected:} define indicators over which rows are visited, use linearity of expectation exactly as in the $RQS$ analysis. The random starting row makes the expected walk length a constant fraction of $n$, so the expected number of comparisons is \textcolor{violetT}{$\Theta(n)$} in the worst case, but the \emph{constant} is smaller than the deterministic walk.
+
+\smallskip
+\textcolor{heapblue}{\textbf{Why it is here:}} it drills the same toolkit: probability space $+$ indicator random variables $+$ linearity of expectation.
+\end{answerband}
+\end{exambox}
+
+% ------------------------------------------------------------------
+\section*{\textcolor{violetT}{Quick Reference: Lecture 10}}
+\addcontentsline{toc}{section}{Quick Reference: Lecture 10}
+\begin{keybox}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{l l}
+$RQS(S)$ & random pivot $p$; split into $S_< , S_>$; recurse; split costs $n-1$\\
+Compared when & two keys compared only if one is a pivot; at most once\\
+Split apart & a pivot between them $\Rightarrow$ never compared\\
+Worst case & $C = \tfrac{n(n-1)}{2} = \Theta(n^2)$\\
+Indicator & $c_{ij} = 1$ iff $z_i, z_j$ compared; $C = \sum_{i<j} c_{ij}$\\
+$E[c_{ij}]$ & $= \Pr[z_i, z_j \text{ compared}]$ (indicator)\\
+Linearity & $E(C) = \sum_{i<j} \Pr[z_i, z_j \text{ compared}]$\\
+Key lemma & $\Pr[z_i, z_j \text{ compared}] = \dfrac{2}{j-i+1}$ \; ($Z_{ij}$, first pivot argument)\\
+Result & $E(C) \le 2n H_n = \textcolor{violetT}{O(n \log n)}$\\
+\end{tabular}
+\end{keybox}
+
+\vspace{4pt}
+\begin{center}\textcolor{greyline}{\rule{0.5\linewidth}{0.6pt}}\end{center}
+
+\newpage
+
+% ==================================================================
+% ==================================================================
+%  TUTORIAL — AUGMENTED DATA STRUCTURES: INTERVAL TREES
+% ==================================================================
+% ==================================================================
+
+\part*{\textcolor{utnavy}{Tutorial: Augmented Data Structures and Interval Trees}}
+\addcontentsline{toc}{part}{Tutorial: Augmented Data Structures \& Interval Trees}
+
+% ------------------------------------------------------------------
+\section{The Problem: Overlapping Intervals}
+
+\begin{examplebox}[Applications]
+\begin{itemize}[leftmargin=1.4em,itemsep=1pt]
+  \item Book a conference room from $16{:}00$ to $17{:}00$: does it \textbf{conflict} with an existing booking?
+  \item Does my lifeguard shift \textbf{overlap} with anyone else's? If so, who?
+\end{itemize}
+\end{examplebox}
+
+\begin{defbox}[Closed interval and overlap]
+A closed interval is $i = [t_1, t_2]$ with $t_1 \le t_2$. Write $\text{low}[i] = t_1$ and $\text{high}[i] = t_2$.
+
+Two intervals $i$ and $i'$ \textbf{overlap} iff:
+\[
+  \text{low}[i] \le \text{high}[i'] \quad\textbf{and}\quad \text{low}[i'] \le \text{high}[i].
+\]
+(``Each one starts before the other one ends.'')
+\end{defbox}
+
+\begin{defbox}[\textcolor{defblue}{Goal}]
+Store a set of intervals and support, all in \textcolor{greenO}{$O(\log n)$} time ($n$ = number of intervals):
+\begin{itemize}[leftmargin=1.4em,itemsep=1pt]
+  \item \textbf{Insert}$(x)$, \textbf{Delete}$(x)$,
+  \item \textbf{Search}$(x)$: return \emph{an} interval in the structure that overlaps with $x$ (or \texttt{NIL}).
+\end{itemize}
+\end{defbox}
+
+% ------------------------------------------------------------------
+\section{Designing an Augmented Data Structure (the Method)}
+
+\begin{keybox}[The design steps (this method is the important part)]
+\begin{enumerate}[leftmargin=1.6em,itemsep=3pt]
+  \item \textbf{What base data structure, and \textcolor{rustW}{why}?}
+  \item \textbf{What information should be stored?}
+    \begin{itemize}[leftmargin=1.4em,itemsep=1pt]
+      \item the \textbf{key} of the base structure,
+      \item the \textbf{augmentations} (extra fields).
+    \end{itemize}
+  \item \textbf{Maintain the augmentations efficiently}: each must be computable in $O(1)$ from a node's own fields and its children's fields.
+  \item Implement the new operation using the augmentations.
+\end{enumerate}
+\end{keybox}
+
+\begin{keybox}[Step 1 and 2 for interval trees]
+\textbf{Base structure: an AVL tree.} Why? It gives \textbf{ordering} plus $O(\log n)$-height operations.
+
+For each node $x$ storing interval $i = (\text{low}[i], \text{high}[i])$:
+\begin{itemize}[leftmargin=1.4em,itemsep=2pt]
+  \item \textbf{Key} $= \text{low}[x]$ (the low endpoint). The AVL is ordered by low endpoints.
+  \item \textbf{Augmentation} $\max[x] = $ the largest high endpoint among all intervals in $x$'s subtree.
+\end{itemize}
+\end{keybox}
+
+% ------------------------------------------------------------------
+\section{Maintaining the Augmentation \texorpdfstring{$\max[x]$}{max[x]} Efficiently}
+
+\begin{keybox}[{$\max[x]$ is computable in \textcolor{greenO}{$O(1)$} from the children}]
+\[
+  \max[x] = \max\big(\,\text{high}[x],\; \max[x.\text{left}],\; \max[x.\text{right}]\,\big).
+\]
+So after any structural change, $\max$ only needs updating on the $O(\log n)$ nodes on the path from the root to the modified leaf, plus the $O(1)$ rotated nodes.
+\end{keybox}
+
+\begin{keybox}[Inserts and Deletes stay \textcolor{greenO}{$O(\log n)$}]
+Insert / Delete $=$ ordinary AVL insert / delete $+$ $\max$ updates. The updates apply only to nodes on the path from the root to the modified leaf, plus rotated nodes:
+\[
+  O(\log n) \text{ nodes} \times O(1) \text{ update each} = \textcolor{greenO}{O(\log n)}.
+\]
+\end{keybox}
+
+\begin{examplebox}[A small interval tree (keyed on low, with $\max$ below each node)]
+\begin{center}
+\begin{tikzpicture}[
+  every node/.style={draw=heapblue, line width=0.7pt, rounded corners=2pt, inner sep=2.5pt, font=\scriptsize, fill=white},
+  level distance=1.35cm,
+  level 1/.style={sibling distance=4.2cm},
+  level 2/.style={sibling distance=2.1cm},
+  mx/.style={draw=none, fill=none, font=\scriptsize\bfseries, text=rustW}
+]
+\node {$[12.5,\,13]$}
+  child {node {$[10,\,12]$}
+    child {node {$[9,\,9.5]$}}
+    child[missing]
+  }
+  child {node {$[14.5,\,19.5]$}
+    child {node {$[14,\,15]$}}
+    child[missing]
+  };
+% max labels
+\node[mx] at (0,-0.55) {$\max = 19.5$};
+\node[mx] at (-2.1,-1.9) {$\max = 12$};
+\node[mx] at (2.1,-1.9) {$\max = 19.5$};
+\node[mx] at (-3.15,-3.25) {$\max = 9.5$};
+\node[mx] at (1.05,-3.25) {$\max = 15$};
+\end{tikzpicture}
+\end{center}
+Each $\max$ equals the largest high endpoint in that node's subtree, and each is the max of the node's own high and its children's $\max$ values.
+\end{examplebox}
+
+% ------------------------------------------------------------------
+\section{Interval-Search$(x)$}
+
+\begin{codebox}[Search(x): find any interval overlapping x]
+\ttfamily y = root\\
+\ttfamily while y != NULL and (y and x do NOT overlap):\\
+\ttfamily \hspace*{2em}if y.left = NULL or max[y.left] < low[x]:\\
+\ttfamily \hspace*{4em}y = y.right\\
+\ttfamily \hspace*{2em}else:\\
+\ttfamily \hspace*{4em}y = y.left\\
+\ttfamily return y
+\end{codebox}
+
+\textbf{Cost:} one root-to-leaf descent, $O(1)$ per node, so \textcolor{greenO}{$O(\log n)$}.
+
+% ------------------------------------------------------------------
+\section{Why it is Correct}
+
+\begin{keybox}[Loop invariant]
+\textbf{If} there is an interval that overlaps with the query $x$, \textbf{then} there always is one such interval in $y$'s subtree.
+\end{keybox}
+
+\begin{keybox}[Maintaining the invariant]
+\textbf{Holds at the root} (the whole tree is $y$'s subtree).
+
+\textbf{After each loop iteration}, when $y$ and $x$ do not overlap we move to a child:
+\begin{enumerate}[leftmargin=1.6em,itemsep=2pt]
+  \item[(i)] If $y.\text{left} = \texttt{NULL}$: the left subtree is empty, so any overlapping interval must be on the right. Go right. \textcolor{greenO}{\checkmark}
+  \item[(ii)] If $\max[y.\text{left}] < \text{low}[x]$: every interval in the left subtree ends before $x$ starts, so none can overlap $x$. Go right. \textcolor{greenO}{\checkmark}
+  \item[(iii)] If $\max[y.\text{left}] \ge \text{low}[x]$: some interval in the left subtree ends at or after $\text{low}[x]$. One can show that if \emph{any} interval in $y$'s subtree overlaps $x$, then one in the \textbf{left} subtree does too, so going left is safe. Go left. \textcolor{greenO}{\checkmark}
+\end{enumerate}
+When the loop ends, either $y = \texttt{NULL}$ (no overlap exists, by the invariant) or $y$ overlaps $x$.
+\end{keybox}
+
+\begin{examplebox}[A worked search]
+Interval tree (key $=$ low, $\max$ below each node):
+\begin{center}
+\begin{tikzpicture}[
+  every node/.style={draw=heapblue, line width=0.7pt, rounded corners=2pt, inner sep=2.5pt, font=\scriptsize, fill=white},
+  level distance=1.35cm,
+  level 1/.style={sibling distance=4.6cm},
+  level 2/.style={sibling distance=2.3cm},
+  mx/.style={draw=none, fill=none, font=\scriptsize\bfseries, text=rustW}
+]
+\node {$[5,\,10]$}
+  child {node {$[3,\,9]$}
+    child {node {$[2,\,4]$}}
+    child {node {$[4,\,5]$}}
+  }
+  child {node {$[8,\,11]$}
+    child {node {$[7,\,30]$}}
+    child {node {$[10,\,20]$}}
+  };
+\node[mx] at (0,-0.55) {$30$};
+\node[mx] at (-2.3,-1.9) {$9$};
+\node[mx] at (2.3,-1.9) {$30$};
+\node[mx] at (-3.45,-3.25) {$4$};
+\node[mx] at (-1.15,-3.25) {$5$};
+\node[mx] at (1.15,-3.25) {$30$};
+\node[mx] at (3.45,-3.25) {$20$};
+\end{tikzpicture}
+\end{center}
+
+\textbf{Search $x = [12, 13]$:}
+\begin{itemize}[leftmargin=1.4em,itemsep=1pt]
+  \item At $[5,10]$: no overlap ($10 < 12$). $\max[\text{left}] = 9 < \text{low}[x] = 12$, so go \textbf{right}.
+  \item At $[8,11]$: no overlap ($11 < 12$). $\max[\text{left}] = 30 \ge 12$, so go \textbf{left}.
+  \item At $[7,30]$: overlap? $\text{low} = 7 \le 13$ and $12 \le 30$: \textcolor{greenO}{yes}. Return $[7,30]$.
+\end{itemize}
+
+\textbf{Search $x = [0, 1]$:} at $[5,10]$ no overlap, $\max[\text{left}] = 9 \ge 0$ so go left; at $[3,9]$ no overlap, $\max[\text{left}] = 4 \ge 0$ so go left; at $[2,4]$ no overlap, left is \texttt{NULL} so go right; right is \texttt{NULL}, loop ends with $y = \texttt{NULL}$. Correctly reports \textbf{no overlapping interval}.
+\end{examplebox}
+
+% ------------------------------------------------------------------
+\section{Past Exam Questions}
+
+\begin{exambox}[Seen on a past exam \textnormal{(Final, Dec 2012, Q2: BST / Augmentation)}]
+\textbf{[10 marks]} Define $Average(v)$: the average of all keys in the subtree rooted at node $v$. Augment an AVL tree to support $Average$ in $O(1)$ without hurting the $O(\log n)$ bound of Insert and Delete.
+
+\textbf{(a)} What extra info at each node? \textbf{(b)} How to do $Average$ in $O(1)$? \textbf{(c)} Why do Insert/Delete stay $O(\log n)$?
+
+\begin{answerband}
+\textbf{(a)} Store at each node $v$ two augmentations:
+\[
+  \text{size}[v] = \text{number of nodes in } v\text{'s subtree}, \qquad
+  \text{sum}[v] = \text{sum of all keys in } v\text{'s subtree}.
+\]
+
+\textbf{(b)} $Average(v) = \dfrac{\text{sum}[v]}{\text{size}[v]}$, which is $\textcolor{greenO}{O(1)}$.
+
+\textbf{(c)} Both augmentations are computable in $O(1)$ from the children:
+\[
+  \text{size}[v] = 1 + \text{size}[v.\text{left}] + \text{size}[v.\text{right}], \quad
+  \text{sum}[v] = \text{key}[v] + \text{sum}[v.\text{left}] + \text{sum}[v.\text{right}].
+\]
+They only change on the $O(\log n)$ nodes on the insert/delete path plus the $O(1)$ rotated nodes, each updated in $O(1)$: total still \textcolor{greenO}{$O(\log n)$}. This is the exact same augmentation method as $\max[x]$ for interval trees.
+\end{answerband}
+\end{exambox}
+
+\begin{exambox}[Seen on a past exam \textnormal{(Final, Dec 2013, Q10: Range Search)}]
+\textbf{[15 marks]} Support on a set $S$ of integers, each in $O(\log n)$: \texttt{Insert}$(k)$, \texttt{Delete}$(x)$, \texttt{Search}$(k)$, and
+\[
+  IsEmptyRange(S, a, b) = \textbf{true} \iff S \text{ has no integer in } [a,b].
+\]
+\textbf{(a)} Which structure (no modifications needed)? \textbf{(b)} Pseudocode for $IsEmptyRange$. \textbf{(c)} Why $O(\log n)$?
+
+\begin{answerband}
+\textbf{(a)} A \textbf{balanced BST (AVL tree)} keyed on the integers. Insert, Delete, Search are already $O(\log n)$.
+
+\textbf{(b)} Find the smallest key that is $\ge a$ (the \emph{successor} of $a-1$), then check whether it falls in $[a,b]$:
+\begin{quote}\ttfamily
+IsEmptyRange(S, a, b):\\
+\hspace*{1.5em}k = smallest key in S with k $\ge$ a\\
+\hspace*{1.5em}\hspace*{1.5em}// walk down: at node x, if x.key $\ge$ a go left (remember x), else go right\\
+\hspace*{1.5em}if k = NIL or k $>$ b: return true\\
+\hspace*{1.5em}else: return false
+\end{quote}
+
+\textbf{(c)} Finding the smallest key $\ge a$ is a single root-to-leaf descent, $O(1)$ per node, on a tree of height $O(\log n)$: so $O(\log n)$. If that key exists and is $\le b$, there is an integer of $S$ in $[a,b]$; otherwise the range is empty.
+
+\smallskip
+\textcolor{violetT}{\textbf{Link to interval trees:}} same idea, a balanced BST answering a \emph{range} question in $O(\log n)$ by using ordering (here no augmentation is even needed).
+\end{answerband}
+\end{exambox}
+
+% ------------------------------------------------------------------
+\section*{\textcolor{violetT}{Quick Reference: Interval Trees}}
+\addcontentsline{toc}{section}{Quick Reference: Interval Trees}
+\begin{keybox}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{l l}
+Overlap test & $\text{low}[i] \le \text{high}[i']$ \textbf{and} $\text{low}[i'] \le \text{high}[i]$\\
+Design steps & base DS (+ why) $\to$ key $+$ augmentations $\to$ maintain in $O(1)$ $\to$ use\\
+Base structure & AVL (ordering $+$ $O(\log n)$)\\
+Key & $\text{low}[x]$ (low endpoint)\\
+Augmentation & $\max[x] = $ largest high endpoint in $x$'s subtree\\
+Maintain $\max$ & $\max[x] = \max(\text{high}[x], \max[x.\text{left}], \max[x.\text{right}])$; $O(1)$ per node\\
+Insert / Delete & AVL $+$ $\max$ updates on path $+$ rotated nodes $= O(\log n)$\\
+Search$(x)$ & go right if left empty or $\max[\text{left}] < \text{low}[x]$, else go left; $O(\log n)$\\
+Invariant & if any interval overlaps $x$, one such interval is in $y$'s subtree\\
+General method & store size/sum/max etc. computable in $O(1)$ from children\\
+\end{tabular}
+\end{keybox}
+
+\vspace{4pt}
+\begin{center}\textcolor{greyline}{\rule{0.5\linewidth}{0.6pt}}\end{center}
+\begin{center}\small\textcolor{greyline}{End of Lectures 8, 9, 10 \& Interval Trees tutorial notes.}\end{center}
 
 
 \end{document}
