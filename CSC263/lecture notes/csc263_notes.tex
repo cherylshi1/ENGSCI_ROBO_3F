@@ -108,7 +108,6 @@
 \centering
 \vspace*{1.2cm}
 {\small\textcolor{greyline}{\scshape University of Toronto}}\\[4pt]
-{\small\textcolor{greyline}{Department of Computer Science}}
 
 \vspace{1.0cm}
 \textcolor{violetT}{\rule{0.72\linewidth}{1.4pt}}
@@ -119,7 +118,6 @@
 
 \vspace{0.5cm}
 {\large\itshape\textcolor{greyline}{Lecture Notes}}\\[4pt]
-{\large\textcolor{violetT}{Lectures 1--6}}
 
 \vspace{0.5cm}
 \textcolor{violetT}{\rule{0.72\linewidth}{1.4pt}}
@@ -363,6 +361,32 @@ Bubble sort & $\Theta(n^2)$ \\
 % ******************************************************************
 %  PART II: LECTURE 2 — PRIORITY QUEUES AND MAX-HEAPS
 % ******************************************************************
+
+% ==================================================================
+\section{Midterm-Style Process Problems}
+
+\begin{examplebox}[Predicted: prove a bound with an explicit worst-case input]
+\begin{quote}\ttfamily
+Scan(A[1..n]):\\
+\hspace*{1em} i $\leftarrow$ 1\\
+\hspace*{1em} while i $\le$ n and A[i] $\ge$ 0:\\
+\hspace*{2em} i $\leftarrow$ i $+$ 1\\
+\hspace*{1em} return i
+\end{quote}
+Let $T(n)$ count \textbf{array accesses}. Prove $T(n)=\Theta(n)$: show both the \Obig\ \up\ and the \Wbig\ \low, and for the lower bound give an \textbf{explicit} input.
+
+\begin{answerband}
+\textbf{\Obig\ (upper bound).} The loop body runs at most once per index $i=1,\dots,n$, and each iteration does \atmost\ one access $A[i]$. After index $n$ the test $i\le n$ fails with no further access. So for \every\ input, $T(n)\le n$, giving $T(n)=O(n)$.
+
+\textbf{\Wbig\ (lower bound).} We must exhibit \some\ input of size $n$ that forces $\geq cn$ accesses. Take $A=[0,0,\dots,0]$ (all nonnegative). Then $A[i]\ge0$ holds for every $i$, so the loop never exits early and performs \atleast\ $n$ accesses. Hence $T(n)=\Omega(n)$.
+
+Both bounds meet, so $T(n)=\textcolor{violetT}{\Theta(n)}$.
+\end{answerband}
+\end{examplebox}
+
+\begin{warnbox}[The mark you lose if you skip the input]
+Graders reject a $\Omega(n)$ argument that does not \textbf{name a concrete input}. Saying ``in the worst case it runs $n$ times'' is not a proof. You must point to one array, here all zeros, and show \emph{it} forces the work.
+\end{warnbox}
 
 \part*{\textcolor{utnavy}{Lecture 2: Priority Queues and Max-Heaps}}
 \addcontentsline{toc}{part}{Lecture 2: Priority Queues and Max-Heaps}
@@ -696,6 +720,43 @@ Constant number of heap ops, each $O(\log n)$ $\Rightarrow$ \textcolor{violetT}{
 \end{exambox}
 
 % ==================================================================
+% ==================================================================
+\section{Midterm-Style Process Problems}
+
+\begin{examplebox}[Predicted: Insert into a max-heap, show every sift-up]
+Insert $15$ into the max-heap $A=[16,14,10,8,7,9,3]$. Show the array after \textbf{each} swap.
+
+\begin{answerband}
+\textbf{Append} $15$ at the next free slot (index $8$), then \textbf{sift up} while it beats its parent (parent of $i$ is $\lfloor i/2\rfloor$).
+
+\begin{center}\heaparray{16,14,10,8,7,9,3,15}\end{center}
+Index $8$, parent index $4$ is $8$: $15>8$, swap.
+\begin{center}\heaparray{16,14,10,15,7,9,3,8}\end{center}
+Index $4$, parent index $2$ is $14$: $15>14$, swap.
+\begin{center}\heaparray{16,15,10,14,7,9,3,8}\end{center}
+Index $2$, parent index $1$ is $16$: $15<16$, \textcolor{greenO}{stop}. Final heap:
+\begin{center}\heaparray{16,15,10,14,7,9,3,8}\end{center}
+Sift-up touches one node per level, so Insert is \textcolor{violetT}{$O(\log n)$}.
+\end{answerband}
+\end{examplebox}
+
+\begin{examplebox}[Predicted: Extract-Max, show every sift-down]
+From the heap $A=[16,15,10,14,7,9,3,8]$ (size $8$), perform \textsc{Extract-Max}. Show the array after each swap.
+
+\begin{answerband}
+\textbf{Save} the root $16$ (this is the returned max). Move the \textbf{last} element $8$ to the root, drop the size to $7$, then \textbf{sift down}, always swapping with the \emph{larger} child (children of $i$ are $2i$ and $2i+1$).
+
+\begin{center}\heaparray{8,15,10,14,7,9,3}\end{center}
+Index $1$, children $15$ (idx $2$) and $10$ (idx $3$): larger is $15>8$, swap.
+\begin{center}\heaparray{15,8,10,14,7,9,3}\end{center}
+Index $2$, children $14$ (idx $4$) and $7$ (idx $5$): larger is $14>8$, swap.
+\begin{center}\heaparray{15,14,10,8,7,9,3}\end{center}
+Index $4$, children would be idx $8,9$ which are past size $7$: no children, \textcolor{greenO}{stop}. Returns $16$; final heap:
+\begin{center}\heaparray{15,14,10,8,7,9,3}\end{center}
+Sift-down also walks one path, so \textsc{Extract-Max} is \textcolor{violetT}{$O(\log n)$}.
+\end{answerband}
+\end{examplebox}
+
 \section*{\textcolor{violetT}{Quick Reference: Lecture 2}}
 \addcontentsline{toc}{section}{Quick Reference: Lecture 2}
 \begin{keybox}
@@ -1119,6 +1180,8 @@ Building from $n$ elements & takes $\textcolor{violetT}{O(n)}$ key comparisons t
 \end{tabular}
 \end{keybox}
 
+
+
 % ==================================================================
 \section{Memory Representation}
 
@@ -1302,6 +1365,54 @@ $3 \le 5$, so 3 stays as root. The other tree (root 5) becomes the \textbf{new l
 Deleting \textcolor{rustW}{the root} of a min heap ordered $B_k$ gives a valid \textcolor{greenO}{min binomial heap} of $2^k - 1$ elements.
 \end{keybox}
 
+\begin{examplebox}[Lemma 2 in Action: Deleting the Root of $B_3$]
+Delete the root of a min heap ordered $B_k$ and its children ($B_{k-1},\ldots,B_0$) fall out as a valid min binomial heap of $2^k-1$ nodes.
+
+\begin{center}
+\begin{tikzpicture}[
+  nd/.style={circle, draw=heapblue, line width=0.7pt, minimum size=6.5mm, inner sep=0pt, fill=skyfill, font=\scriptsize\bfseries},
+  scale=0.85, transform shape
+]
+% ---- BEFORE: B_3 ----
+\node[font=\scriptsize\bfseries\color{violetT}] at (0,1.4) {$B_3$};
+\node[nd, draw=rustW, line width=1pt, fill=rustW!15] (A1) at (0,0.9) {1};
+\node[font=\scriptsize\bfseries\color{rustW}] at (1.5,0.9) {delete root};
+\node[nd] (A3) at (-1.5,-0.3) {3};
+\node[nd] (A4) at (0,-0.3) {4};
+\node[nd] (A6) at (1.1,-0.3) {6};
+\node[nd] (A5) at (-2.1,-1.5) {5};
+\node[nd] (A7) at (-0.9,-1.5) {7};
+\node[nd] (A9) at (0,-1.5) {9};
+\node[nd] (A8) at (-2.1,-2.7) {8};
+\draw[heapblue, line width=0.6pt] (A1)--(A3); \draw[heapblue, line width=0.6pt] (A1)--(A4); \draw[heapblue, line width=0.6pt] (A1)--(A6);
+\draw[heapblue, line width=0.6pt] (A3)--(A5); \draw[heapblue, line width=0.6pt] (A3)--(A7); \draw[heapblue, line width=0.6pt] (A5)--(A8);
+\draw[heapblue, line width=0.6pt] (A4)--(A9);
+
+% ---- ARROW ----
+\draw[-{Stealth}, line width=1.2pt, rustW] (2.3,-0.9) -- (4.0,-0.9);
+\node[font=\scriptsize\bfseries\color{rustW}, align=center] at (3.15,-0.45) {children\\become a\\forest};
+
+% ---- AFTER: forest <B_2, B_1, B_0> ----
+\node[font=\scriptsize\bfseries\color{violetT}] at (5.7,1.0) {$B_2$};
+\node[nd, draw=greenO, line width=1pt, fill=greenO!15] (r3) at (5.7,0.5) {3};
+\node[nd] (r5) at (5.0,-0.7) {5};
+\node[nd] (r7) at (6.4,-0.7) {7};
+\node[nd] (r8) at (5.0,-1.9) {8};
+\draw[heapblue, line width=0.6pt] (r3)--(r5); \draw[heapblue, line width=0.6pt] (r3)--(r7); \draw[heapblue, line width=0.6pt] (r5)--(r8);
+\node[font=\scriptsize\bfseries\color{violetT}] at (7.9,1.0) {$B_1$};
+\node[nd, draw=greenO, line width=1pt, fill=greenO!15] (r4) at (7.9,0.5) {4};
+\node[nd] (r9) at (7.9,-0.7) {9};
+\draw[heapblue, line width=0.6pt] (r4)--(r9);
+\node[font=\scriptsize\bfseries\color{violetT}] at (9.5,1.0) {$B_0$};
+\node[nd, draw=greenO, line width=1pt, fill=greenO!15] (r6) at (9.5,0.5) {6};
+
+\node[font=\scriptsize\color{greenO}] at (7.4,-2.4) {valid heap of $2^3-1 = 7$ nodes};
+\end{tikzpicture}
+\end{center}
+
+The deleted root (1) was the overall minimum. Its children were already $B_2, B_1, B_0$ left to right, so they form a valid binomial forest, and each stays min heap ordered since their insides never changed.
+\end{examplebox}
+
 \begin{keybox}[Why Lemma 2 Matters]
 This is the key insight behind Extract\_Min. When we extract the minimum (a root of some $B_k$ tree), the remaining children form their own binomial heap. We then Union that new heap back with the rest.
 \end{keybox}
@@ -1340,128 +1451,125 @@ Each column (bit position $i$) can have 0, 1, 2, or 3 copies of $B_i$ (from $T$,
 \end{itemize}
 \end{defbox}
 
-\begin{examplebox}[Full Worked Example: Union($T$, $Q$)]
-$T$ has size $3 = \langle 11 \rangle_2$, so $T = \langle B_1, B_0 \rangle$.\\
-$Q$ has size $7 = \langle 111 \rangle_2$, so $Q = \langle B_2, B_1, B_0 \rangle$.
 
-Result: $3 + 7 = 10 = \langle 1010 \rangle_2$, so $S = \langle B_3, B_1 \rangle$.
 
-\textbf{Concrete values:}
-\begin{itemize}[leftmargin=1.4em,itemsep=1pt]
-  \item $T$: $B_1$(root 2, child 4). $B_0$(root 3).
-  \item $Q$: $B_2$(root 5, children: 7$\to$9 and 10). $B_1$(root 1, child 8). $B_0$(root 6).
-\end{itemize}
+
+\begin{examplebox}[Full Worked Example: Union($T$,$Q$) step by step]
+\tikzset{
+  und/.style={circle, draw=heapblue, line width=0.7pt, minimum size=6.5mm, inner sep=0pt, fill=skyfill, font=\scriptsize\bfseries},
+  ucry/.style={circle, draw=rustW, line width=1pt, minimum size=6.5mm, inner sep=0pt, fill=amberfill, font=\scriptsize\bfseries},
+  uinto/.style={circle, draw=greenO, line width=1pt, minimum size=6.5mm, inner sep=0pt, fill=greenO!15, font=\scriptsize\bfseries},
+  ue/.style={heapblue, line width=0.6pt},
+  ulab/.style={font=\scriptsize\bfseries\color{violetT}},
+}
+
+$T = \langle B_1, B_0\rangle$ (size $3=011_2$), \quad $Q=\langle B_2,B_1,B_0\rangle$ (size $7=111_2$). \quad Result $S$: $3+7=10=1010_2 \Rightarrow \langle B_3,B_1\rangle$.
+
+\textbf{Rule (binary addition, right to left):} per column, $0$/$1$ tree $\to$ drop into $S$; $2$ trees $\to$ merge (1 comparison) and carry; $3$ trees $\to$ one into $S$, merge the other two and carry.
+
+\medskip
+\textbf{\textcolor{rustW}{Position 0} ($B_0$): two $B_0$'s $\Rightarrow$ merge}
 
 \begin{center}
-\begin{tikzpicture}[
-  nd/.style={circle, draw=heapblue, line width=0.7pt, minimum size=6.5mm, inner sep=0pt, fill=skyfill, font=\scriptsize\bfseries},
-  scale=0.85, transform shape
-]
-% T
-\node[font=\bfseries\color{rustW}] at (-0.5,0.8) {$T$:};
-\node[nd] (t2) at (0.5,0) {2};
-\node[nd] (t4) at (0.5,-1.1) {4};
-\draw[heapblue, line width=0.6pt] (t2)--(t4);
-\node[font=\scriptsize\color{violetT}] at (0.5,0.5) {$B_1$};
-\node[nd] (t3) at (2,0) {3};
-\node[font=\scriptsize\color{violetT}] at (2,0.5) {$B_0$};
-% divider
-\draw[greyline, dashed, line width=0.5pt] (3.3,1) -- (3.3,-2.8);
-% Q
-\node[font=\bfseries\color{greenO}] at (4,0.8) {$Q$:};
-\node[nd] (q5) at (5.2,0) {5};
-\node[nd] (q7) at (4.5,-1.1) {7};
-\node[nd] (q10) at (5.9,-1.1) {10};
-\node[nd] (q9) at (4.5,-2.2) {9};
-\draw[heapblue, line width=0.6pt] (q5)--(q7); \draw[heapblue, line width=0.6pt] (q5)--(q10);
-\draw[heapblue, line width=0.6pt] (q7)--(q9);
-\node[font=\scriptsize\color{violetT}] at (5.2,0.5) {$B_2$};
-\node[nd] (q1) at (7.5,0) {1};
-\node[nd] (q8) at (7.5,-1.1) {8};
-\draw[heapblue, line width=0.6pt] (q1)--(q8);
-\node[font=\scriptsize\color{violetT}] at (7.5,0.5) {$B_1$};
-\node[nd] (q6) at (9,0) {6};
-\node[font=\scriptsize\color{violetT}] at (9,0.5) {$B_0$};
+\begin{tikzpicture}[scale=0.85, transform shape]
+  \node[ulab] at (0,0.55) {$B_0$ (from $T$)};
+  \node[und] (a3) at (0,0) {3};
+  \node[font=\large\bfseries\color{greyline}] at (1.3,0) {$+$};
+  \node[ulab] at (2.6,0.55) {$B_0$ (from $Q$)};
+  \node[und] (a6) at (2.6,0) {6};
+  \draw[-{Stealth},line width=1pt,rustW] (3.6,0) -- (5.0,0);
+  \node[font=\scriptsize\bfseries\color{rustW}] at (4.3,0.35) {$3\le 6$};
+  \node[ulab] at (6.6,0.9) {carry $\to B_1$};
+  \node[ucry] (r3) at (6.6,0.4) {3};
+  \node[und]  (r6) at (6.6,-0.9) {6};
+  \draw[ue] (r3)--(r6);
+  \node[font=\scriptsize\color{greenO}] at (8.9,-0.2) {$S$ at pos 0: empty};
 \end{tikzpicture}
 \end{center}
 
-\textbf{\textcolor{violetT}{Position 0} ($B_0$ column):}
-
-$T$ has $B_0$(3), $Q$ has $B_0$(6). Two trees $\Rightarrow$ merge.
-
-Compare 3 vs 6: $3 \le 6 \Rightarrow B_1$(root 3, child 6). This is the \textbf{carry}.
-
-$S$ at position 0: empty.\\[6pt]
-
-\textbf{\textcolor{violetT}{Position 1} ($B_1$ column):}
-
-$T$ has $B_1$(root 2), $Q$ has $B_1$(root 1), plus carry $B_1$(root 3). \textcolor{rustW}{Three trees!}
-
-Keep one in $S$: the carry $B_1$(3$\to$6).
-
-Merge the other two: compare 1 vs 2: $1 \le 2 \Rightarrow B_2$(root 1, with subtrees from both). New carry.
-
-$S$ at position 1: $B_1$(root 3, child 6).\\[6pt]
-
-\textbf{\textcolor{violetT}{Position 2} ($B_2$ column):}
-
-$Q$ has $B_2$(root 5), plus carry $B_2$(root 1). Two trees $\Rightarrow$ merge.
-
-Compare 1 vs 5: $1 \le 5 \Rightarrow B_3$(root 1). Carry to position 3.
-
-$S$ at position 2: empty.\\[6pt]
-
-\textbf{\textcolor{violetT}{Position 3} ($B_3$ column):}
-
-Just the carry $B_3$(root 1). One tree $\Rightarrow$ done.
-
-$S$ at position 3: $B_3$(root 1).\\[6pt]
-
-\textbf{\textcolor{violetT}{Result:}} $S = \langle B_3(\text{root } 1),\; B_1(\text{root } 3) \rangle$ \qquad $10 = \langle 1010 \rangle_2$ \checkmark
+\textbf{\textcolor{rustW}{Position 1} ($B_1$): three $B_1$'s $\Rightarrow$ one into $S$, merge two}
 
 \begin{center}
-\begin{tikzpicture}[
-  nd/.style={circle, draw=heapblue, line width=0.7pt, minimum size=6.5mm, inner sep=0pt, fill=skyfill, font=\scriptsize\bfseries},
-  scale=0.85, transform shape
-]
-% B_3 (root 1)
-\node[nd, draw=greenO, line width=1pt] (r1) at (2,0) {1};
-\node[font=\scriptsize\bfseries\color{violetT}] at (2,0.55) {$B_3$};
-% Children: B_2(5), B_1(2), B_0(8)
-\node[nd] (n5) at (0,-1.2) {5};
-\node[nd] (n2) at (2,-1.2) {2};
-\node[nd] (n8) at (3.5,-1.2) {8};
-\draw[heapblue, line width=0.6pt] (r1)--(n5);
-\draw[heapblue, line width=0.6pt] (r1)--(n2);
-\draw[heapblue, line width=0.6pt] (r1)--(n8);
-% Children of 5: B_1(7), B_0(10)
-\node[nd] (n7) at (-0.8,-2.4) {7};
-\node[nd] (n10) at (0.8,-2.4) {10};
-\draw[heapblue, line width=0.6pt] (n5)--(n7);
-\draw[heapblue, line width=0.6pt] (n5)--(n10);
-% Child of 7: B_0(9)
-\node[nd] (n9) at (-0.8,-3.6) {9};
-\draw[heapblue, line width=0.6pt] (n7)--(n9);
-% Child of 2: B_0(4)
-\node[nd] (n4) at (2,-2.4) {4};
-\draw[heapblue, line width=0.6pt] (n2)--(n4);
+\begin{tikzpicture}[scale=0.85, transform shape]
+  \node[ulab] at (0,0.55) {$T$};
+  \node[und] (b2) at (0,0) {2}; \node[und] (b4) at (0,-1.1) {4}; \draw[ue] (b2)--(b4);
+  \node[ulab] at (1.6,0.55) {$Q$};
+  \node[und] (b1) at (1.6,0) {1}; \node[und] (b8) at (1.6,-1.1) {8}; \draw[ue] (b1)--(b8);
+  \node[ulab] at (3.2,0.55) {carry};
+  \node[uinto] (c3) at (3.2,0) {3}; \node[uinto] (c6) at (3.2,-1.1) {6}; \draw[ue] (c3)--(c6);
+  \draw[-{Stealth},line width=1pt,rustW] (4.2,-0.5) -- (5.4,-0.5);
+  \node[font=\scriptsize\bfseries\color{greenO}] at (6.9,0.95) {into $S$};
+  \node[uinto] (s3) at (6.9,0.45) {3}; \node[uinto] (s6) at (6.9,-0.65) {6}; \draw[ue] (s3)--(s6);
+  \node[font=\large\bfseries\color{greyline}] at (8.0,-0.1) {$+$};
+  \node[font=\scriptsize\bfseries\color{rustW}] at (8.9,0.95) {$1\le 2$};
+  \node[ulab] at (9.9,1.4) {carry $\to B_2$};
+  \node[ucry] (m1) at (9.9,0.9) {1};
+  \node[und]  (m2) at (9.2,-0.3) {2}; \node[und] (m8) at (10.7,-0.3) {8}; \node[und] (m4) at (9.2,-1.5) {4};
+  \draw[ue] (m1)--(m2); \draw[ue] (m1)--(m8); \draw[ue] (m2)--(m4);
+\end{tikzpicture}
+\end{center}
+{\color{greenO}$S$ at pos 1: $B_1(3\to 6)$.}
 
-% Separator
-\draw[greyline, dashed, line width=0.5pt] (4.8,0.7) -- (4.8,-4);
+\medskip
+\textbf{\textcolor{rustW}{Position 2} ($B_2$): two $B_2$'s $\Rightarrow$ merge}
 
-% B_1 (root 3)
-\node[nd, draw=greenO, line width=1pt] (r3) at (6.2,0) {3};
-\node[font=\scriptsize\bfseries\color{violetT}] at (6.2,0.55) {$B_1$};
-\node[nd] (n6) at (6.2,-1.2) {6};
-\draw[heapblue, line width=0.6pt] (r3)--(n6);
+\begin{center}
+\begin{tikzpicture}[scale=0.85, transform shape]
+  \node[ulab] at (0,0.9) {$Q$};
+  \node[und] (d5) at (0,0.4) {5};
+  \node[und] (d7) at (-0.8,-0.8) {7}; \node[und] (d10) at (0.8,-0.8) {10}; \node[und] (d9) at (-0.8,-2.0) {9};
+  \draw[ue] (d5)--(d7); \draw[ue] (d5)--(d10); \draw[ue] (d7)--(d9);
+  \node[font=\large\bfseries\color{greyline}] at (2.1,-0.4) {$+$};
+  \node[ulab] at (4.2,0.9) {carry};
+  \node[ucry] (e1) at (4.2,0.4) {1};
+  \node[und]  (e2) at (3.4,-0.8) {2}; \node[und] (e8) at (5.0,-0.8) {8}; \node[und] (e4) at (3.4,-2.0) {4};
+  \draw[ue] (e1)--(e2); \draw[ue] (e1)--(e8); \draw[ue] (e2)--(e4);
+  \draw[-{Stealth},line width=1pt,rustW] (5.9,-0.5) -- (7.1,-0.5);
+  \node[font=\scriptsize\bfseries\color{rustW}] at (6.5,-0.15) {$1\le 5$};
+  \node[ulab] at (9.0,1.4) {carry $\to B_3$};
+  \node[ucry] (f1) at (9.0,0.9) {1};
+  \node[und] (f5) at (7.8,-0.3) {5}; \node[und] (f2) at (9.0,-0.3) {2}; \node[und] (f8) at (10.0,-0.3) {8};
+  \node[und] (f7) at (7.2,-1.5) {7}; \node[und] (f10) at (8.4,-1.5) {10}; \node[und] (f4) at (9.0,-1.5) {4};
+  \node[und] (f9) at (7.2,-2.7) {9};
+  \draw[ue] (f1)--(f5); \draw[ue] (f1)--(f2); \draw[ue] (f1)--(f8);
+  \draw[ue] (f5)--(f7); \draw[ue] (f5)--(f10); \draw[ue] (f7)--(f9); \draw[ue] (f2)--(f4);
+\end{tikzpicture}
+\end{center}
+{\color{greenO}$S$ at pos 2: empty.}
 
-% Label
-\node[font=\small\bfseries\color{violetT}] at (3.5,-4.5) {$S = \langle B_3,\; B_1 \rangle$};
+\medskip
+\textbf{\textcolor{rustW}{Position 3} ($B_3$): one $B_3$ (the carry) $\Rightarrow$ drop into $S$, done}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.85, transform shape]
+  \node[ulab] at (0,1.4) {into $S$ \;($B_3$)};
+  \node[uinto] (g1) at (0,0.9) {1};
+  \node[und] (g5) at (-1.2,-0.3) {5}; \node[und] (g2) at (0,-0.3) {2}; \node[und] (g8) at (1.0,-0.3) {8};
+  \node[und] (g7) at (-1.8,-1.5) {7}; \node[und] (g10) at (-0.6,-1.5) {10}; \node[und] (g4) at (0,-1.5) {4};
+  \node[und] (g9) at (-1.8,-2.7) {9};
+  \draw[ue] (g1)--(g5); \draw[ue] (g1)--(g2); \draw[ue] (g1)--(g8);
+  \draw[ue] (g5)--(g7); \draw[ue] (g5)--(g10); \draw[ue] (g7)--(g9); \draw[ue] (g2)--(g4);
 \end{tikzpicture}
 \end{center}
 
-\textbf{\textcolor{heapblue}{New edges:}} 3 \qquad \textbf{\textcolor{heapblue}{Key comparisons:}} 3
+\textbf{\textcolor{violetT}{Result:}} $S=\langle B_3,\,B_1\rangle$ \quad($10=1010_2$; \; 3 comparisons, 3 new edges)
+
+\begin{center}
+\begin{tikzpicture}[scale=0.85, transform shape]
+  \node[ulab] at (0,1.4) {$B_3$};
+  \node[uinto] (h1) at (0,0.9) {1};
+  \node[und] (h5) at (-1.2,-0.3) {5}; \node[und] (h2) at (0,-0.3) {2}; \node[und] (h8) at (1.0,-0.3) {8};
+  \node[und] (h7) at (-1.8,-1.5) {7}; \node[und] (h10) at (-0.6,-1.5) {10}; \node[und] (h4) at (0,-1.5) {4};
+  \node[und] (h9) at (-1.8,-2.7) {9};
+  \draw[ue] (h1)--(h5); \draw[ue] (h1)--(h2); \draw[ue] (h1)--(h8);
+  \draw[ue] (h5)--(h7); \draw[ue] (h5)--(h10); \draw[ue] (h7)--(h9); \draw[ue] (h2)--(h4);
+  \draw[greyline, dashed, line width=0.5pt] (2.2,1.4) -- (2.2,-2.8);
+  \node[ulab] at (3.6,1.4) {$B_1$};
+  \node[uinto] (i3) at (3.6,0.9) {3}; \node[und] (i6) at (3.6,-0.3) {6}; \draw[ue] (i3)--(i6);
+\end{tikzpicture}
+\end{center}
 \end{examplebox}
+
 
 \begin{keybox}[Union Complexity]
 If $|T| \le n$ and $|Q| \le n$, each heap has $\le \lfloor \log_2 n \rfloor + 1$ trees.
@@ -1647,6 +1755,66 @@ Based on past CSC263 exams (2012 through 2015), no specific binomial heap questi
 \end{warnbox}
 
 % ==================================================================
+% ==================================================================
+\section{Midterm-Style Process Problems}
+
+\begin{examplebox}[Predicted: Union two binomial heaps (with carries)]
+$H_1$ has $3$ nodes (binary $011$) and $H_2$ has $3$ nodes (binary $011$). Union them. Since $3+3=6$ (binary $110$), the result is a $B_2$ plus a $B_1$. Keys are shown below.
+
+\begin{center}
+\begin{tikzpicture}[
+   every node/.style={circle, draw=heapblue, line width=0.7pt, minimum size=6.2mm, inner sep=1pt, font=\scriptsize, fill=white}
+]
+% H1
+\node[draw=none,fill=none,font=\bfseries\scriptsize] at (0.2,0.7) {$H_1$};
+\node (a4) at (0,0) {4}; \node (a9) at (0,-1) {9}; \draw (a4)--(a9);
+\node (a7) at (1.1,0) {7};
+\node[draw=none,fill=none,font=\tiny] at (0,-1.6) {$B_1$}; \node[draw=none,fill=none,font=\tiny] at (1.1,-1.6) {$B_0$};
+% H2
+\node[draw=none,fill=none,font=\bfseries\scriptsize] at (2.9,0.7) {$H_2$};
+\node (b3) at (2.7,0) {3}; \node (b6) at (2.7,-1) {6}; \draw (b3)--(b6);
+\node (b8) at (3.8,0) {8};
+\node[draw=none,fill=none,font=\tiny] at (2.7,-1.6) {$B_1$}; \node[draw=none,fill=none,font=\tiny] at (3.8,-1.6) {$B_0$};
+
+\draw[-{Stealth},line width=1pt,rustW] (4.4,-0.4)--(5.4,-0.4);
+
+% RESULT
+\node[draw=none,fill=none,font=\bfseries\scriptsize] at (7.4,0.7) {Result (110)};
+\node[draw=greenO,line width=1pt] (r3) at (7.2,0) {3};
+\node (r6) at (6.4,-1) {6};
+\node (r4) at (8.0,-1) {4};
+\node (r9) at (8.0,-2) {9};
+\draw (r3)--(r6); \draw (r3)--(r4); \draw (r4)--(r9);
+\node[draw=none,fill=none,font=\tiny] at (7.2,-2.6) {$B_2$};
+\node (r7) at (9.5,0) {7}; \node (r8) at (9.5,-1) {8}; \draw (r7)--(r8);
+\node[draw=none,fill=none,font=\tiny] at (9.5,-1.6) {$B_1$};
+\end{tikzpicture}
+\end{center}
+
+\begin{answerband}
+Add the forests like binary numbers, $011+011=110$, linking two $B_k$ into one $B_{k+1}$ (smaller root wins) whenever a column holds two trees:
+\begin{enumerate}[leftmargin=1.6em,itemsep=2pt]
+  \item \textbf{Order 0 ($1+1$):} link $B_0\{7\}$ and $B_0\{8\}$ into a $B_1$ \textbf{carry} $\{7\!\to\!8\}$. Column 0 is now empty.
+  \item \textbf{Order 1 ($1+1+$ carry $=11$):} three $B_1$ trees now sit here: $\{4\!\to\!9\}$, $\{3\!\to\!6\}$, and the carry $\{7\!\to\!8\}$. Link two of them, $\{3\!\to\!6\}$ and $\{4\!\to\!9\}$ (root $\min=3$), into a $B_2$ \textbf{carry}; the third, $\{7\!\to\!8\}$, stays as the order-1 result bit.
+  \item \textbf{Order 2 (carry only):} the $B_2$ carry becomes the result.
+\end{enumerate}
+Result: a $B_2$ rooted at $3$ (children $6$ and $4$, and $4$ keeps its child $9$) plus a $B_1$ $\{7\!\to\!8\}$. Six nodes, $\textcolor{violetT}{\min=3}$. Each link is one key comparison, so \textsc{Union} is $O(\log n)$.
+\end{answerband}
+\end{examplebox}
+
+\begin{examplebox}[Predicted: Extract-Min from a binomial heap]
+A heap holds one $B_2$ rooted at $3$ with children $6$ and $4\!\to\!9$. Perform \textsc{Extract-Min}.
+
+\begin{answerband}
+\begin{enumerate}[leftmargin=1.6em,itemsep=2pt]
+  \item \textbf{Find} the minimum root. Here there is one root, $3$, so $\min=3$.
+  \item \textbf{Remove} root $3$. Its children become separate binomial trees forming a new heap $H'$: a $B_1\{4\!\to\!9\}$ and a $B_0\{6\}$.
+  \item \textbf{Union} $H'$ back with the rest of the heap (empty here), giving the final heap $\{4\!\to\!9\}+\{6\}$, now with $\min=4$.
+\end{enumerate}
+Finding the min scans $\le\log n+1$ roots, splitting is $O(\log n)$, and the union is $O(\log n)$, so \textsc{Extract-Min} is \textcolor{violetT}{$O(\log n)$}.
+\end{answerband}
+\end{examplebox}
+
 \section*{\textcolor{violetT}{Quick Reference: Lecture 3}}
 \addcontentsline{toc}{section}{Quick Reference: Lecture 3}
 \begin{keybox}
@@ -2584,6 +2752,70 @@ Implement using data structures from class. \texttt{k-Select} must run in \textc
 \end{exambox}
 
 % ==================================================================
+% ==================================================================
+\section{Midterm-Style Process Problems}
+
+\begin{examplebox}[Predicted: BST Delete, all three cases on one tree]
+Starting from this BST, delete $20$, then $40$, then $50$, in that order. Name which case each is.
+
+\begin{center}
+\begin{tikzpicture}[
+   level distance=1.0cm,
+   every node/.style={circle, draw=heapblue, line width=0.7pt, minimum size=7mm, inner sep=1pt, font=\small, fill=white},
+   level 1/.style={sibling distance=3.0cm}, level 2/.style={sibling distance=1.5cm}, level 3/.style={sibling distance=1.0cm}
+]
+\node {50}
+  child {node {30}
+    child {node {20}}
+    child {node {40} child[missing] child {node {45}}}
+  }
+  child {node {70}
+    child {node {60}}
+    child {node {80}}
+  };
+\end{tikzpicture}
+\end{center}
+
+\begin{answerband}
+\textbf{Delete 20 (Case 1: leaf).} No children, so just remove it. Node $30$ now has only the right child $40$.
+
+\textbf{Delete 40 (Case 2: one child).} Node $40$ has a single child $45$. Splice $40$ out by linking its parent $30$ straight to $45$.
+
+\textbf{Delete 50 (Case 3: two children).} Find the \textbf{successor} $=$ min of the right subtree: go right to $70$, then all the way left to $\mathbf{60}$. Copy $60$ into the root node, then delete the old successor $60$ (a leaf, Case 1).
+
+\begin{center}
+\begin{tikzpicture}[
+   level distance=1.0cm,
+   every node/.style={circle, draw=heapblue, line width=0.7pt, minimum size=7mm, inner sep=1pt, font=\small, fill=white},
+   level 1/.style={sibling distance=3.0cm}, level 2/.style={sibling distance=1.4cm}
+]
+\node[fill=goldpath!25,draw=goldpath] {60}
+  child {node {30}
+    child {node {45}}
+    child[missing]
+  }
+  child {node {70}
+    child[missing]
+    child {node {80}}
+  };
+\end{tikzpicture}
+\end{center}
+Final tree above. Each delete walks one root-to-leaf path, so BST Delete is \textcolor{violetT}{$O(h)$}.
+\end{answerband}
+\end{examplebox}
+
+\begin{examplebox}[Predicted: cost of $k$ successive inserts]
+A min binomial heap currently holds $n=13$ elements. Using $\text{cost}=k+\alpha(n)-\alpha(n+k)$ (where $\alpha(m)$ is the number of $1$-bits in $m$), find the key comparisons for $k=5$ inserts and the average per insert.
+
+\begin{answerband}
+$n=13=1101_2$, so $\alpha(13)=3$. \quad $n+k=18=10010_2$, so $\alpha(18)=2$.
+\[
+  \text{cost}=k+\alpha(n)-\alpha(n+k)=5+3-2=\textcolor{violetT}{6}\text{ comparisons.}
+\]
+Average per insert $=6/5=1.2$. This matches the rule that once $k>\log_2 n$ the average cost per insert is $\leq 2$, i.e.\ inserts are \textbf{amortized} $O(1)$ even though a single insert can cost up to $\log n$.
+\end{answerband}
+\end{examplebox}
+
 \section*{\textcolor{violetT}{Quick Reference: Lecture 4}}
 \addcontentsline{toc}{section}{Quick Reference: Lecture 4}
 \begin{keybox}
@@ -3041,6 +3273,82 @@ After the rotation the subtree's height returns to what it was before the insert
 \textbf{Cost:} the walk up is at most the height $= O(\log n)$, each step is $O(1)$, and at most one rotation ($O(1)$) happens. So \textbf{Insert is $\textcolor{violetT}{O(\log n)}$}.
 
 % ==================================================================
+% ==================================================================
+\section{Midterm-Style Process Problems}
+
+\begin{examplebox}[Predicted: AVL Delete with rebalancing]
+Delete $2$ from this AVL tree, then restore the AVL property.
+
+\begin{center}
+\begin{tikzpicture}[
+   level distance=1.05cm,
+   every node/.style={circle, draw=heapblue, line width=0.7pt, minimum size=7mm, inner sep=1pt, font=\small, fill=white},
+   level 1/.style={sibling distance=2.8cm}, level 2/.style={sibling distance=1.5cm}, level 3/.style={sibling distance=1.1cm}
+]
+\node [label={[greyline,font=\scriptsize\bfseries]above left:{$+1$}}] {5}
+  child {node [label={[greyline,font=\scriptsize\bfseries]left:{$-1$}}] {3}
+    child {node[fill=rustW!15,draw=rustW] {2}} child[missing] }
+  child {node [label={[greyline,font=\scriptsize\bfseries]right:{$+1$}}] {8}
+    child {node {7}}
+    child {node [label={[greyline,font=\scriptsize\bfseries]right:{$+1$}}] {9} child[missing] child {node {10}} } };
+\end{tikzpicture}
+\end{center}
+
+\begin{answerband}
+\textbf{Delete 2} (a leaf): the left subtree of $5$ shrinks from height $1$ to $0$. Walk up: at $5$, $\text{BF}=2-0=\textcolor{rustW}{+2}$ and its right child $8$ is right-heavy ($+1$): \textbf{RR}, so a single \textbf{Left rotation at 5}.
+
+\begin{center}
+\begin{tikzpicture}[every node/.style={circle, draw=heapblue, line width=0.7pt, minimum size=7mm, inner sep=1pt, font=\small, fill=white}]
+\node[font=\bfseries\scriptsize, draw=none, fill=none] at (0.0,0.8) {After delete 2:};
+\node[draw=rustW,line width=1.1pt,label={[rustW,font=\tiny\bfseries]left:{$+2$}}] (f5) at (0.8,0) {5};
+\node (f3) at (-0.3,-1.1) {3};
+\node[draw=rustW,line width=1.1pt,label={[rustW,font=\tiny\bfseries]right:{$+1$}}] (f8) at (1.9,-1.1) {8};
+\node (f7) at (1.2,-2.2) {7};
+\node[label={[greyline,font=\tiny\bfseries]right:{$+1$}}] (f9) at (2.6,-2.2) {9};
+\node (f10) at (3.2,-3.3) {10};
+\draw (f5)--(f3); \draw (f5)--(f8); \draw (f8)--(f7); \draw (f8)--(f9); \draw (f9)--(f10);
+\draw[-{Stealth}, line width=1.2pt, rustW] (4.0,-1.6) -- (5.5,-1.6);
+\node[rustW,font=\scriptsize\bfseries, draw=none, fill=none] at (4.75,-1.25) {Left-rot 5};
+\node[font=\bfseries\scriptsize, draw=none, fill=none] at (6.2,0.8) {Balanced:};
+\node[label={[greenO,font=\tiny\bfseries]above right:{$0$}}] (g8) at (7.6,0) {8};
+\node[label={[greenO,font=\tiny\bfseries]left:{$0$}}] (g5) at (6.6,-1.1) {5};
+\node[label={[greyline,font=\tiny\bfseries]right:{$+1$}}] (g9) at (8.6,-1.1) {9};
+\node (g3) at (5.9,-2.2) {3};
+\node[fill=goldpath!25,draw=goldpath] (g7) at (7.3,-2.2) {7};
+\node (g10) at (9.3,-2.2) {10};
+\draw (g8)--(g5); \draw (g8)--(g9); \draw (g5)--(g3); \draw (g5)--(g7); \draw (g9)--(g10);
+\end{tikzpicture}
+\end{center}
+$8$ rises, and its old left child $7$ moves to become the \textcolor{goldpath}{right child of $5$} ($5<7<8$). Remember: unlike Insert, a Delete rotation can leave the subtree shorter, so you may need to keep rebalancing up toward the root.
+\end{answerband}
+\end{examplebox}
+
+\begin{examplebox}[Predicted: build an AVL by inserting a sequence]
+Insert $30$, then $10$, then $20$ into an empty AVL tree. Show the rebalancing.
+
+\begin{answerband}
+$30$ then $10$ gives a legal tree ($30$ is left-heavy, $\text{BF}=-1$). Inserting $20$ goes $30\to10\to$ right, making $\text{BF}(10)=+1$ and $\text{BF}(30)=\textcolor{rustW}{-2}$ with left child $10$ \emph{right-heavy}: the \textbf{LR} zig-zag.
+
+\begin{center}
+\begin{tikzpicture}[every node/.style={circle, draw=heapblue, line width=0.7pt, minimum size=6.5mm, inner sep=1pt, font=\scriptsize, fill=white}]
+% start
+\node[draw=rustW,line width=1pt,label={[rustW,font=\tiny\bfseries]right:{$-2$}}] (s30) at (0.6,0) {30};
+\node[label={[rustW,font=\tiny\bfseries]left:{$+1$}}] (s10) at (-0.2,-1.1) {10};
+\node (s20) at (0.6,-2.2) {20};
+\draw (s30)--(s10); \draw (s10)--(s20);
+\draw[-{Stealth},line width=1pt,rustW] (1.4,-1.1)--(2.4,-1.1);
+\node[rustW,font=\tiny\bfseries,draw=none,fill=none,align=center] at (1.9,-0.7){left-rot 10,\\ right-rot 30};
+% end
+\node[label={[greenO,font=\tiny\bfseries]above:{$0$}}] (e20) at (3.6,0) {20};
+\node (e10) at (2.9,-1.1) {10};
+\node (e30) at (4.3,-1.1) {30};
+\draw (e20)--(e10); \draw (e20)--(e30);
+\end{tikzpicture}
+\end{center}
+The middle key $20$ rises to the root with $10$ left and $30$ right. One double rotation fixes it, and at most one rotation (single or double) is ever needed per insert.
+\end{answerband}
+\end{examplebox}
+
 \section*{\textcolor{violetT}{Quick Reference: Lecture 5}}
 \addcontentsline{toc}{section}{Quick Reference: Lecture 5}
 \begin{keybox}
@@ -3274,6 +3582,54 @@ AVL questions in this course ask you to \textbf{draw the tree after an insert/de
 \end{warnbox}
 
 % ==================================================================
+% ==================================================================
+\section{Midterm-Style Process Problems}
+
+\begin{examplebox}[Predicted: compute $m(h)$ and bound the height]
+Let $m(h)$ be the minimum number of nodes in an AVL tree of height $h$. Using $m(0)=1$, $m(1)=2$, $m(h)=1+m(h-1)+m(h-2)$, fill the table through $h=6$, and explain why this forces height $=O(\log n)$.
+
+\begin{answerband}
+\renewcommand{\arraystretch}{1.25}
+\begin{center}
+\begin{tabular}{c|c c c c c c c}
+$h$ & 0 & 1 & 2 & 3 & 4 & 5 & 6\\
+\hline
+$m(h)$ & 1 & 2 & 4 & 7 & 12 & 20 & 33\\
+\end{tabular}
+\end{center}
+Each value is $1$ plus the previous two, so $m(h)$ grows like the \textbf{Fibonacci} numbers, that is \emph{exponentially} in $h$. Since an AVL tree of height $h$ has $n\geq m(h)$ nodes and $m(h)$ grows exponentially, $h$ can only grow like $\log n$. Precisely, $\text{height}\leq 1.44\log_2(n+2)$, so every AVL operation is \textcolor{violetT}{$O(\log n)$}.
+\end{answerband}
+\end{examplebox}
+
+\begin{examplebox}[Predicted MC: identify the rotation]
+The AVL tree on the left became the one on the right after an insertion. Which rotation was applied at $A$?
+
+\begin{center}
+\begin{tikzpicture}[every node/.style={circle, draw=heapblue, line width=0.7pt, minimum size=7mm, inner sep=1pt, font=\small, fill=white}]
+\node[font=\bfseries\scriptsize, draw=none, fill=none] at (0.0,0.8) {Before:};
+\node[draw=rustW,line width=1pt,label={[rustW,font=\tiny\bfseries]right:{$-2$}}] (A) at (0.8,0) {A};
+\node[draw=rustW,line width=1pt,label={[rustW,font=\tiny\bfseries]left:{$+1$}}] (B) at (-0.2,-1.1) {B};
+\node (T4) at (1.8,-1.1) {$T_4$};
+\node (T1) at (-1.2,-2.2) {$T_1$};
+\node[draw=rustW,line width=1pt] (C) at (0.8,-2.2) {C};
+\node (T2) at (0.2,-3.3) {$T_2$}; \node (T3) at (1.4,-3.3) {$T_3$};
+\draw (A)--(B); \draw (A)--(T4); \draw (B)--(T1); \draw (B)--(C); \draw (C)--(T2); \draw (C)--(T3);
+\draw[-{Stealth}, line width=1.1pt, rustW] (2.6,-1.6) -- (4.0,-1.6);
+\node[font=\bfseries\scriptsize, draw=none, fill=none] at (4.6,0.8) {After:};
+\node[label={[greenO,font=\tiny\bfseries]above right:{$0$}}] (C2) at (5.8,0) {C};
+\node (B2) at (4.8,-1.1) {B}; \node (A2) at (6.8,-1.1) {A};
+\node (T1b) at (4.1,-2.2) {$T_1$}; \node (T2b) at (5.3,-2.2) {$T_2$};
+\node (T3b) at (6.3,-2.2) {$T_3$}; \node (T4b) at (7.3,-2.2) {$T_4$};
+\draw (C2)--(B2); \draw (C2)--(A2); \draw (B2)--(T1b); \draw (B2)--(T2b); \draw (A2)--(T3b); \draw (A2)--(T4b);
+\end{tikzpicture}
+\end{center}
+(a) single Right at $A$ (LL) \quad (b) single Left at $A$ (RR) \quad (c) Left on $B$ then Right at $A$ (LR) \quad (d) Right on $B$ then Left at $A$ (RL)
+
+\begin{answerband}
+\textbf{(c) LR double.} $A$ is left-heavy ($-2$) and its left child $B$ is right-heavy ($+1$), a zig-zag, so left-rotate $B$ then right-rotate $A$. The middle node $C$ rises to the top with $B$ and $A$ as its children.
+\end{answerband}
+\end{examplebox}
+
 \section*{\textcolor{violetT}{Quick Reference: Lecture 6}}
 \addcontentsline{toc}{section}{Quick Reference: Lecture 6}
 \begin{keybox}
@@ -3424,7 +3780,7 @@ Add them and you get $x$'s position. No traversal needed: the \texttt{size} fiel
 \begin{tikzpicture}[
   every node/.style={circle, draw=heapblue, line width=0.7pt, minimum size=7mm, inner sep=1pt, font=\small, fill=white},
   lbl/.style={draw=none, fill=none, font=\scriptsize\bfseries, text=greenO}
-
+]
 \node (n30) {30}; \node[lbl] at (0.6,0.45) {5};
 \node (n15) at (-1.6,-1.2) {15}; \node[lbl] at (-1.05,-0.9) {3};
 \node (n56) at (1.6,-1.2) {56}; \node[lbl] at (2.15,-0.9) {1};
@@ -3542,6 +3898,49 @@ Augmented AVL for $S=\{5,15,27,30,56\}$ (root $15$; $30$ has children $27, 56$).
 \end{exambox}
 
 % ==================================================================
+% ==================================================================
+\section{Midterm-Style Process Problems}
+
+\begin{examplebox}[Predicted: OS-Select on a size-augmented tree]
+Each node stores $\text{size}=$ number of nodes in its subtree (shown as a subscript). Run \textsc{OS-Select}$(5)$, the $5$th smallest key.
+
+\begin{center}
+\begin{tikzpicture}[
+   level distance=1.05cm,
+   every node/.style={circle, draw=heapblue, line width=0.7pt, minimum size=8mm, inner sep=0pt, font=\scriptsize, fill=white},
+   level 1/.style={sibling distance=3.0cm}, level 2/.style={sibling distance=1.4cm}
+]
+\node {$26_{\,7}$}
+  child {node {$17_{\,3}$} child {node {$14_{\,1}$}} child {node {$21_{\,1}$}} }
+  child {node {$41_{\,3}$} child {node {$30_{\,1}$}} child {node {$47_{\,1}$}} };
+\end{tikzpicture}
+\end{center}
+
+\begin{answerband}
+At each node compute $r=\text{size}(\text{left})+1$, the rank of this node inside its own subtree.
+\begin{enumerate}[leftmargin=1.6em,itemsep=2pt]
+  \item At $26$: $r=\text{size}(17)+1=3+1=4$. Want $i=5>4$, so go \textbf{right} and set $i=5-4=1$.
+  \item At $41$: $r=\text{size}(30)+1=1+1=2$. Want $i=1<2$, so go \textbf{left}.
+  \item At $30$: $r=\text{size}(\text{nil})+1=1$. Want $i=1=r$: \textcolor{greenO}{\textbf{return }$30$}.
+\end{enumerate}
+In-order the keys are $14,17,21,26,30,41,47$, and indeed the $5$th is $\mathbf{30}$. One root-to-node path, so $O(\log n)$.
+\end{answerband}
+\end{examplebox}
+
+\begin{examplebox}[Predicted: design an augmentation]
+You have a set $S$ of integers in an AVL tree. Design an augmentation so that $\textsc{SumLeq}(t)=$ ``sum of all keys $\leq t$'' runs in $O(\log n)$, and \textsc{Insert}/\textsc{Delete} stay $O(\log n)$.
+
+\begin{answerband}
+\textbf{Augment} each node $u$ with $\text{size}(u)$ and $\text{sum}(u)=$ sum of all keys in $u$'s subtree. Both satisfy a local rule from the children:
+\[
+  \text{sum}(u)=\text{sum}(\text{left})+\text{key}(u)+\text{sum}(\text{right}),
+\]
+so they are maintainable in $O(1)$ extra work per node during the usual \textsc{Insert}/\textsc{Delete} walk and rotations (a rotation touches a constant number of nodes).
+
+\textbf{Query.} Walk down from the root: at node $u$, if $t<\text{key}(u)$ recurse left; else add $\text{sum}(\text{left})+\text{key}(u)$ to the running total and recurse right. This visits one path, so \textsc{SumLeq} is \textcolor{violetT}{$O(\log n)$}. (Dividing \textsc{SumLeq}$(t)$ by a size count gives an $O(\log n)$ \textsc{Average} query, the same trick as past exams.)
+\end{answerband}
+\end{examplebox}
+
 \section*{\textcolor{violetT}{Quick Reference: Lecture 7}}
 \addcontentsline{toc}{section}{Quick Reference: Lecture 7}
 \begin{keybox}
@@ -3829,6 +4228,57 @@ An unsuccessful search inspects a whole chain, so its expected number of compari
 \end{exambox}
 
 % ------------------------------------------------------------------
+% ==================================================================
+\section{Midterm-Style Process Problems}
+
+\begin{examplebox}[Predicted: build a chained table, then analyse]
+A chained hash table has $m=5$ slots and $h(k)=k\bmod 5$. Insert, \textbf{at the head} of each chain, the keys $10,7,23,5,18,12,36$. Draw the table, then give the load factor and expected search cost under SUHA.
+
+\begin{center}
+\begin{tikzpicture}[
+  slot/.style={draw,line width=0.6pt,minimum width=0.9cm,minimum height=0.72cm,font=\small},
+  cell/.style={draw=heapblue,line width=0.7pt,fill=white,minimum width=0.8cm,minimum height=0.62cm,font=\small},
+  link/.style={-{Stealth},heapblue,line width=0.7pt}
+]
+\foreach \s in {0,1,2,3,4}{ \node[slot] (s\s) at (0,-\s*0.95) {\s}; }
+\node[cell] (a1) at (1.5,0) {5}; \node[cell] (a2) at (2.7,0) {10};
+\draw[link] (s0.east) -- (a1.west); \draw[link] (a1.east) -- (a2.west);
+\node[cell] (b1) at (1.5,-0.95) {36}; \draw[link] (s1.east) -- (b1.west);
+\node[cell] (c1) at (1.5,-1.9) {12}; \node[cell] (c2) at (2.7,-1.9) {7};
+\draw[link] (s2.east) -- (c1.west); \draw[link] (c1.east) -- (c2.west);
+\node[cell] (d1) at (1.5,-2.85) {18}; \node[cell] (d2) at (2.7,-2.85) {23};
+\draw[link] (s3.east) -- (d1.west); \draw[link] (d1.east) -- (d2.west);
+\node[font=\scriptsize\itshape,greyline] at (1.7,-3.8) {(empty)};
+\end{tikzpicture}
+\end{center}
+
+\begin{answerband}
+\textbf{Homes:} $10,5\to0$; $36\to1$; $7,12\to2$; $23,18\to3$; nothing $\to4$. Head insertion puts the later key in front, so slot $0$ reads $5\to10$, slot $2$ reads $12\to7$, slot $3$ reads $18\to23$.
+
+\textbf{Load factor} $\alpha=n/m=7/5=\textcolor{violetT}{1.4}$. Under SUHA the expected chain length is $\alpha$, so expected search is $\Theta(1+\alpha)=\textcolor{greenO}{\Theta(1)}$. Keep $m=\Theta(n)$ (resize and rehash when $\alpha$ passes a constant) and all three operations stay expected $\Theta(1)$. \textbf{Worst case:} all keys in one slot, a chain of length $n$, search $\textcolor{rustW}{\Theta(n)}$.
+\end{answerband}
+\end{examplebox}
+
+\begin{examplebox}[Predicted: ``power of two choices'' with chaining]
+Two independent hash functions $h_1,h_2$ both satisfy SUHA. When inserting $x$, place it in the \textbf{shorter} of the two chains $T[h_1(x)]$ and $T[h_2(x)]$ (ties go to $h_1$).
+\begin{itemize}[leftmargin=1.4em,itemsep=1pt]
+  \item[(a)] If $k$ of the $m$ slots are empty just before inserting $x$, what is $\Pr[x$ lands in an empty slot$]$?
+  \item[(b)] With $m=4$ and current chain lengths $4,1,7,7$ at slots $0,1,2,3$, what is the expected length of the chain $x$ joins (not counting $x$)?
+\end{itemize}
+
+\begin{answerband}
+\textbf{(a)} $x$ lands in an empty slot exactly when the \emph{shorter} chain is empty, i.e.\ when \textbf{at least one} of the two hashed slots is empty. A single hash misses the empty slots with probability $\tfrac{m-k}{m}$, so
+\[
+  \Pr[\text{empty}]=1-\Big(\tfrac{m-k}{m}\Big)^{2}.
+\]
+\textbf{(b)} For any pair of slots $(i,j)$ the joined chain has length $\min(L_i,L_j)$ (a tie joins $h_1$, which is the same length). With $L=(4,1,7,7)$ and all $16$ ordered pairs equally likely,
+\[
+  \mathbb{E}[\text{length}]=\frac{1}{16}\sum_{i,j}\min(L_i,L_j)=\frac{13+4+19+19}{16}=\frac{55}{16}=\textcolor{violetT}{3.4375}.
+\]
+Picking the shorter of two random chains pulls the expected length well below the plain $\alpha$.
+\end{answerband}
+\end{examplebox}
+
 \section*{\textcolor{violetT}{Quick Reference: Lecture 8}}
 \addcontentsline{toc}{section}{Quick Reference: Lecture 8}
 \begin{keybox}
@@ -4079,6 +4529,45 @@ $Check(y) = \textbf{true}$ needs this for all $k$ independent arrays, so
 \end{exambox}
 
 % ------------------------------------------------------------------
+% ==================================================================
+\section{Midterm-Style Process Problems}
+
+\begin{examplebox}[Predicted: insert, query, and estimate the false-positive rate]
+A Bloom filter uses an $m=10$ bit array and $t=2$ hash functions. Insert $x$ (hashes to bits $2,5$) and $y$ (hashes to bits $5,8$). Then query $z$ (hashes to bits $2,8$).
+
+\begin{center}
+\begin{tikzpicture}[scale=0.62, every node/.style={font=\small}]
+\foreach \i/\v in {0/0,1/0,2/1,3/0,4/0,5/1,6/0,7/0,8/1,9/0}{
+  \ifnum\v=1
+    \node[draw=greenO,line width=1pt,fill=greenO!18,minimum size=0.7cm] (c\i) at (\i*0.78,0) {\v};
+  \else
+    \node[draw=greyline,line width=0.6pt,minimum size=0.7cm] (c\i) at (\i*0.78,0) {\v};
+  \fi
+  \node[hidx] at (\i*0.78,-0.62) {\i};
+}
+\end{tikzpicture}
+\end{center}
+Does the filter say $z$ is present? Is that correct? Estimate the false-positive probability.
+
+\begin{answerband}
+Inserting $x,y$ sets bits $\{2,5,8\}$ (bit $5$ is shared). Querying $z$ checks bits $2$ and $8$, both $1$, so the filter answers \textbf{``probably yes''}. But $z$ was never inserted: this is a \textbf{false positive}. Bloom filters never give false negatives, but another element's bits can cover a query's bits exactly like this.
+
+\textbf{Probability.} A given bit is still $0$ with probability $\big(1-\tfrac1m\big)^{nt}\approx e^{-nt/m}$, so it is $1$ with probability $q=1-e^{-nt/m}$. A false positive needs all $t$ queried bits to be $1$:
+\[
+  \Pr[\text{false positive}]\approx q^{\,t}=\big(1-e^{-nt/m}\big)^{t}.
+\]
+Here $n=2,t=2,m=10$: $q=1-e^{-0.4}\approx0.33$, so $\Pr[\text{FP}]\approx 0.33^2\approx\textcolor{violetT}{0.11}$. (The exact finite form uses $1-(1-\tfrac1m)^{nt}$ in place of $q$.)
+\end{answerband}
+\end{examplebox}
+
+\begin{examplebox}[Predicted: size the filter]
+You will store $n=10^7$ URLs and want about $8$ bits per URL, so $m=8\times10^7$. What is the optimal number of hash functions $t$, and the resulting false-positive rate?
+
+\begin{answerband}
+Optimal $t\approx 0.69\,\tfrac{m}{n}=0.69\times 8\approx\textcolor{violetT}{5.5}$ (use $t=5$ or $6$). The resulting rate is $\Pr[\text{FP}]\approx 0.62^{\,m/n}=0.62^{8}\approx 0.02$, i.e.\ about $2\%$. More bits per element ($m/n$) drives the false-positive rate down exponentially.
+\end{answerband}
+\end{examplebox}
+
 \section*{\textcolor{violetT}{Quick Reference: Lecture 9}}
 \addcontentsline{toc}{section}{Quick Reference: Lecture 9}
 \begin{keybox}
@@ -4311,6 +4800,39 @@ There are $|S| = n^2$ pairs. The array is sorted the moment the one \textbf{fixi
 \end{exambox}
 
 % ------------------------------------------------------------------
+% ==================================================================
+\section{Midterm-Style Process Problems}
+
+\begin{examplebox}[Predicted: why RQS is $O(n\log n)$ expected]
+Let the sorted order be $z_1<z_2<\cdots<z_n$. Show the expected number of key comparisons in randomized quicksort is $O(n\log n)$.
+
+\begin{answerband}
+\textbf{Indicators.} Any pair $z_i,z_j$ ($i<j$) is compared \textbf{at most once}, and only if one of them is the \emph{first} pivot chosen from the block $Z_{ij}=\{z_i,\dots,z_j\}$. Let $X_{ij}=1$ if they are ever compared. Then $C=\sum_{i<j}X_{ij}$ and
+\[
+  \mathbb{E}[C]=\sum_{i<j}\Pr[z_i,z_j\text{ compared}].
+\]
+\textbf{Lemma.} Each of the $j-i+1$ keys of $Z_{ij}$ is equally likely to be the first pivot; a comparison happens iff that first pivot is $z_i$ or $z_j$ (an interior first pivot splits them apart forever). So
+\[
+  \Pr[z_i,z_j\text{ compared}]=\frac{2}{\,j-i+1\,}.
+\]
+\textbf{Sum.} With $d=j-i$,
+\[
+  \mathbb{E}[C]=\sum_{i=1}^{n-1}\sum_{d=1}^{n-i}\frac{2}{d+1}<\sum_{i=1}^{n}2H_n=2nH_n=O(n\log n),
+\]
+where $H_n=\Theta(\log n)$ is the harmonic number.
+\end{answerband}
+\end{examplebox}
+
+\begin{examplebox}[Predicted: worst case and a single pair]
+(a) What is the worst-case number of comparisons for RQS, and which pivots cause it? (b) For $n=10$, what is $\Pr[z_2$ and $z_9$ are compared$]$?
+
+\begin{answerband}
+\textbf{(a)} The worst case is when every pivot is the current smallest or largest, so each split is of size $0$ and $n-1$. Then the comparison count is $\binom{n}{2}=\tfrac{n(n-1)}{2}=\textcolor{rustW}{\Theta(n^2)}$.
+
+\textbf{(b)} By the lemma, $\Pr=\dfrac{2}{j-i+1}=\dfrac{2}{9-2+1}=\dfrac{2}{8}=\textcolor{violetT}{\tfrac14}$. Far-apart ranks are compared rarely, which is exactly why the expected total collapses to $O(n\log n)$.
+\end{answerband}
+\end{examplebox}
+
 \section*{\textcolor{violetT}{Quick Reference: Lecture 10}}
 \addcontentsline{toc}{section}{Quick Reference: Lecture 10}
 \begin{keybox}
@@ -4568,6 +5090,52 @@ IsEmptyRange(S, a, b):\\
 \end{exambox}
 
 % ------------------------------------------------------------------
+% ==================================================================
+\section{Midterm-Style Process Problems}
+
+\begin{examplebox}[Predicted: fill max fields, then run Interval-Search]
+Each node shows $[\text{low},\text{high}]$. Fill $\text{max}[x]$ at every node, then run \textsc{Interval-Search} for $i=[21,23]$.
+
+\begin{center}
+\begin{tikzpicture}[
+   level distance=1.5cm,
+   every node/.style={rectangle, rounded corners=2pt, draw=heapblue, line width=0.7pt, minimum width=1.2cm, minimum height=6mm, inner sep=2pt, font=\scriptsize, fill=white},
+   level 1/.style={sibling distance=4.2cm}, level 2/.style={sibling distance=2.2cm}
+]
+\node {$[15,20]$}
+  child {node {$[10,30]$} child {node {$[5,8]$}} child {node {$[12,16]$}} }
+  child {node {$[25,35]$} child {node {$[17,19]$}} child[missing] };
+\end{tikzpicture}
+\end{center}
+
+\begin{answerband}
+\textbf{Max fields}, bottom up, $\text{max}=\max$ of own high and children's max: $[5,8]\!\to\!8$, $[12,16]\!\to\!16$, $[17,19]\!\to\!19$, $[10,30]\!\to\!\max(30,8,16)=\textcolor{violetT}{30}$, $[25,35]\!\to\!\max(35,19)=\textcolor{violetT}{35}$, root $[15,20]\!\to\!\max(20,30,35)=\textcolor{violetT}{35}$.
+
+\textbf{Search $[21,23]$} (go left iff left child exists and $\text{max}[\text{left}]\geq\text{low}[i]=21$, else right):
+\begin{enumerate}[leftmargin=1.6em,itemsep=1pt]
+  \item At $[15,20]$: overlap needs $15\leq23$ and $21\leq20$; the second fails, \textbf{no overlap}. $\text{max}[\text{left}]=30\geq21$, so \textcolor{heapblue}{go left}.
+  \item At $[10,30]$: $10\leq23$ and $21\leq30$, both hold. \textcolor{greenO}{\textbf{Overlap, return }$[10,30]$.}
+\end{enumerate}
+\end{answerband}
+\end{examplebox}
+
+\begin{exambox}[Find-the-bug \textnormal{(modern MC style)}]
+\begin{quote}\ttfamily
+Buggy-Interval-Search(T, i)\\
+1\ \ x = T.root\\
+2\ \ while x $\ne$ nil and i does not overlap x.int:\\
+3\ \ \ \ \ if x.left $\ne$ nil and x.left.max $<$ i.low:\\
+4\ \ \ \ \ \ \ \ x = x.left\\
+5\ \ \ \ \ else x = x.right\\
+6\ \ return x
+\end{quote}
+Which line contains the bug? \quad (a) line 2 \quad (b) line 3 \quad (c) lines 4 and 5 \quad (d) line 6
+
+\begin{answerband}
+\textbf{(b) line 3.} The test is backwards. Go \textbf{left} when the left subtree \emph{could} hold an overlap, i.e.\ when $\text{x.left.max}\geq\text{i.low}$. As written it goes left exactly when the left subtree cannot help, so it misses overlaps on the left. Fix: \texttt{x.left.max $\geq$ i.low}.
+\end{answerband}
+\end{exambox}
+
 \section*{\textcolor{violetT}{Quick Reference: Interval Trees}}
 \addcontentsline{toc}{section}{Quick Reference: Interval Trees}
 \begin{keybox}
@@ -4589,6 +5157,605 @@ General method & store size/sum/max etc. computable in $O(1)$ from children\\
 \vspace{4pt}
 \begin{center}\textcolor{greyline}{\rule{0.5\linewidth}{0.6pt}}\end{center}
 \begin{center}\small\textcolor{greyline}{End of Lectures 8, 9, 10 \& Interval Trees tutorial notes.}\end{center}
+
+
+
+
+% ******************************************************************
+%  PASTE INSTRUCTIONS:
+%
+%  1. In your master document, DELETE these 3 lines near the end:
+%       \begin{center}\textcolor{greyline}{\rule{0.5\linewidth}{0.6pt}}\end{center}
+%       \begin{center}\small\textcolor{greyline}{End of Lectures 8, 9, 10 \& Interval Trees tutorial notes.}\end{center}
+%       \end{document}
+%
+%  2. Paste EVERYTHING below this comment block in their place.
+%
+%  3. On the cover page, change:
+%       {\large\textcolor{violetT}{Lectures 1--6}}
+%     (or whatever it currently says) to:
+%       {\large\textcolor{violetT}{Lectures 1--12}}
+%
+%  That's it. No preamble changes needed.
+% ******************************************************************
+
+\newpage
+
+% ******************************************************************
+%  LECTURE 11 -- DISJOINT SETS (UNION/FIND): LISTS, FORESTS, WEIGHTED UNION
+% ******************************************************************
+
+\part*{\textcolor{utnavy}{Lecture 11: Disjoint Sets (Union--Find), Part 1}}
+\addcontentsline{toc}{part}{Lecture 11: Disjoint Sets (Union--Find), Part 1}
+\setcounter{section}{0}
+
+% ==================================================================
+\section{The Disjoint Sets ADT}
+
+\begin{defbox}[Disjoint Sets (Union--Find) ADT]
+\textbf{Object:} $n$ distinct elements named $1, 2, \ldots, n$. Initially each element is in its own \textcolor{rustW}{singleton set}:
+\[
+  S_1 = \{1\},\quad S_2 = \{2\},\quad \ldots,\quad S_n = \{n\}.
+\]
+Each set has a \textcolor{rustW}{representative} element that uniquely identifies it. Write $S_x$ for the set represented by $x$.
+
+\textbf{Operations:}
+\begin{itemize}[leftmargin=1.4em,itemsep=1pt]
+  \item \textbf{Union}$(x,y)$: here $x, y$ are \underline{distinct set representatives}. Replace $S_x$ and $S_y$ by $S = S_x \cup S_y$. Some element of $S$ becomes the representative of $S$.
+  \item \textbf{Find}$(z)$: return the representative of the set that contains $z$.
+\end{itemize}
+\end{defbox}
+
+\begin{keybox}[The sequence $\sigma$ we care about]
+Each \textbf{Union} merges two sets into one, so it \textcolor{rustW}{reduces the number of sets by 1}. Starting from $n$ singletons, there can be \textcolor{rustW}{at most $n-1$ Unions}.
+\[
+  \sigma \;=\; \text{a sequence of } (n-1)\ \textbf{Unions} \text{ mixed with } m \ge n\ \textbf{Finds}.
+\]
+\textbf{Goal:} a data structure that minimizes the \textcolor{rustW}{total cost} of executing such a sequence $\sigma$.
+\end{keybox}
+
+\begin{examplebox}[Tracing the operations ($S_j$ = set represented by $j$)]
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{l l}
+Initially & $S_1{=}\{\underline{1}\}$, \; $S_2{=}\{\underline{2}\}$, \; $S_3{=}\{\underline{3}\}$, \; $S_4{=}\{\underline{4}\}$, \; $S_5{=}\{\underline{5}\}$\\
+\textbf{Union}$(3,4)$ & $S_3 = \{\underline{3},4\}$ \quad (now $\mathbf{Find}(4)=3$)\\
+\textbf{Union}$(1,5)$ & $S_1 = \{\underline{1},5\}$\\
+\textbf{Union}$(1,3)$ & $S_1 = \{\underline{1},5,3,4\}$ \quad (now $\mathbf{Find}(4)=1$, \; $\mathbf{Find}(2)=2$)\\
+\textbf{Union}$(1,2)$ & $S_1 = \{\underline{1},5,3,4,2\}$\\
+\end{tabular}
+\end{examplebox}
+
+% ==================================================================
+\section{Implementation 1: Linked Lists}
+
+\begin{defbox}[One linked list per set]
+Store each set as a doubly linked list, with a \textbf{head} and \textbf{tail} pointer. The \textcolor{rustW}{first element of the list is the representative}.
+\end{defbox}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9,
+  box/.style={draw=heapblue,line width=0.7pt,minimum size=0.7cm,inner sep=2pt,font=\small\bfseries,text=rustW},
+  lk/.style={heapblue,line width=0.8pt,{Stealth}-{Stealth}}]
+\node[box] (a) at (0,0) {1}; \node[box] (b) at (1.5,0) {5};
+\node[box] (c) at (3,0) {3}; \node[box] (d) at (4.5,0) {4};
+\draw[lk] (a)--(b); \draw[lk] (b)--(c); \draw[lk] (c)--(d);
+\node[rustW,font=\small] at (-0.9,0.55) {$S_1$};
+\node[rustW,font=\scriptsize] at (-0.9,0.0) {$h_1\!\downarrow$};
+\end{tikzpicture}
+\end{center}
+
+\begin{keybox}[Costs]
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{l l}
+\textbf{Union}$(x,y)$ & splice tail of one list onto head of the other $\to$ \textcolor{greenO}{$O(1)$}\\
+\textbf{Find}$(z)$ & walk from $z$ to the head to read the representative $\to$ \textcolor{rustW}{$O(n)$}\\
+\end{tabular}
+\[
+  \text{Worst-case cost of } \sigma \;=\; O(\underbrace{n\cdot 1}_{\text{per Union}} + \underbrace{m \cdot n}_{\text{per Find}}) \;=\; \textcolor{rustW}{O(m\,n)}.
+\]
+\end{keybox}
+
+% ==================================================================
+\section{Implementation 2: Augmented Linked Lists}
+
+\begin{defbox}[Augmented linked list]
+Same as before, but \textbf{each element also stores a pointer to its representative}. Now \textbf{Find} reads that pointer directly.
+\end{defbox}
+
+\begin{keybox}[Costs flip]
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{l l}
+\textbf{Find}$(z)$ & follow the representative pointer $\to$ \textcolor{greenO}{$O(1)$}\\
+\textbf{Union}$(x,y)$ & concatenate, then \textcolor{rustW}{redirect every element's pointer} of one set $\to$ \textcolor{rustW}{$O(n)$}\\
+\end{tabular}
+\[
+  \text{Worst-case cost of } \sigma \;=\; O(\underbrace{n\cdot n}_{\text{per Union}} + \underbrace{m \cdot 1}_{\text{per Find}}) \;=\; \textcolor{rustW}{O(n^2 + m)}.
+\]
+\end{keybox}
+
+\subsection{Weighted Union (WU) on augmented lists}
+
+\begin{keybox}[WU rule (by size)]
+When merging, \textbf{append the smaller list onto the bigger list} (keep a size counter for each list). This way we redirect the \textcolor{greenO}{fewer} pointers.
+\end{keybox}
+
+Each \textbf{Union} is still $O(n)$ in the worst case and each \textbf{Find} is $O(1)$, but WU improves the \emph{total} cost of a whole sequence:
+
+\begin{keybox}[Claim (proved in tutorial)]
+With WU, the worst-case cost of executing $\sigma$ is
+\[
+  O(\underbrace{m}_{m\ \text{Finds}} + \underbrace{n\log n}_{(n-1)\ \text{Unions}}).
+\]
+\end{keybox}
+
+% ==================================================================
+\section{Implementation 3: Disjoint-Set Forest}
+
+\begin{defbox}[Forest representation]
+Each set is a \textcolor{rustW}{tree}:
+\begin{itemize}[leftmargin=1.4em,itemsep=1pt]
+  \item each node holds one element,
+  \item each \textbf{non-root} node points to its \textbf{parent},
+  \item the \textbf{root} holds the set representative.
+\end{itemize}
+An array $A[1..n]$ stores, for each element $x$, a pointer $A[x]$ to $x$'s node, so we can jump to any element in $O(1)$.
+\end{defbox}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9,
+  fn/.style={circle,draw=heapblue,line width=0.8pt,minimum size=0.72cm,inner sep=0pt,font=\small\bfseries,text=rustW,fill=white},
+  up/.style={heapblue,line width=0.8pt,-{Stealth}}]
+% tree for S1 = {1,3,2,8,5,10}, root 1
+\node[fn,draw=rustW,line width=1.1pt] (n1) at (1.2,2.4) {1};
+\node[fn] (n3) at (0,1.2) {3};
+\node[fn] (n8) at (2.4,1.2) {8};
+\node[fn] (n2) at (1.4,0) {2};
+\node[fn] (n5) at (2.4,0) {5};
+\node[fn] (n10) at (3.4,0) {10};
+\draw[up] (n3)--(n1); \draw[up] (n8)--(n1);
+\draw[up] (n2)--(n8); \draw[up] (n5)--(n8); \draw[up] (n10)--(n8);
+\node[rustW,font=\small] at (1.2,3.05) {$S_1=\{\underline{1},3,2,8,5,10\}$};
+% second tree for S9
+\node[fn,draw=rustW,line width=1.1pt] (m9) at (6.3,2.4) {9};
+\node[fn] (m7) at (5.5,1.2) {7};
+\node[fn] (m4) at (7.1,1.2) {4};
+\draw[up] (m7)--(m9); \draw[up] (m4)--(m9);
+\node[rustW,font=\small] at (6.3,3.05) {$S_9=\{\underline{9},7,4\}$};
+\end{tikzpicture}
+\end{center}
+
+\begin{keybox}[Costs]
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{l l}
+\textbf{Find}$(x)$ & follow parent pointers up to the root \;$\to$\; \textcolor{violetT}{$O(1 + \text{Find-path length})$}\\
+\textbf{Union}$(x,y)$ & make root of $S_x$ a child of root of $S_y$ \;$\to$\; \textcolor{greenO}{$O(1)$}\\
+\end{tabular}
+\end{keybox}
+
+\begin{warnbox}[Without any heuristic, the forest can degenerate]
+Do \textbf{Union}$(1,2)$, \textbf{Union}$(2,3)$, $\ldots$, \textbf{Union}$(n{-}1,n)$ (each time attaching the old root under the new element). This builds a single chain of \textbf{height $n-1$}.
+\[
+  \text{Cost of } m\ \textbf{Find}(1) \;=\; \Omega(m\cdot n)
+  \quad\Rightarrow\quad \text{worst-case } \sigma = \Omega(m\,n).
+\]
+To reduce the cost of $\sigma$, we must \textcolor{rustW}{reduce the length of Find paths}, i.e.\ reduce the \textbf{height} of the trees formed during $\sigma$.
+\end{warnbox}
+
+% ==================================================================
+\section{Heuristic 1: Weighted Union (WU) by Size}
+
+\begin{defbox}[WU rule (MUST KNOW)]
+In \textbf{Union}$(A,B)$, make the root of the \textcolor{rustW}{smaller} tree a child of the root of the \textcolor{greenO}{bigger} tree. Here \textbf{size} = number of nodes in the tree. Store a size counter at each root.
+\end{defbox}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.95,
+  rt/.style={circle,draw=heapblue,line width=0.9pt,minimum size=0.55cm,inner sep=0pt,font=\small\bfseries,text=rustW,fill=white}]
+% small tree A
+\node[rt] (A) at (0,0) {A};
+\draw[heapblue,line width=0.7pt] (-0.55,-1.1)--(A)--(0.55,-1.1)--(-0.55,-1.1);
+\node[font=\scriptsize] at (0,-0.75) {smaller};
+% big tree B
+\node[rt] (B) at (3,0.5) {B};
+\draw[heapblue,line width=0.7pt] (2.1,-1.1)--(B)--(3.9,-1.1)--(2.1,-1.1);
+\node[font=\scriptsize] at (3,-0.55) {bigger};
+\draw[-{Stealth},heapblue,line width=1pt] (A)--(B);
+\end{tikzpicture}
+\end{center}
+
+\begin{keybox}[Lemma (the key fact)]
+With WU, any tree $T$ of height $h$ created while running $\sigma$ has at least $2^h$ nodes:
+\[
+  |T| \;\ge\; 2^{\,h}.
+\]
+\end{keybox}
+
+\begin{examplebox}[Proof sketch: induction on $h$]
+\textbf{Base} $h=0$: a single node, $|T| = 1 = 2^0$. \checkmark
+
+\textbf{Step:} assume the lemma for height $h$. A tree of height $h+1$ is formed by a \textbf{Union} where the smaller tree $A$ (whose root sits at depth, giving height $h$) is hung under the bigger tree $B$:
+\begin{itemize}[leftmargin=1.4em,itemsep=1pt]
+  \item By I.H., $|A| \ge 2^h$ (the subtree that reached height $h$).
+  \item By WU, $B$ is the bigger tree, so $|B| \ge |A| \ge 2^h$.
+\end{itemize}
+Therefore $|T| = |A| + |B| \ge 2^h + 2^h = 2^{\,h+1}$. \checkmark
+\end{examplebox}
+
+\begin{keybox}[Corollary and Theorem]
+Since $|T| \le n$, we get $2^{\,h} \le |T| \le n$, so
+\[
+  h \;\le\; \textcolor{greenO}{\log_2 n}.
+\]
+\textbf{Theorem.} With WU, executing any sequence $\sigma$ of $n-1$ Unions and $m \ge n$ Finds takes
+\[
+  O(m + n\log n) \;=\; \textcolor{violetT}{O(m\log n)} \qquad (\text{since } m \ge n).
+\]
+\end{keybox}
+
+% ==================================================================
+\section{Past Exam Questions}
+
+\begin{exambox}[Seen on a past exam \textnormal{(Dec 2019 Final, MCQ)}]
+Linked-list disjoint sets where every node stores a back-pointer to the representative.
+
+\textbf{Q12.} Worst-case cost of a single \texttt{Union}$(x,y)$ / \texttt{MakeSet}$(x)$ / \texttt{FindSet}$(x)$?
+
+\textbf{Q13.} Using union-by-weight, worst-case cost of a sequence of $n$ operations (\texttt{MakeSet}, \texttt{FindSet}, \texttt{Union})?
+
+\begin{answerband}
+\textbf{Q12.} $\textcolor{rustW}{O(n)},\ \textcolor{greenO}{O(1)},\ \textcolor{greenO}{O(1)}$. A back-pointer makes \texttt{FindSet} and \texttt{MakeSet} $O(1)$, but \texttt{Union} must redirect every back-pointer of one set, so $O(n)$. (This is exactly our augmented-linked-list implementation.)
+
+\smallskip
+\textbf{Q13.} $\textcolor{violetT}{O(n\log n)}$. This is the weighted-union bound: a whole sequence costs $O(m + n\log n)$, which for $n$ total operations is $O(n\log n)$.
+\end{answerband}
+\end{exambox}
+
+\begin{exambox}[Seen on a past exam \textnormal{(Dec 2019 Final, MCQ)}]
+\textbf{Q24.} \texttt{UNKNOWN} operates on a disjoint-set forest. Identify it:
+\begin{quote}\ttfamily
+UNKNOWN(x):\\
+\hspace*{1.5em}if x $\ne$ x.p:\\
+\hspace*{3em}x.p = UNKNOWN(x.p)\\
+\hspace*{1.5em}return x.p
+\end{quote}
+\textbf{Q23.} Kruskal's algorithm employs which data structure?
+
+\begin{answerband}
+\textbf{Q24.} \textcolor{violetT}{Find-Set with path compression.} It walks up to the root and, on the way back, re-points every node on the path straight to the root (next lecture).
+
+\smallskip
+\textbf{Q23.} A \textcolor{violetT}{disjoint set} (Union--Find), used to detect whether adding an edge would form a cycle.
+\end{answerband}
+\end{exambox}
+
+% ==================================================================
+% ==================================================================
+\section{Midterm-Style Process Problems}
+
+\begin{examplebox}[Predicted: run a sequence of Weighted Union operations]
+Start with \textsc{MakeSet}$(1),\dots,\textsc{MakeSet}(6)$. Apply, using \textbf{weighted union by size} (hang the smaller tree's root under the larger; on a tie the first argument becomes the root): \textsc{Union}$(1,2)$, \textsc{Union}$(3,4)$, \textsc{Union}$(5,6)$, \textsc{Union}$(1,3)$, \textsc{Union}$(1,5)$. Draw the final forest.
+
+\begin{answerband}
+\begin{itemize}[leftmargin=1.4em,itemsep=1pt]
+  \item \textsc{Union}$(1,2),(3,4),(5,6)$: three size-$2$ trees rooted at $1$, $3$, $5$ (each tie makes the first arg the root).
+  \item \textsc{Union}$(1,3)$: both size $2$, tie, so root $1$; $3$ (with its child $4$) hangs under $1$.
+  \item \textsc{Union}$(1,5)$: sizes $4$ vs $2$, so the smaller set (rooted $5$) hangs under $1$.
+\end{itemize}
+
+\begin{center}
+\begin{tikzpicture}[
+   every node/.style={circle, draw=heapblue, line width=0.7pt, minimum size=7mm, inner sep=1pt, font=\small, fill=white},
+   edge/.style={-{Stealth},heapblue,line width=0.7pt}
+]
+\node[draw=violetT,line width=1pt] (n1) at (0,0) {1};
+\node (n2) at (-1.6,-1.2) {2};
+\node (n3) at (0,-1.2) {3};
+\node (n5) at (1.6,-1.2) {5};
+\node (n4) at (0,-2.4) {4};
+\node (n6) at (1.6,-2.4) {6};
+\draw[edge] (n2)--(n1); \draw[edge] (n3)--(n1); \draw[edge] (n5)--(n1);
+\draw[edge] (n4)--(n3); \draw[edge] (n6)--(n5);
+\end{tikzpicture}
+\end{center}
+Root $1$ holds all $6$ elements. Weighted union keeps the height at $O(\log n)$ (a tree of height $h$ needs $\geq 2^{h}$ nodes), so each \textsc{FindSet} is $O(\log n)$ and a sequence of $m$ operations costs \textcolor{violetT}{$O(m\log n)$}.
+\end{answerband}
+\end{examplebox}
+
+\begin{examplebox}[Predicted: which implementation for which cost]
+Fill the worst-case single-operation cost for each disjoint-set implementation.
+
+\begin{answerband}
+\renewcommand{\arraystretch}{1.3}
+\begin{center}
+\begin{tabular}{l c c c}
+ & \textsc{MakeSet} & \textsc{FindSet} & \textsc{Union}\\
+\hline
+Linked list (with rep pointer) & $O(1)$ & $O(1)$ & $O(n)$ (relabel the smaller list)\\
+Forest, no heuristics & $O(1)$ & $O(n)$ (tall chain) & $O(n)$\\
+Forest, weighted union & $O(1)$ & $O(\log n)$ & $O(\log n)$\\
+\end{tabular}
+\end{center}
+The forest with weighted union is the one worth memorizing: it turns the degenerate $O(n)$ chain into $O(\log n)$ height.
+\end{answerband}
+\end{examplebox}
+
+\section*{\textcolor{violetT}{Quick Reference: Lecture 11}}
+\addcontentsline{toc}{section}{Quick Reference: Lecture 11}
+\begin{keybox}
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{l l}
+ADT & $n$ elements, singletons; rep.\ per set; \textbf{Union}(distinct reps), \textbf{Find}$(z)$\\
+$\sigma$ & $n-1$ Unions mixed with $m \ge n$ Finds; minimize total cost\\
+Linked list & Union $O(1)$, Find $O(n)$ \;$\to$\; $\sigma = O(mn)$\\
+Augmented list & Find $O(1)$, Union $O(n)$ \;$\to$\; $\sigma = O(n^2 + m)$\\
+WU on lists & append smaller onto bigger \;$\to$\; $\sigma = O(m + n\log n)$\\
+Forest & non-root $\to$ parent, root $=$ rep; Find $O(1+\text{path})$, Union $O(1)$\\
+No heuristic & chain of height $n-1$ \;$\to$\; $\sigma = \Omega(mn)$\\
+WU by size & smaller tree becomes child of bigger\\
+WU lemma & height $h$ tree has $\ge 2^h$ nodes $\Rightarrow h \le \log_2 n$\\
+WU theorem & $\sigma$ takes \textcolor{violetT}{$O(m\log n)$}\\
+\end{tabular}
+\end{keybox}
+
+\newpage
+
+% ******************************************************************
+%  LECTURE 12 -- UNION/FIND PART 2: PATH COMPRESSION AND log* n
+% ******************************************************************
+
+\part*{\textcolor{utnavy}{Lecture 12: Disjoint Sets (Union--Find), Part 2}}
+\addcontentsline{toc}{part}{Lecture 12: Disjoint Sets (Union--Find), Part 2}
+\setcounter{section}{0}
+
+% ==================================================================
+\section{Where We Are}
+
+\begin{keybox}[Recall]
+In the \textbf{forest} implementation, \textbf{Find}$(x)$ costs $O(1 + \text{length of the Find path})$ and \textbf{Union} costs $O(1)$. With \textbf{Weighted Union (WU)} every tree has height $\le \log_2 n$, so $\sigma$ costs \textcolor{violetT}{$O(m\log n)$}. We now add a second heuristic to push this down further.
+\end{keybox}
+
+% ==================================================================
+\section{Heuristic 2: Path Compression (PC)}
+
+\begin{defbox}[PC rule (MUST KNOW)]
+During \textbf{Find}$(x)$, after reaching the root, make \textbf{every vertex along the Find path a direct child of the root}.
+\end{defbox}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.85,
+  pn/.style={circle,draw=heapblue,line width=0.8pt,minimum size=0.55cm,inner sep=0pt,font=\small\bfseries,text=rustW,fill=white},
+  up/.style={heapblue,line width=0.8pt,-{Stealth}}]
+% before: chain x->y->z->w->root
+\node[pn,draw=rustW] (x) at (0,0) {x};
+\node[pn] (y) at (0.9,0.7) {y};
+\node[pn] (z) at (1.8,1.4) {z};
+\node[pn] (w) at (2.7,2.1) {w};
+\node[pn] (r) at (3.6,2.8) {r};
+\draw[up] (x)--(y); \draw[up] (y)--(z); \draw[up] (z)--(w); \draw[up] (w)--(r);
+\node[font=\small\bfseries] at (0.7,2.9) {Before \textbf{Find}(x)};
+% arrow
+\draw[-{Stealth},line width=1.2pt,violetT] (4.4,1.4)--(5.6,1.4);
+% after: x,y,z,w all children of root
+\node[pn,text=black] (R) at (8.6,2.8) {r};
+\node[pn,draw=rustW] (X) at (6.8,1.1) {x};
+\node[pn] (Y) at (7.8,1.1) {y};
+\node[pn] (Z) at (8.8,1.1) {z};
+\node[pn] (W) at (9.8,1.1) {w};
+\draw[up] (X)--(R); \draw[up] (Y)--(R); \draw[up] (Z)--(R); \draw[up] (W)--(R);
+\node[font=\small\bfseries] at (8.2,2.9) {After \textbf{Find}(x)};
+\end{tikzpicture}
+\end{center}
+
+\begin{keybox}[Why PC helps: amortization]
+PC \textcolor{rustW}{increases} the cost of the current \textbf{Find}$(x)$ (it rewires the whole path), but it makes \emph{every future} \textbf{Find} on those nodes cheaper, since they now sit one step below the root.
+\[
+  \Rightarrow \text{the \textbf{average} (amortized) cost of each Find drops.}
+\]
+\end{keybox}
+
+% ==================================================================
+\section{A Quick Detour: the Tower $2^{*n}$ and $\log^* n$}
+
+\begin{defbox}[$2^{*n}$ (a tower of 2's)]
+\[
+  2^{*0} = 1, \qquad 2^{*(n+1)} = 2^{\,2^{*n}} \ \ (n \ge 0).
+\]
+Equivalently $2^{*n}$ is a stack of $n$ twos: $\;2^{2^{\,\cdot^{\,\cdot^{\,2}}}}$.
+\end{defbox}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{l l}
+$2^{*0}=1$ & $2^{*3}=2^{2^{*2}}=2^4=16$\\
+$2^{*1}=2^{2^{*0}}=2^1=2$ & $2^{*4}=2^{2^{*3}}=2^{16}=65536$\\
+$2^{*2}=2^{2^{*1}}=2^2=4$ & $2^{*5}=2^{2^{*4}}=2^{65536}\approx 10^{19729}$ \;(REALLY big)\\
+\end{tabular}
+\end{center}
+
+$2^{*n}$ \textcolor{rustW}{grows astronomically fast}. (For scale, the number of atoms in the observable universe is about $10^{80}$, already dwarfed by $2^{*5}$.) Its inverse grows astronomically \emph{slowly}:
+
+\begin{defbox}[$\log^* n$ (iterated logarithm)]
+\[
+  \log^* n \;=\; \min\{\, k : 2^{*k} \ge n \,\}.
+\]
+\end{defbox}
+
+\begin{center}
+\small\setlength{\tabcolsep}{4.5pt}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+$n$ & $1$ & $2$ & $3,4$ & $5,\ldots,16$ & $17,\ldots,65536$ & $65537,\ldots,10^{19729}$\\
+\hline
+$\log^* n$ & $0$ & $1$ & $2$ & $3$ & $4$ & $5$\\
+\hline
+\end{tabular}
+\end{center}
+
+\begin{keybox}[Takeaway]
+$\log^* n$ \textcolor{greenO}{grows so slowly} that for any input you will ever meet, $\log^* n \le 5$. It is effectively a small constant, yet formally it still goes to infinity.
+\end{keybox}
+
+% ==================================================================
+\section{Time Complexity with WU and PC}
+
+\begin{keybox}[Main Theorem (MUST KNOW)]
+With \textbf{both} Weighted Union and Path Compression, executing any sequence $\sigma$ of $n-1$ Unions mixed with $m \ge n$ Finds takes
+\[
+  \textcolor{violetT}{O(m\,\log^* n)} \text{ time.}
+\]
+That is, every such $\sigma$ takes at most $m\log^* n$ time (for large $m,n$, within a constant factor).
+\end{keybox}
+
+Because $\log^* n \le 5$ in practice, this is \textbf{essentially linear} in the number of operations, a huge improvement over $O(m\log n)$ from WU alone.
+
+\begin{warnbox}[Careful with the quantifiers]
+The theorem is an \textcolor{greenO}{upper bound}: \emph{every} $\sigma$ costs \textbf{at most} $O(m\log^* n)$. It does \emph{not} claim $O(m)$. Whether some $\sigma$ is forced to cost $\Omega(m\log^* n)$ or more is a separate (lower-bound) question, settled by later work below.
+\end{warnbox}
+
+% ==================================================================
+\section{Analysis of the Disjoint-Set Forest: a Timeline}
+
+\begin{keybox}[History of the bounds]
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{l l l}
+\textbf{Year} & \textbf{Result} & \textbf{Who}\\
+\hline
+1964 & forest implementation introduced & Galler \& Fischer\\
+1973 & $O(m\log^* n)$ upper bound (WU + PC) & Hopcroft \& Ullman\\
+1975 & $O(m\,\alpha^{-1}(m,n))$ upper bound & Tarjan\\
+1979 & $\Omega(m\,\alpha^{-1}(m,n))$ lower bound (restricted model) & Tarjan\\
+1989 & $\Omega(m\,\alpha^{-1}(m,n))$ lower bound (any structure) & Fredman \& Saks\\
+\end{tabular}
+\end{keybox}
+
+Here $\alpha(m,n)$ is the \textbf{inverse Ackermann function}, which grows even more slowly than $\log^* n$. The 1989 lower bound shows this near-constant per-operation cost is \textcolor{rustW}{optimal}: no disjoint-set data structure can do asymptotically better.
+
+% ==================================================================
+\section{Past Exam Questions}
+
+\begin{warnbox}[Terminology bridge for exams]
+Exams (and CLRS) use \textbf{union-by-rank} and the operations \texttt{MakeSet}, \texttt{FindSet}, \texttt{Union}. Union-by-rank is the height-based cousin of our size-based WU: both hang the ``lighter'' tree under the ``heavier'' root and keep trees shallow. \texttt{FindSet} with path compression is our \textbf{Find} + PC. \texttt{Rank} starts at $0$ for a singleton; merging two equal-rank roots bumps the surviving root's rank by $1$.
+\end{warnbox}
+
+\begin{exambox}[Seen on a past exam \textnormal{(Apr 2022 Final, Q3a: draw the forest)}]
+Run the following on a forest (union-by-rank $+$ path compression), initially empty. Write each node's value and its \textbf{rank}. For each \texttt{Union}$(x,y)$ with a rank tie, the new representative is the root of the set containing $x$.
+\begin{quote}\ttfamily
+MakeSet(5), MakeSet(2), Union(5,2), MakeSet(3), MakeSet(4), Union(3,4),\\
+Union(5,3), MakeSet(1), MakeSet(8), Union(1,8), FindSet(8), Union(4,1)
+\end{quote}
+
+\begin{answerband}
+Walking through it: \texttt{Union(5,2)} ties $\to$ $5$ root (rank $1$), $2$ child. \texttt{Union(3,4)} ties $\to$ $3$ root (rank $1$), $4$ child. \texttt{Union(5,3)} ties $\to$ $5$ root (rank $2$), $3$ hangs under $5$. \texttt{Union(1,8)} ties $\to$ $1$ root (rank $1$), $8$ child. \texttt{FindSet(8)} returns $1$ (path already length $1$). \texttt{Union(4,1)}: root of $4$ is $5$ (rank $2$), root of $1$ is $1$ (rank $1$); lower rank hangs under higher, so $1$ becomes a child of $5$ (rank of $5$ stays $2$).
+
+\begin{center}
+\begin{tikzpicture}[scale=0.95,
+  en/.style={circle,draw=heapblue,line width=0.8pt,minimum size=0.6cm,inner sep=0pt,font=\small\bfseries,text=rustW,fill=white},
+  up/.style={heapblue,line width=0.8pt,-{Stealth}}]
+\node[en,draw=rustW,line width=1.1pt] (f5) at (2,2.4) {5};
+\node[en] (f2) at (0.4,1.2) {2};
+\node[en] (f3) at (2,1.2) {3};
+\node[en] (f1) at (3.6,1.2) {1};
+\node[en] (f4) at (2,0) {4};
+\node[en] (f8) at (3.6,0) {8};
+\draw[up] (f2)--(f5); \draw[up] (f3)--(f5); \draw[up] (f1)--(f5);
+\draw[up] (f4)--(f3); \draw[up] (f8)--(f1);
+% ranks
+\node[greenO,font=\scriptsize\bfseries] at (2.55,2.65) {r2};
+\node[greenO,font=\scriptsize\bfseries] at (-0.15,1.2) {r0};
+\node[greenO,font=\scriptsize\bfseries] at (1.5,1.4) {r1};
+\node[greenO,font=\scriptsize\bfseries] at (4.15,1.2) {r1};
+\node[greenO,font=\scriptsize\bfseries] at (1.5,0.0) {r0};
+\node[greenO,font=\scriptsize\bfseries] at (4.15,0.0) {r0};
+\end{tikzpicture}
+\end{center}
+One tree: root $5$ (rank $2$) with children $2$ (r0), $3$ (r1, child $4$), and $1$ (r1, child $8$).
+\end{answerband}
+\end{exambox}
+
+\begin{exambox}[Seen on a past exam \textnormal{(Apr 2022 Final, Q3b / Dec 2018 Final, Q2)}]
+\textbf{(2022, Q3b)} $L$ is a linked-list disjoint set with head pointers and union-by-weight; $T$ is a tree disjoint set with union-by-rank and path compression. For a sequence $S$, let $T_L$, $T_T$ be the total nodes accessed on $L$ and $T$. Show there is a sequence with $T_T < T_L$.
+
+\textbf{(2018, Q2)} Given a disjoint-set forest with union-by-rank $+$ path compression, \textbf{(a)} draw the tree after a \texttt{FindSet}, and \textbf{(b)} draw the tree after a \texttt{Union} and state its rank.
+
+\begin{answerband}
+\textbf{(2022, Q3b) idea.} Build a tall tree, then do many Finds on its deepest node. On $L$ each Find is $O(1)$ (head/back pointer), but on $T$ the \emph{first} Find triggers path compression, after which every later Find on that path is $O(1)$ too, while the list keeps paying for the long concatenations done by its Unions. Pick $S$ as: a run of Unions that makes $L$ redirect many pointers (large $T_L$) but that $T$ handles with $O(1)$ rank-guided Unions and shallow trees. Then $T_T < T_L$.
+
+\smallskip
+\textbf{(2018, Q2) method.} \texttt{FindSet}$(x)$: follow parents to the root, then re-point $x$ and every node on the path straight to the root (path compression); ranks are unchanged. \texttt{Union}$(x,y)$: find both roots, hang the smaller-rank root under the larger-rank root; on a tie, pick one root and increase its rank by $1$. The new tree's rank is $\max(\text{rank}_x,\text{rank}_y)$, or that value $+1$ if the two ranks were equal.
+\end{answerband}
+\end{exambox}
+
+% ==================================================================
+% ==================================================================
+\section{Midterm-Style Process Problems}
+
+\begin{examplebox}[Predicted: FindSet with path compression]
+The forest below was built with union by rank. Run \textsc{FindSet}$(e)$ with \textbf{path compression} and draw the result.
+
+\begin{center}
+\begin{tikzpicture}[every node/.style={circle, draw=heapblue, line width=0.7pt, minimum size=7mm, inner sep=1pt, font=\small, fill=white}]
+\node[font=\bfseries\scriptsize, draw=none, fill=none] at (-0.2,0.8) {Before:};
+\node[draw=violetT,line width=1pt] (a) at (0.6,0) {a};
+\node (b) at (-0.2,-1.1) {b}; \node (c) at (1.4,-1.1) {c};
+\node (d) at (-0.2,-2.2) {d}; \node (e) at (-0.2,-3.3) {e};
+\draw[-{Stealth},heapblue,line width=0.7pt] (b)--(a);
+\draw[-{Stealth},heapblue,line width=0.7pt] (c)--(a);
+\draw[-{Stealth},heapblue,line width=0.7pt] (d)--(b);
+\draw[-{Stealth},heapblue,line width=0.7pt] (e)--(d);
+\draw[-{Stealth}, line width=1.2pt, rustW] (2.6,-1.6) -- (4.2,-1.6);
+\node[rustW,font=\scriptsize\bfseries, draw=none, fill=none, align=center] at (3.4,-1.15) {FindSet(e)\\ + compress};
+\node[font=\bfseries\scriptsize, draw=none, fill=none] at (5.2,0.8) {After:};
+\node[draw=violetT,line width=1pt] (a2) at (6.8,0) {a};
+\node (b2) at (5.4,-1.3) {b}; \node (c2) at (6.1,-1.3) {c};
+\node[fill=goldpath!25,draw=goldpath] (d2) at (7.5,-1.3) {d};
+\node[fill=goldpath!25,draw=goldpath] (e2) at (8.4,-1.3) {e};
+\draw[-{Stealth},heapblue,line width=0.7pt] (b2)--(a2);
+\draw[-{Stealth},heapblue,line width=0.7pt] (c2)--(a2);
+\draw[-{Stealth},goldpath,line width=0.9pt] (d2)--(a2);
+\draw[-{Stealth},goldpath,line width=0.9pt] (e2)--(a2);
+\end{tikzpicture}
+\end{center}
+
+\begin{answerband}
+\textsc{FindSet}$(e)$ walks $e\to d\to b\to a$ and returns the root $a$. Path compression then re-points \emph{every node visited} straight to $a$, so $\textcolor{goldpath}{e}$ and $\textcolor{goldpath}{d}$ now point directly at $a$ ($b$ already did). Ranks are \textbf{unchanged} (rank only changes inside \textsc{Union}, on a tie). Flattening makes later finds cheaper: this is the amortized payoff behind the $O(m\log^{*}n)$ bound.
+\end{answerband}
+\end{examplebox}
+
+\begin{examplebox}[Predicted: $\log^{*}$ and the sequence cost]
+(a) Evaluate $\log^{*} n$ for $n=2,\,4,\,16,\,65536$. (b) State the cost of $m$ operations under weighted union alone, versus weighted union plus path compression.
+
+\begin{answerband}
+\textbf{(a)} $\log^{*} n$ is the number of times you apply $\log_2$ to bring $n$ down to $\leq1$:
+\[
+  \log^{*}2=1,\quad \log^{*}4=2,\quad \log^{*}16=3,\quad \log^{*}65536=4.
+\]
+It grows absurdly slowly: $\log^{*} n\leq 5$ for every $n$ up to $2^{65536}$, so in practice it is a small constant.
+
+\textbf{(b)} Weighted union alone: a sequence of $m$ operations costs $O(m\log n)$. Adding path compression brings it to $\textcolor{violetT}{O(m\log^{*}n)}$, essentially linear. (The tight bound is $O(m\,\alpha(m,n))$ with the inverse Ackermann function, proved optimal.)
+\end{answerband}
+\end{examplebox}
+
+\section*{\textcolor{violetT}{Quick Reference: Lecture 12}}
+\addcontentsline{toc}{section}{Quick Reference: Lecture 12}
+\begin{keybox}
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{l l}
+Path Compression & in Find$(x)$, re-point every node on the path to the root\\
+PC effect & costs more now, cheaper later (amortized); average Find drops\\
+$2^{*n}$ & tower of $n$ twos; $2^{*5}\approx 10^{19729}$; grows super fast\\
+$\log^* n$ & $\min\{k : 2^{*k}\ge n\}$; grows super slowly; $\le 5$ in practice\\
+WU alone & $\sigma = O(m\log n)$\\
+WU $+$ PC & $\sigma = \textcolor{violetT}{O(m\log^* n)}$ (essentially linear)\\
+Tarjan 1975 & $O(m\,\alpha^{-1}(m,n))$, $\alpha$ $=$ inverse Ackermann\\
+Fredman--Saks 1989 & $\Omega(m\,\alpha^{-1}(m,n))$ lower bound (optimal)\\
+Exam terms & union-by-rank $\approx$ WU; FindSet $+$ PC $=$ Find $+$ PC\\
+\end{tabular}
+\end{keybox}
+
+\vspace{4pt}
+\begin{center}\textcolor{greyline}{\rule{0.5\linewidth}{0.6pt}}\end{center}
+\begin{center}\small\textcolor{greyline}{End of Lectures 1--12 notes.}\end{center}
 
 
 \end{document}
