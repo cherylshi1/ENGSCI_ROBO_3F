@@ -1802,19 +1802,72 @@ Result: a $B_2$ rooted at $3$ (children $6$ and $4$, and $4$ keeps its child $9$
 \end{answerband}
 \end{examplebox}
 
-\begin{examplebox}[Predicted: Extract-Min from a binomial heap]
-A heap holds one $B_2$ rooted at $3$ with children $6$ and $4\!\to\!9$. Perform \textsc{Extract-Min}.
+\begin{examplebox}[Problem 2: Extract\_Min]
+Given: $\langle B_2(\text{root } 3, \text{children: } 7 \to 9 \text{ and } 5),\; B_0(\text{root } 10) \rangle$. Perform Extract\_Min.
+
+\begin{center}
+\begin{tikzpicture}[
+  every node/.style={circle, draw=heapblue, line width=0.7pt, minimum size=6.6mm, inner sep=1pt, font=\scriptsize, fill=white},
+  lbl/.style={draw=none, fill=none, font=\bfseries\scriptsize, text=inkT},
+  sub/.style={draw=none, fill=none, font=\tiny, text=rustW}
+]
+% ---------- STAGE 1: start ----------
+\node[lbl] at (0.6,0.8) {Start};
+\node[draw=greenO,line width=1pt] (s3) at (0.6,0) {3};
+\node (s7) at (0,-1.1) {7};
+\node (s9) at (0,-2.2) {9};
+\node (s5) at (1.3,-1.1) {5};
+\draw (s3)--(s7); \draw (s7)--(s9); \draw (s3)--(s5);
+\node[sub] at (0.6,-2.9) {$B_2$};
+\node (s10) at (2.5,0) {10};
+\node[sub] at (2.5,-0.7) {$B_0$};
+
+\draw[-{Stealth},line width=1pt,rustW] (3.1,-0.8)--(4.0,-0.8);
+\node[lbl,text=rustW,align=center] at (3.55,-0.2){remove\\ min 3};
+
+% ---------- STAGE 2: pieces to union ----------
+\node[lbl] at (5.6,0.8) {To union};
+\node (q7) at (4.7,0) {7};
+\node (q9) at (4.7,-1.1) {9};
+\draw (q7)--(q9);
+\node (q5) at (5.7,0) {5};
+\node[sub,align=center] at (5.2,-1.8) {$Q$ (children of 3)};
+\node (r10) at (6.8,0) {10};
+\node[sub] at (6.8,-0.7) {rest};
+
+\draw[-{Stealth},line width=1pt,rustW] (7.5,-0.8)--(8.4,-0.8);
+\node[lbl,text=rustW,align=center] at (7.95,-0.2){union\\ (link)};
+
+% ---------- STAGE 3: result ----------
+\node[lbl] at (9.8,0.8) {Result};
+\node[draw=greenO,line width=1pt] (f5) at (9.8,0) {5};
+\node[fill=goldpath!25,draw=goldpath] (f10) at (9.1,-1.1) {10};
+\node (f7) at (10.5,-1.1) {7};
+\node (f9) at (10.5,-2.2) {9};
+\draw (f5)--(f10); \draw (f5)--(f7); \draw (f7)--(f9);
+\node[sub] at (9.8,-2.9) {$B_2$};
+\end{tikzpicture}
+\end{center}
 
 \begin{answerband}
-\begin{enumerate}[leftmargin=1.6em,itemsep=2pt]
-  \item \textbf{Find} the minimum root. Here there is one root, $3$, so $\min=3$.
-  \item \textbf{Remove} root $3$. Its children become separate binomial trees forming a new heap $H'$: a $B_1\{4\!\to\!9\}$ and a $B_0\{6\}$.
-  \item \textbf{Union} $H'$ back with the rest of the heap (empty here), giving the final heap $\{4\!\to\!9\}+\{6\}$, now with $\min=4$.
+\begin{enumerate}[leftmargin=1.4em,itemsep=2pt]
+  \item Min = 3 (root of $B_2$). Extract it.
+  \item Remove $B_2$. Remaining: $\langle B_0(10) \rangle$.
+  \item Root 3 had children: $B_1$(root 7, child 9) and $B_0$(root 5). New heap $Q = \langle B_1(7 \to 9), B_0(5) \rangle$.
+  \item Union($\langle B_0(10) \rangle$, $\langle B_1(7), B_0(5) \rangle$):
+
+  Position 0: two $B_0$'s (10, 5). $5 \le 10 \Rightarrow B_1$(root 5, child 10). Carry.
+
+  Position 1: $B_1$(root 7) + carry $B_1$(root 5). $5 \le 7 \Rightarrow B_2$(root 5, with 7 keeping child 9). Carry.
+
+  Position 2: just carry. Done.
+
+  Result: $\langle B_2(\text{root } 5,\ \text{children } 10 \text{ and } 7 \to 9) \rangle$ (4 elements, $4 = \langle 100 \rangle_2$) \checkmark
 \end{enumerate}
-Finding the min scans $\le\log n+1$ roots, splitting is $O(\log n)$, and the union is $O(\log n)$, so \textsc{Extract-Min} is \textcolor{violetT}{$O(\log n)$}.
+
+Return 3.
 \end{answerband}
 \end{examplebox}
-
 \section*{\textcolor{violetT}{Quick Reference: Lecture 3}}
 \addcontentsline{toc}{section}{Quick Reference: Lecture 3}
 \begin{keybox}

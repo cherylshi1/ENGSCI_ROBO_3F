@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  17 OCT 2026 19:41
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  17 OCT 2026 21:51
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1004,7 +1004,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.31 ...3}Properties of $B_k$}{21}{subsection.2.3}
+l.30 ...mberline {2}Binomial Trees}{21}{section.2}
                                                   % [1]
 
 [2]
@@ -1462,93 +1462,88 @@ l.1744 \section{Exam Relevance}
                                
 
 [33]
-Overfull \hbox (38.59662pt too wide) in paragraph at lines 1822--1834
+
+[34]
+Overfull \hbox (38.59662pt too wide) in paragraph at lines 1875--1887
 [][] 
  []
 
 
-
-[34]
 pdfTeX warning (ext4): destination with the same identifier (name{section.1}) h
 as been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1853 ...tion{Remaining Binomial Heap Operations}
+l.1906 ...tion{Remaining Binomial Heap Operations}
                                                   
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1859.
+(hyperref)                removing `math shift' on input line 1912.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1859.
+(hyperref)                removing `math shift' on input line 1912.
 
 
 
 [35]
 
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1925.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1925.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1940.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1940.
-
-
-
 [36]
 
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1978.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1978.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1993.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1993.
+
+
+
 [37]
-
-Package tcolorbox Warning: Using nobreak failed. Try to enlarge `lines before b
-reak' or set page breaks manually on input line 2001.
-
-
 pdfTeX warning (ext4): destination with the same identifier (name{section.2}) h
 as been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.2004 \section{Cost of $k$ Successive Inserts}
+l.2057 \section{Cost of $k$ Successive Inserts}
                                                
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 2004.
+(hyperref)                removing `math shift' on input line 2057.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 2004.
+(hyperref)                removing `math shift' on input line 2057.
 
 
 pdfTeX warning (ext4): destination with the same identifier (name{subsection.2.
 1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.2012 ...sight: Each Insert = Adding 1 in Binary}
+l.2065 ...sight: Each Insert = Adding 1 in Binary}
                                                   
 pdfTeX warning (ext4): destination with the same identifier (name{subsection.2.
 2}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.2027 ...ple: 5 Successive Inserts into $|T|=27$}
+l.2080 ...ple: 5 Successive Inserts into $|T|=27$}
                                                   
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 2027.
+(hyperref)                removing `math shift' on input line 2080.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 2027.
+(hyperref)                removing `math shift' on input line 2080.
 
 
-Overfull \hbox (168.70386pt too wide) in paragraph at lines 2036--2047
+Overfull \hbox (168.70386pt too wide) in paragraph at lines 2089--2100
  [] 
  []
 
@@ -1559,7 +1554,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{subsection.2.
 3}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.2054 ...section{Exact Formula via Edge Counting}
+l.2107 ...section{Exact Formula via Edge Counting}
                                                   
 
 [39]
@@ -1569,25 +1564,25 @@ pdfTeX warning (ext4): destination with the same identifier (name{section.3}) h
 as been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.2134 \section{The Dictionary ADT}
+l.2187 \section{The Dictionary ADT}
                                    
 pdfTeX warning (ext4): destination with the same identifier (name{subsection.3.
 1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.2149 \subsection{First Attempt: Linked List}
+l.2202 \subsection{First Attempt: Linked List}
                                               
 pdfTeX warning (ext4): destination with the same identifier (name{section.4}) h
 as been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.2167 \section{Binary Search Trees (BST)}
+l.2220 \section{Binary Search Trees (BST)}
                                           
 pdfTeX warning (ext4): destination with the same identifier (name{subsection.4.
 1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.2169 \subsection{The BST Property}
+l.2222 \subsection{The BST Property}
                                     
 
 [41]
@@ -1599,11 +1594,11 @@ l.2169 \subsection{The BST Property}
 [44]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 2425.
+(hyperref)                removing `math shift' on input line 2478.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 2425.
+(hyperref)                removing `math shift' on input line 2478.
 
 
 
@@ -1612,7 +1607,7 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 [46]
 
 [47]
-Overfull \hbox (3.6213pt too wide) in paragraph at lines 2615--2622
+Overfull \hbox (3.6213pt too wide) in paragraph at lines 2668--2675
  [] 
  []
 
@@ -1623,7 +1618,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{section.5}) h
 as been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.2683 \section{Past Exam Questions}
+l.2736 \section{Past Exam Questions}
                                     
 
 [49]
@@ -1631,7 +1626,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{section.6}) h
 as been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.2756 \section{Midterm-Style Process Problems}
+l.2809 \section{Midterm-Style Process Problems}
                                                
 
 [50]
@@ -1641,21 +1636,21 @@ pdfTeX warning (ext4): destination with the same identifier (name{section.1}) h
 as been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.2874 \section{Recall: the Problem with BSTs}
+l.2927 \section{Recall: the Problem with BSTs}
                                               
 pdfTeX warning (ext4): destination with the same identifier (name{section.2}) h
 as been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.2885 \section{Height and Balance Factor}
+l.2938 \section{Height and Balance Factor}
                                           
 pdfTeX warning (ext4): destination with the same identifier (name{subsection.2.
 1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.2887 \subsection{Height of a Node}
+l.2940 \subsection{Height of a Node}
                                     
-Overfull \hbox (93.33357pt too wide) in paragraph at lines 2898--2899
+Overfull \hbox (93.33357pt too wide) in paragraph at lines 2951--2952
 []\T1/cmr/m/n/10.95 The $\OMS/cmsy/m/n/10.95 ^^@\OT1/cmr/m/n/10.95 1$ \T1/cmr/m
 /n/10.95 for the empty tree is a con-ven-tion that makes the re-cur-rence $[]\O
 T1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 v\OT1/cmr/m/n/10.95 ) = 1 + []([](\OML/cm
@@ -1668,19 +1663,19 @@ pdfTeX warning (ext4): destination with the same identifier (name{subsection.2.
 2}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.2901 \subsection{Balance Factor}
+l.2954 \subsection{Balance Factor}
                                   
 pdfTeX warning (ext4): destination with the same identifier (name{section.3}) h
 as been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.2921 \section{AVL Trees}
+l.2974 \section{AVL Trees}
                           
 pdfTeX warning (ext4): destination with the same identifier (name{subsection.3.
 1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.2923 ...{Definition (Adelson-Velsky and Landis)}
+l.2976 ...{Definition (Adelson-Velsky and Landis)}
                                                   
 
 [52]
@@ -1688,13 +1683,13 @@ pdfTeX warning (ext4): destination with the same identifier (name{subsection.3.
 2}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.2934 \subsection{Is This an AVL Tree?}
+l.2987 \subsection{Is This an AVL Tree?}
                                         
 pdfTeX warning (ext4): destination with the same identifier (name{subsection.3.
 3}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.2969 \subsection{Properties}
+l.3022 \subsection{Properties}
                               
 
 [53]
@@ -1702,13 +1697,13 @@ pdfTeX warning (ext4): destination with the same identifier (name{section.4}) h
 as been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.3037 \section{AVL Operations}
+l.3090 \section{AVL Operations}
                                
 pdfTeX warning (ext4): destination with the same identifier (name{section.5}) h
 as been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.3051 \section{Insert}
+l.3104 \section{Insert}
                        
 
 [54]
@@ -1722,7 +1717,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{section.6}) h
 as been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.3277 \section{Midterm-Style Process Problems}
+l.3330 \section{Midterm-Style Process Problems}
                                                
 
 [58]
@@ -1730,7 +1725,7 @@ l.3277 \section{Midterm-Style Process Problems}
 [59]
 
 Package tcolorbox Warning: Using nobreak failed. Try to enlarge `lines before b
-reak' or set page breaks manually on input line 3370.
+reak' or set page breaks manually on input line 3423.
 
 
 
@@ -1739,38 +1734,38 @@ pdfTeX warning (ext4): destination with the same identifier (name{section.1}) h
 as been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.3385 \section{What This Lecture Adds}
+l.3438 \section{What This Lecture Adds}
                                        
 pdfTeX warning (ext4): destination with the same identifier (name{section.2}) h
 as been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.3398 ...ion{Why the Insert Algorithm is Correct}
+l.3451 ...ion{Why the Insert Algorithm is Correct}
                                                   
 pdfTeX warning (ext4): destination with the same identifier (name{subsection.2.
 1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.3400 ...The Skipped Step: $\text{BF}(B) \neq 0$}
+l.3453 ...The Skipped Step: $\text{BF}(B) \neq 0$}
                                                   
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 3400.
+(hyperref)                removing `math shift' on input line 3453.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\not' on input line 3400.
+(hyperref)                removing `\not' on input line 3453.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 3400.
+(hyperref)                removing `math shift' on input line 3453.
 
 
 pdfTeX warning (ext4): destination with the same identifier (name{subsection.2.
 2}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.3416 ...section{Case 1(a): Single Left Rotation}
+l.3469 ...section{Case 1(a): Single Left Rotation}
                                                   
 
 [61]
@@ -1778,13 +1773,13 @@ pdfTeX warning (ext4): destination with the same identifier (name{subsection.2.
 3}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.3459 ...n{Case 1(b): Double Right-Left Rotation}
+l.3512 ...n{Case 1(b): Double Right-Left Rotation}
                                                   
 pdfTeX warning (ext4): destination with the same identifier (name{section.3}) h
 as been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.3503 \section{Cost, Node Layout, and Algorithm}
+l.3556 \section{Cost, Node Layout, and Algorithm}
                                                  
 
 [62]
@@ -1792,25 +1787,25 @@ pdfTeX warning (ext4): destination with the same identifier (name{subsection.3.
 1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.3505 ...ion{Rotation Cost and Total Insert Cost}
+l.3558 ...ion{Rotation Cost and Total Insert Cost}
                                                   
 pdfTeX warning (ext4): destination with the same identifier (name{subsection.3.
 2}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.3523 \subsection{Contents of an AVL Node}
+l.3576 \subsection{Contents of an AVL Node}
                                            
 pdfTeX warning (ext4): destination with the same identifier (name{subsection.3.
 3}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.3543 \subsection{Final Insert Algorithm}
+l.3596 \subsection{Final Insert Algorithm}
                                           
 pdfTeX warning (ext4): destination with the same identifier (name{section.4}) h
 as been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.3560 \section{Exam-Style Practice}
+l.3613 \section{Exam-Style Practice}
                                     
 
 [63]
@@ -1818,7 +1813,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{section.5}) h
 as been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.3586 \section{Midterm-Style Process Problems}
+l.3639 \section{Midterm-Style Process Problems}
                                                
 
 [64]
@@ -1828,25 +1823,25 @@ pdfTeX warning (ext4): destination with the same identifier (name{section.1}) h
 as been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.3671 \section{Augmenting a Data Structure}
+l.3724 \section{Augmenting a Data Structure}
                                             
 pdfTeX warning (ext4): destination with the same identifier (name{section.2}) h
 as been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.3684 \section{Dynamic Order Statistics}
+l.3737 \section{Dynamic Order Statistics}
                                          
 pdfTeX warning (ext4): destination with the same identifier (name{subsection.2.
 1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.3696 \subsection{Example}
+l.3749 \subsection{Example}
                            
 pdfTeX warning (ext4): destination with the same identifier (name{subsection.2.
 2}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.3708 ...n{Naive Attempt: Store Each Node's Rank}
+l.3761 ...n{Naive Attempt: Store Each Node's Rank}
                                                   
 
 [66]
@@ -1854,30 +1849,30 @@ pdfTeX warning (ext4): destination with the same identifier (name{section.3}) h
 as been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.3735 \section{Size-Augmented AVL Tree}
+l.3788 \section{Size-Augmented AVL Tree}
                                         
 pdfTeX warning (ext4): destination with the same identifier (name{subsection.3.
 1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.3737 \subsection{The \texttt{size} Field}
+l.3790 \subsection{The \texttt{size} Field}
                                            
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <12> not available
-(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 3737.
+(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 3790.
 
 pdfTeX warning (ext4): destination with the same identifier (name{subsection.3.
 2}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.3762 \subsection{Select: the $k$-th Smallest}
+l.3815 \subsection{Select: the $k$-th Smallest}
                                                
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 3762.
+(hyperref)                removing `math shift' on input line 3815.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 3762.
+(hyperref)                removing `math shift' on input line 3815.
 
 
 
@@ -1886,7 +1881,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{subsection.3.
 3}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.3827 \subsection{Rank of a Node}
+l.3880 \subsection{Rank of a Node}
                                   
 
 [68]
@@ -1896,13 +1891,13 @@ pdfTeX warning (ext4): destination with the same identifier (name{section.4}) h
 as been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.3879 \section{Summary and Practice}
+l.3932 \section{Summary and Practice}
                                      
 pdfTeX warning (ext4): destination with the same identifier (name{section.5}) h
 as been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.3902 \section{Midterm-Style Process Problems}
+l.3955 \section{Midterm-Style Process Problems}
                                                
 
 [70]
@@ -1912,34 +1907,34 @@ pdfTeX warning (ext4): destination with the same identifier (name{section.6}) h
 as been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.4000 \section{Recall: the Dictionary ADT}
+l.4053 \section{Recall: the Dictionary ADT}
                                            
 pdfTeX warning (ext4): destination with the same identifier (name{section.7}) h
 as been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.4011 ...verse $U$ is Small: Direct-Access Table}
+l.4064 ...verse $U$ is Small: Direct-Access Table}
                                                   
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 4011.
+(hyperref)                removing `math shift' on input line 4064.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 4011.
+(hyperref)                removing `math shift' on input line 4064.
 
 
 pdfTeX warning (ext4): destination with the same identifier (name{section.8}) h
 as been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.4033 \section{When the Universe is Huge}
+l.4086 \section{When the Universe is Huge}
                                           
 pdfTeX warning (ext4): destination with the same identifier (name{section.9}) h
 as been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.4042 \section{Hash Tables}
+l.4095 \section{Hash Tables}
                             
 
 [72]
@@ -1947,19 +1942,19 @@ pdfTeX warning (ext4): destination with the same identifier (name{section.10})
 has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.4058 \section{Resolving Collisions: Chaining}
+l.4111 \section{Resolving Collisions: Chaining}
                                                
 pdfTeX warning (ext4): destination with the same identifier (name{section.11}) 
 has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.4092 ...ion{Dictionary Operations with Chaining}
+l.4145 ...ion{Dictionary Operations with Chaining}
                                                   
 pdfTeX warning (ext4): destination with the same identifier (name{section.12}) 
 has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.4108 ...tion{Analysis: SUHA and the Load Factor}
+l.4161 ...tion{Analysis: SUHA and the Load Factor}
                                                   
 
 [73]
@@ -1975,30 +1970,30 @@ l.4108 ...tion{Analysis: SUHA and the Load Factor}
 [78]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 4381.
+(hyperref)                removing `math shift' on input line 4434.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 4381.
+(hyperref)                removing `math shift' on input line 4434.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 4381.
+(hyperref)                removing `math shift' on input line 4434.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 4381.
+(hyperref)                removing `math shift' on input line 4434.
 
 
 
 [79]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 4459.
+(hyperref)                removing `math shift' on input line 4512.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 4459.
+(hyperref)                removing `math shift' on input line 4512.
 
 
 
@@ -2013,15 +2008,15 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 [84]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 4744.
+(hyperref)                removing `math shift' on input line 4797.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\log' on input line 4744.
+(hyperref)                removing `\log' on input line 4797.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 4744.
+(hyperref)                removing `math shift' on input line 4797.
 
 
 
@@ -2034,18 +2029,18 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 [88]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 4968.
+(hyperref)                removing `math shift' on input line 5021.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 4968.
+(hyperref)                removing `math shift' on input line 5021.
 
 
 
 [89]
 
 [90]
-Underfull \hbox (badness 10000) in paragraph at lines 5078--5083
+Underfull \hbox (badness 10000) in paragraph at lines 5131--5136
 | | \T1/cmtt/m/n/10.95 // walk down: at node x, if x.key $\OMS/cmsy/m/n/10.95 ^
 ^U$ \T1/cmtt/m/n/10.95 a go left (remember
  []
@@ -2057,7 +2052,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 5078--5083
 [92]
 
 Package tcolorbox Warning: Using nobreak failed. Try to enlarge `lines before b
-reak' or set page breaks manually on input line 5155.
+reak' or set page breaks manually on input line 5208.
 
 
 
@@ -2066,13 +2061,13 @@ pdfTeX warning (ext4): destination with the same identifier (name{section.1}) h
 as been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.5193 \section{The Disjoint Sets ADT}
+l.5246 \section{The Disjoint Sets ADT}
                                       
 pdfTeX warning (ext4): destination with the same identifier (name{section.2}) h
 as been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.5229 \section{Implementation 1: Linked Lists}
+l.5282 \section{Implementation 1: Linked Lists}
                                                
 
 [94]
@@ -2080,19 +2075,19 @@ pdfTeX warning (ext4): destination with the same identifier (name{section.3}) h
 as been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.5259 ...mplementation 2: Augmented Linked Lists}
+l.5312 ...mplementation 2: Augmented Linked Lists}
                                                   
 pdfTeX warning (ext4): destination with the same identifier (name{subsection.3.
 1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.5276 ...{Weighted Union (WU) on augmented lists}
+l.5329 ...{Weighted Union (WU) on augmented lists}
                                                   
 pdfTeX warning (ext4): destination with the same identifier (name{section.4}) h
 as been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.5292 ...n{Implementation 3: Disjoint-Set Forest}
+l.5345 ...n{Implementation 3: Disjoint-Set Forest}
                                                   
 
 [95]
@@ -2100,7 +2095,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{section.5}) h
 as been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.5345 ...euristic 1: Weighted Union (WU) by Size}
+l.5398 ...euristic 1: Weighted Union (WU) by Size}
                                                   
 
 [96]
@@ -2108,17 +2103,17 @@ pdfTeX warning (ext4): destination with the same identifier (name{section.6}) h
 as been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.5396 \section{Past Exam Questions}
+l.5449 \section{Past Exam Questions}
                                     
 pdfTeX warning (ext4): destination with the same identifier (name{section.7}) h
 as been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.5433 \section{Midterm-Style Process Problems}
+l.5486 \section{Midterm-Style Process Problems}
                                                
 
 [97]
-Overfull \hbox (38.07317pt too wide) in paragraph at lines 5470--5477
+Overfull \hbox (38.07317pt too wide) in paragraph at lines 5523--5530
  [] 
  []
 
@@ -2127,7 +2122,7 @@ Overfull \hbox (38.07317pt too wide) in paragraph at lines 5470--5477
 [98]
 
 Package tcolorbox Warning: Using nobreak failed. Try to enlarge `lines before b
-reak' or set page breaks manually on input line 5498.
+reak' or set page breaks manually on input line 5551.
 
 
 
@@ -2136,47 +2131,47 @@ pdfTeX warning (ext4): destination with the same identifier (name{section.1}) h
 as been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.5511 \section{Where We Are}
+l.5564 \section{Where We Are}
                              
 pdfTeX warning (ext4): destination with the same identifier (name{section.2}) h
 as been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.5518 ...tion{Heuristic 2: Path Compression (PC)}
+l.5571 ...tion{Heuristic 2: Path Compression (PC)}
                                                   
 pdfTeX warning (ext4): destination with the same identifier (name{section.3}) h
 as been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.5557 ...tour: the Tower $2^{*n}$ and $\log^* n$}
+l.5610 ...tour: the Tower $2^{*n}$ and $\log^* n$}
                                                   
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 5557.
+(hyperref)                removing `math shift' on input line 5610.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `superscript' on input line 5557.
+(hyperref)                removing `superscript' on input line 5610.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 5557.
+(hyperref)                removing `math shift' on input line 5610.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 5557.
+(hyperref)                removing `math shift' on input line 5610.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\log' on input line 5557.
+(hyperref)                removing `\log' on input line 5610.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `superscript' on input line 5557.
+(hyperref)                removing `superscript' on input line 5610.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 5557.
+(hyperref)                removing `math shift' on input line 5610.
 
 
 
@@ -2185,29 +2180,29 @@ pdfTeX warning (ext4): destination with the same identifier (name{section.4}) h
 as been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.5600 \section{Time Complexity with WU and PC}
+l.5653 \section{Time Complexity with WU and PC}
                                                
 pdfTeX warning (ext4): destination with the same identifier (name{section.5}) h
 as been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.5617 ... of the Disjoint-Set Forest: a Timeline}
+l.5670 ... of the Disjoint-Set Forest: a Timeline}
                                                   
 pdfTeX warning (ext4): destination with the same identifier (name{section.6}) h
 as been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.5635 \section{Past Exam Questions}
+l.5688 \section{Past Exam Questions}
                                     
 
 [101]
-Underfull \hbox (badness 10000) in paragraph at lines 5644--5646
+Underfull \hbox (badness 10000) in paragraph at lines 5697--5699
 []\T1/cmtt/m/n/10.95 MakeSet(5), MakeSet(2), Union(5,2), MakeSet(3), MakeSet(4)
 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 5644--5646
+Underfull \hbox (badness 10000) in paragraph at lines 5697--5699
 \T1/cmtt/m/n/10.95 Union(5,3), MakeSet(1), MakeSet(8), Union(1,8), FindSet(8),
  []
 
@@ -2218,7 +2213,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{section.7}) h
 as been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.5691 \section{Midterm-Style Process Problems}
+l.5744 \section{Midterm-Style Process Problems}
                                                
 
 [103]
@@ -2233,20 +2228,14 @@ L3 programming layer <2025-01-18>
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 26.17pt have occurred.
 
-
-Package rerunfilecheck Warning: File `csc263_notes.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `csc263_notes.out':
-(rerunfilecheck)             Before: E72CBD2BBE476FBC6853E0CF95969622;33979
-(rerunfilecheck)             After:  A59F1FC6AF27B00867F99088B9E18F9E;36737.
+Package rerunfilecheck Info: File `csc263_notes.out' has not changed.
+(rerunfilecheck)             Checksum: A59F1FC6AF27B00867F99088B9E18F9E;36737.
  ) 
 Here is how much of TeX's memory you used:
- 35814 strings out of 473190
- 705334 string characters out of 5715801
- 1187813 words of memory out of 5000000
- 58246 multiletter control sequences out of 15000+600000
+ 35857 strings out of 473190
+ 705894 string characters out of 5715801
+ 1188408 words of memory out of 5000000
+ 58288 multiletter control sequences out of 15000+600000
  593605 words of font info for 119 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  116i,17n,121p,1009b,2260s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -2281,23 +2270,24 @@ fonts/type1/public/cm-super/sfbx2074.pfb></usr/local/texlive/2025/texmf-dist/fo
 nts/type1/public/cm-super/sfbx3583.pfb></usr/local/texlive/2025/texmf-dist/font
 s/type1/public/cm-super/sfcc1000.pfb></usr/local/texlive/2025/texmf-dist/fonts/
 type1/public/cm-super/sfcc1095.pfb></usr/local/texlive/2025/texmf-dist/fonts/ty
-pe1/public/cm-super/sfrm0800.pfb></usr/local/texlive/2025/texmf-dist/fonts/type
-1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/
-public/cm-super/sfrm1095.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/pu
-blic/cm-super/sfrm1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/publ
-ic/cm-super/sfrm1440.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public
-/cm-super/sfrm1728.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/c
-m-super/sfsx1095.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-
-super/sfti0800.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-su
-per/sfti1095.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-supe
-r/sfti1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/
-sftt0800.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sf
-tt1095.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt
-1200.pfb>
-Output written on csc263_notes.pdf (105 pages, 1155317 bytes).
+pe1/public/cm-super/sfrm0600.pfb></usr/local/texlive/2025/texmf-dist/fonts/type
+1/public/cm-super/sfrm0800.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/
+public/cm-super/sfrm1000.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/pu
+blic/cm-super/sfrm1095.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/publ
+ic/cm-super/sfrm1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public
+/cm-super/sfrm1440.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/c
+m-super/sfrm1728.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-
+super/sfsx1095.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-su
+per/sfti0800.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-supe
+r/sfti1095.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/
+sfti1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sf
+tt0800.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt
+1095.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt12
+00.pfb>
+Output written on csc263_notes.pdf (105 pages, 1179587 bytes).
 PDF statistics:
- 1655 PDF objects out of 1728 (max. 8388607)
- 1420 compressed objects within 15 object streams
- 292 named destinations out of 1000 (max. 500000)
- 25581 words of extra memory for PDF output out of 29859 (max. 10000000)
+ 1713 PDF objects out of 1728 (max. 8388607)
+ 1476 compressed objects within 15 object streams
+ 293 named destinations out of 1000 (max. 500000)
+ 25685 words of extra memory for PDF output out of 29859 (max. 10000000)
 
